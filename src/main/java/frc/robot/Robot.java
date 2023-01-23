@@ -33,7 +33,7 @@ public class Robot extends TimedRobot {
     robotContainer = new RobotContainer();
 
     // Start Vision thread
-    aprilTagReader = new AprilTagReader(640, 480);
+    // aprilTagReader = new AprilTagReader(640, 480);
   }
 
   /**
