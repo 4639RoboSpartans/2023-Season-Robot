@@ -65,7 +65,6 @@ public class RobotContainer {
     }
 
     arm.setDefaultCommand(new ArmCommand(arm, oi));
-
   } 
 
 

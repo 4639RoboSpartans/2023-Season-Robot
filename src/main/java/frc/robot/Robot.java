@@ -5,6 +5,9 @@
 package frc.robot;
 
 import edu.wpi.first.net.PortForwarder;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -33,7 +36,16 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    tableInstance = NetworkTableInstance.getDefault();
+    table = tableInstance.getTable("limelight");
+
+    table.getEntry("camMode").setNumber(0);
+    table.getEntry("pipeline").setNumber(0);
   }
+
+  NetworkTableInstance tableInstance;
+  NetworkTable table;
 
   /**
    * This function is called every robot packet, no matter the mode. Use this for items like
@@ -49,6 +61,13 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    
+      //read values periodically
+      
+    SmartDashboard.putString("TestKey:Time", "" + System.currentTimeMillis());
+    //SmartDashboard.putString("JSON", json.getString("DEFAULTSTRING"));
+    SmartDashboard.putNumber("ta", table.getEntry("ta").getDouble(-1.0));
+    SmartDashboard.putString("availableKeys", table.getKeys().toString());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
