@@ -4,17 +4,19 @@
 
 package frc.robot;
 
+<<<<<<< HEAD
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+=======
+>>>>>>> 02929973d41ea6c7b8aed37cabf6a67b47c933ab
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Vision.AprilTagReader;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -23,9 +25,11 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-  private Command m_autonomousCommand;
+  private Command autonCommand;
 
-  private RobotContainer m_robotContainer;
+  private RobotContainer robotContainer;
+
+  private AprilTagReader aprilTagReader;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -35,6 +39,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+<<<<<<< HEAD
     m_robotContainer = new RobotContainer();
 
     tableInstance = NetworkTableInstance.getDefault();
@@ -42,6 +47,12 @@ public class Robot extends TimedRobot {
 
     table.getEntry("camMode").setNumber(0);
     table.getEntry("pipeline").setNumber(0);
+=======
+    robotContainer = new RobotContainer();
+
+    // Start Vision thread
+    // aprilTagReader = new AprilTagReader(640, 480);
+>>>>>>> 02929973d41ea6c7b8aed37cabf6a67b47c933ab
   }
 
   NetworkTableInstance tableInstance;
@@ -83,9 +94,9 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+    autonCommand = robotContainer.getAutonomousCommand();
+    if (autonCommand != null) {
+      autonCommand.schedule();
     }
   }
 
@@ -100,8 +111,8 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
+    if (autonCommand != null) {
+      autonCommand.cancel();
     }
   }
 
