@@ -9,7 +9,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.OI;
@@ -21,6 +24,7 @@ import frc.robot.Commands.PneumaticsRetractCommand;
 import frc.robot.Subsystem.ArmPivotSubsystem;
 import frc.robot.Subsystem.ParhamClawSubsystem;
 import frc.robot.Subsystem.PneumaticSubsystem;
+import frc.robot.Subsystem.SensorSubsystem;
 import frc.robot.Constants;
 /**
 * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -37,6 +41,8 @@ public class RobotContainer {
  //private final PneumaticSubsystem pneumatics= new PneumaticSubsystem();
  private final Subsystem claw = useParhamClaw ? new ParhamClawSubsystem() : new PneumaticSubsystem();
   private final ArmPivotSubsystem  arm = new ArmPivotSubsystem();
+  private final SensorSubsystem sensor = new SensorSubsystem();
+  
 
  /** The container for the robot. Contains subsystems, OI devices, and commands. */
  public RobotContainer() {
@@ -52,8 +58,6 @@ public class RobotContainer {
   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
   */
  private void configureButtonBindings() {
-   //oi.getButton(0,Constants.Buttons.A_BUTTON).whenPressed(new PneumaticsExtendCommand(pneumatics));
-   //oi.getButton(0,Constants.Buttons.B_BUTTON).whenPressed(new PneumaticsRetractCommand(pneumatics));
 
     if(useParhamClaw){
       oi.getButton(0,Constants.Buttons.B_BUTTON).whileTrue(new ParhamRetractCommand((ParhamClawSubsystem)claw));
@@ -65,6 +69,7 @@ public class RobotContainer {
     }
 
     arm.setDefaultCommand(new ArmCommand(arm, oi));
+    
   } 
 
 
