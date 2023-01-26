@@ -13,7 +13,6 @@ public class LimeLight {
         return instance == null ? instance = new LimeLight() : instance;
     }
 
-
     private NetworkTableInstance tableInstance;
     private NetworkTable limelightTable;
     private Map<String, NetworkTableEntry> entryCache = new HashMap<>();
