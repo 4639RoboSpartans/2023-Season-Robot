@@ -2,7 +2,7 @@ package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Util.OI;
+import frc.robot.OI;
 
 /*
 public class ElevatorCommand extends CommandBase{

@@ -13,13 +13,22 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-	public static final int ARM_MOTOR = 1;
+	public static final class IDs{
+		public static final int ARM_PIVOT_ID = 2;
+		public static final int CLAW_SOLENOID_CHANNEL = 3;	
+	}
 
+	public static final class Movement {
+
+	}
+
+	public static final class Timing {
+		public static final double CLAW_DELAY_AFTER_OPEN = 1.5;
+	}
+	
     public static final double DEADZONE_VALUE = 0.01;
 	public static final int NUMBER_OF_CONTROLLERS = 2;
 
-	public static final double ROTATION_SENSITIVITY = 0.7;//0.75
-    
     public enum Axes {
 		LEFT_STICK_X(0), LEFT_STICK_Y(4), LEFT_TRIGGER(2), RIGHT_TRIGGER(3), RIGHT_STICK_X(1), RIGHT_STICK_Y(5);
 

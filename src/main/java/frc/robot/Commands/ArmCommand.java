@@ -3,7 +3,7 @@ package frc.robot.Commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.Subsystem.ArmPivotSubsystem;
-import frc.robot.Util.OI;
+import frc.robot.OI;
 
 public class ArmCommand extends CommandBase {
     private final OI oi;
@@ -14,16 +14,18 @@ public class ArmCommand extends CommandBase {
         this.oi = oi;
         addRequirements(pivot);
     }
+
     @Override
     public void initialize() {
-        // TODO Auto-generated method stu
         pivot.stop();
     }
+
     @Override
     public void execute() {
         double speed = oi.getAxis(0, Constants.Axes.LEFT_STICK_Y);
         pivot.set(speed);
     }
+    
     @Override
     public void end(boolean interrupted) {
         pivot.stop();
