@@ -3,13 +3,13 @@ package frc.robot.Subsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class ObstructionSensor{
-    private DigitalInput sensor1;
+    private DigitalInput sensor;
 
     public ObstructionSensor(int channel) {
-        sensor1 = new DigitalInput(channel);  
+        sensor = new DigitalInput(channel);  
     }
 
-    public boolean obstructed() {
-        return !sensor1.get();
+    public boolean isObstructed() {
+        return !sensor.get();
     }
 }

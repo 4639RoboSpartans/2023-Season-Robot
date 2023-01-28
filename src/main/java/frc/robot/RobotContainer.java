@@ -11,8 +11,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Commands.ArmCommand;
+import frc.robot.Commands.ArmTestCommand;
 import frc.robot.Commands.CloseClawCommand;
 import frc.robot.Commands.OpenClawCommand;
+import frc.robot.Subsystem.ArmPivotSubsystem;
 import frc.robot.Subsystem.ClawSubsystem;
 import frc.robot.Subsystem.ObstructionSensor;
 import frc.robot.Constants;
@@ -41,6 +44,8 @@ public class RobotContainer {
      */
     public RobotContainer() {
         // Configure the button bindings
+        
+        // arm.setDefaultCommand(new ArmTestCommand(arm, oi));
         configureButtonBindings();
     }
 
@@ -54,7 +59,7 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         clawObstructedTrigger = new Trigger(() -> {
-            return sensor.obstructed() 
+            return sensor.isObstructed() 
                 && Timer.getFPGATimestamp() > lastClawOpenTime + Constants.Timing.CLAW_DELAY_AFTER_OPEN;
         });
 
@@ -83,6 +88,7 @@ public class RobotContainer {
     public void periodic(){
         SmartDashboard.putNumber("TestKey: System Time", System.currentTimeMillis());
 
-        SmartDashboard.putBoolean("ClawObstructedTriggerValue", clawObstructedTrigger.getAsBoolean());
+        SmartDashboard.putBoolean("ClawObstructed", clawObstructedTrigger.getAsBoolean());
+        SmartDashboard.putBoolean("ClawObstructedRaw", sensor.isObstructed());
     }
 }

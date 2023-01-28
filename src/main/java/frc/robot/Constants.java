@@ -14,7 +14,7 @@ package frc.robot;
  */
 public final class Constants {
 	public static final class IDs{
-		public static final int ARM_PIVOT_ID = 2;
+		public static final int ARM_PIVOT_ID = 6;
 		public static final int CLAW_SOLENOID_CHANNEL = 3;	
 	}
 
