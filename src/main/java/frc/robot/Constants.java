@@ -38,6 +38,7 @@ public final class Constants {
 
 	}
 
+
 	public static final SwerveDriveKinematics kDriveKinematics;
 	static{
 		Translation2d translationFrontRight = new Translation2d(IDs.trackwidth / 2, IDs.wheelbase / 2);

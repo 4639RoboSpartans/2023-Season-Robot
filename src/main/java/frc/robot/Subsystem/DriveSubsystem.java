@@ -27,9 +27,8 @@ public class DriveSubsystem extends SubsystemBase {
         );
     
     SwerveDriveOdometry odometer = new SwerveDriveOdometry(Constants.kDriveKinematics, new Rotation2d(0));
-
-
-    public AHRS navx = new AHRS();
+    //hello
+   public AHRS navx = new AHRS();
     public SwerveDriveOdometry m_odometry;
     public DriveSubsystem(){
         SwerveMod1FrontRight = new SwerveModule(Constants.IDs.DriverMotor1, Constants.IDs.RotaterMotor1, Constants.IDs.ModEncoder1);
