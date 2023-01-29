@@ -40,7 +40,7 @@ public class RobotContainer {
 
     private final ClawSubsystem claw = new ClawSubsystem();
     // private final ArmPivotSubsystem arm = new ArmPivotSubsystem();
-    private final ObstructionSensor sensor = new ObstructionSensor(1);
+    private final ObstructionSensor sensor = new ObstructionSensor(0);
 
     private Trigger clawObstructedTrigger;
     private double lastClawOpenTime = Double.NEGATIVE_INFINITY;
@@ -69,7 +69,9 @@ public class RobotContainer {
                 && Timer.getFPGATimestamp() > lastClawOpenTime + Constants.Timing.CLAW_DELAY_AFTER_OPEN;
         });
 
-        clawObstructedTrigger.onTrue(new CloseClawCommand(claw));
+        clawObstructedTrigger.onTrue(new CloseClawCommand(claw).andThen(() -> {
+            lastClawOpenTime = Double.POSITIVE_INFINITY;
+        }, claw));
 
         oi.getButton(0, Constants.Buttons.B_BUTTON).onTrue(
             new OpenClawCommand(claw)

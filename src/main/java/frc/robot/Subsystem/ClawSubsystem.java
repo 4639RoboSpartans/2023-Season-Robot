@@ -15,17 +15,17 @@ public class ClawSubsystem extends SubsystemBase {
             PneumaticsModuleType.CTREPCM, 
             Constants.IDs.CLAW_SOLENOID_CHANNEL
         );
-        m_solenoid.set(false);
+        m_solenoid.set(true);
     }
 
     public void open() {
-        isOpen = true;
-        m_solenoid.set(false);
+        isOpen = false;
+        m_solenoid.set(true);
     }
 
     public void close() {
-        isOpen = false;
-        m_solenoid.set(true);
+        isOpen = true;
+        m_solenoid.set(false);
     }
 
     public boolean isOpen() {
