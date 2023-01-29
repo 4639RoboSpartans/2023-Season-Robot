@@ -23,7 +23,7 @@ public final class Constants {
 	}
 
 	public static final class Timing {
-		public static final double CLAW_DELAY_AFTER_OPEN = 1.5;
+		public static final double CLAW_DELAY_AFTER_OPEN = 0.5;
 	}
 	
     public static final double DEADZONE_VALUE = 0.01;
