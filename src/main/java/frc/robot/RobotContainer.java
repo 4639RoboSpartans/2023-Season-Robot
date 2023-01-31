@@ -15,10 +15,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.ArmCommand;
 import frc.robot.Commands.ArmTestCommand;
 import frc.robot.Commands.CloseClawCommand;
+import frc.robot.Commands.Drive2Command;
 import frc.robot.Commands.DriveCommand;
 import frc.robot.Commands.OpenClawCommand;
 import frc.robot.Subsystem.ArmPivotSubsystem;
 import frc.robot.Subsystem.ClawSubsystem;
+import frc.robot.Subsystem.DriveSubsystem;
 import frc.robot.Subsystem.DriveSubsystem;
 import frc.robot.Subsystem.ObstructionSensor;
 import frc.robot.Constants;
@@ -37,6 +39,10 @@ public class RobotContainer {
     private final OI oi = new OI();
     public DriveSubsystem m_drive = new DriveSubsystem();
     public DriveCommand drive_cmd = new DriveCommand(m_drive, oi);
+
+    
+    public Drive2Subsytem drive2Subsystem = new DriveSubsystem(0, 0, 0);
+    public Drive2Command drive2Command = new Drive2Command(oi, drive2Subsytem);
 
     private final ClawSubsystem claw = new ClawSubsystem();
     // private final ArmPivotSubsystem arm = new ArmPivotSubsystem();
