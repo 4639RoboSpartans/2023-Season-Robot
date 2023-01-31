@@ -8,22 +8,14 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Commands.ArmCommand;
-import frc.robot.Commands.ArmTestCommand;
 import frc.robot.Commands.CloseClawCommand;
-import frc.robot.Commands.Drive2Command;
 import frc.robot.Commands.DriveCommand;
 import frc.robot.Commands.OpenClawCommand;
-import frc.robot.Subsystem.ArmPivotSubsystem;
 import frc.robot.Subsystem.ClawSubsystem;
-import frc.robot.Subsystem.DriveSubsystem;
-import frc.robot.Subsystem.DriveSubsystem;
+import frc.robot.Subsystem.SwerveDriveSubsystem;
 import frc.robot.Subsystem.ObstructionSensor;
-import frc.robot.Constants;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -35,18 +27,13 @@ import frc.robot.Constants;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-    // The robot's subsystems and commands are defined here...
     private final OI oi = new OI();
-    public DriveSubsystem m_drive = new DriveSubsystem();
-    public DriveCommand drive_cmd = new DriveCommand(m_drive, oi);
 
-    
-    public Drive2Subsytem drive2Subsystem = new DriveSubsystem(0, 0, 0);
-    public Drive2Command drive2Command = new Drive2Command(oi, drive2Subsytem);
-
+    // The robot's subsystems and commands are defined here...
+    private final SwerveDriveSubsystem swerveDriveSubsystem = new SwerveDriveSubsystem();
     private final ClawSubsystem claw = new ClawSubsystem();
-    // private final ArmPivotSubsystem arm = new ArmPivotSubsystem();
     private final ObstructionSensor sensor = new ObstructionSensor(0);
+    // private final ArmPivotSubsystem arm = new ArmPivotSubsystem();
 
     private Trigger clawObstructedTrigger;
     private double lastClawOpenTime = Double.NEGATIVE_INFINITY;
@@ -56,7 +43,7 @@ public class RobotContainer {
      */
     public RobotContainer() {
         // Configure the button bindings
-        m_drive.setDefaultCommand(drive_cmd);
+        swerveDriveSubsystem.setDefaultCommand(new DriveCommand(swerveDriveSubsystem, oi));
         // arm.setDefaultCommand(new ArmTestCommand(arm, oi));
         configureButtonBindings();
     }
@@ -89,21 +76,6 @@ public class RobotContainer {
         oi.getButton(0, Constants.Buttons.A_BUTTON).onTrue(
             new CloseClawCommand(claw)
         );
-
-        oi.getButton(0, Constants.Buttons.LEFT_STICK).onTrue(new RunCommand(() -> {
-            
-            SmartDashboard.putNumber("Encoder1", m_drive.SwerveMod1FrontRight.getRotationInDegrees());
-            SmartDashboard.putNumber("Encoder2", m_drive.SwerveMod2FrontLeft.getRotationInDegrees());
-            SmartDashboard.putNumber("Encoder3", m_drive.SwerveMod3RearLeft.getRotationInDegrees());
-            SmartDashboard.putNumber("Encoder4", m_drive.SwerveMod4RearRight.getRotationInDegrees());
-            SmartDashboard.putNumber("RobotHeading", m_drive.getHeading());
-            SmartDashboard.putNumber("LeftStickX", oi.getAxis(0, Constants.Axes.LEFT_STICK_X));
-            SmartDashboard.putNumber("LeftStickY", oi.getAxis(0, Constants.Axes.LEFT_STICK_Y));
-            SmartDashboard.putNumber("RightStickX", oi.getAxis(0, Constants.Axes.RIGHT_STICK_X));
-            SmartDashboard.putNumber("RightStickY", oi.getAxis(0, Constants.Axes.RIGHT_STICK_Y));
-            
-            m_drive.resetAnglesAndPositions();
-        }, m_drive));
     }
 
     /**
@@ -114,10 +86,5 @@ public class RobotContainer {
         return null;
     }
 
-    public void periodic(){
-        SmartDashboard.putNumber("TestKey: System Time", System.currentTimeMillis());
-
-        SmartDashboard.putBoolean("ClawObstructed", clawObstructedTrigger.getAsBoolean());
-        SmartDashboard.putBoolean("ClawObstructedRaw", sensor.isObstructed());
-    }
+    public void periodic(){}
 }

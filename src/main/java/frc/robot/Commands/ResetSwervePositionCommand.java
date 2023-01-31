@@ -2,13 +2,13 @@ package frc.robot.Commands;
 
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Subsystem.DriveSubsystem;
+import frc.robot.Subsystem.SwerveDriveSubsystem;
 
 public class ResetSwervePositionCommand extends CommandBase {
     
-    private DriveSubsystem driveSubsystem;
+    private SwerveDriveSubsystem driveSubsystem;
 
-    public ResetSwervePositionCommand(DriveSubsystem driveSubsystem) {
+    public ResetSwervePositionCommand(SwerveDriveSubsystem driveSubsystem) {
         this.driveSubsystem = driveSubsystem;
 
         addRequirements(driveSubsystem);
