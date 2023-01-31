@@ -18,52 +18,31 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 public final class Constants {
 	public static final class IDs{
 		public static final int ARM_PIVOT_ID = 6;
+
 		public static final int CLAW_SOLENOID_CHANNEL = 3;	
-		public static final int DriverMotor1 = 1;
-		public static final int RotaterMotor1 = 2;
-		public static final int DriverMotor2 = 3;
-		public static final int RotaterMotor2 = 4;
-		public static final int DriverMotor3 = 5;
-		public static final int RotaterMotor3 = 6;
-		public static final int DriverMotor4 =7;
-		public static final int RotaterMotor4 = 8;
-		public static final int ModEncoder1 = 9;
-		public static final int ModEncoder2 = 10;
-		public static final int ModEncoder3 = 12;
-		public static final int ModEncoder4 = 11;
-		public static final int NUMBER_OF_CONTROLLERS = 2;
-		public static final double DEADZONE_VALUE = 0.01;
+
+		public static class SwerveModuleIDs{
+			public final int driveMotorID, rotaterMotorID, encoderID;
+
+			public SwerveModuleIDs(int driveMotorID, int rotaterMotorID, int encoderID) {
+				this.driveMotorID = driveMotorID;
+				this.rotaterMotorID = rotaterMotorID;
+				this.encoderID = encoderID;
+			}
+		}
+
+		public static final SwerveModuleIDs MODULE_FRONT_LEFT  = new SwerveModuleIDs(1, 2, 9 );
+		public static final SwerveModuleIDs MODULE_FRONT_RIGHT = new SwerveModuleIDs(3, 4, 10);
+		public static final SwerveModuleIDs MODULE_BACK_LEFT   = new SwerveModuleIDs(5, 6, 11);
+		public static final SwerveModuleIDs MODULE_BACK_RIGHT  = new SwerveModuleIDs(7, 8, 12);
+
+	}
+
+	public static final class RobotInfo {
 		public static final double trackwidth = 0.44;
 		public static final double wheelbase =0.44;
-
-	}
-
-
-	public static final SwerveDriveKinematics kDriveKinematics;
-	static{
-		Translation2d translationFrontRight = new Translation2d(IDs.trackwidth / 2, IDs.wheelbase / 2);
-		Translation2d translationFrontLeft = new Translation2d(-IDs.trackwidth / 2, IDs.wheelbase / 2);
-		Translation2d translationBackRight = new Translation2d(IDs.trackwidth / 2, -IDs.wheelbase / 2);
-		Translation2d translationBackLeft = new Translation2d(-IDs.trackwidth / 2, -IDs.wheelbase / 2);
-
-		kDriveKinematics = new SwerveDriveKinematics(translationFrontRight, translationFrontLeft, translationBackLeft, translationBackRight);
-	}
-
-	public static final double ksVolts=0.65019;//0.69874;//0.66099;
-	public static final double kvVoltSecondsPerMeter = 0.013915;//0.012955;//0.026728;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.0033668;//0.0028624;//0.0028603;
-	public static final double kPDriveVel = 0.12992;
-
-	public static final double kRamseteB = 3.5;
-    public static final double kRamseteZeta = 5;
-	
-	public static final double kMaxSpeedMetersPerSecond = 1.0;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 3.5;
-	public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4;
-	public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI * 4 / 10;
-
-	public static final class Movement {
-
+		public static final double SWERVE_KI = 0.1;
+		public static final double SWERVE_KP = 0.1;
 	}
 
 	public static final class Timing {

@@ -8,6 +8,7 @@ import com.ctre.phoenix.sensors.CANCoder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import frc.robot.Constants.IDs.SwerveModuleIDs;
 
 public class SwerveModule {
     private WPI_TalonFX driver;
@@ -15,13 +16,13 @@ public class SwerveModule {
     private CANCoder modEnc;
     private PIDController pid;
 
-    private double kp=0.09;
-    private double ki=0.15;
-    private int kd=0;
+    private double kp = 0.09;
+    private double ki = 0.15;
+    private double kd = 0;
 
-    public SwerveModule(int driverInd, int rotateInd, int channel){
-        driver = new WPI_TalonFX(driverInd);
-        rotator = new WPI_TalonFX(rotateInd);
+    public SwerveModule(SwerveModuleIDs swerveModuleIDs){
+        driver = new WPI_TalonFX(swerveModuleIDs.driveMotorID);
+        rotator = new WPI_TalonFX(swerveModuleIDs.rotaterMotorID);
 
         driver.configFactoryDefault();
         rotator.configFactoryDefault();
@@ -31,7 +32,7 @@ public class SwerveModule {
 
         driver.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
-        modEnc = new CANCoder(channel);
+        modEnc = new CANCoder(swerveModuleIDs.encoderID);
         double rot = modEnc.getPosition();
         modEnc.configFactoryDefault();
         modEnc.setPosition(rot);
@@ -73,7 +74,6 @@ public class SwerveModule {
         }
         else{
             SwerveModuleState optimized = optimize(state);
-
             setSpeed(optimized.speedMetersPerSecond);
             setDegrees(optimized.angle.getDegrees());
         }
