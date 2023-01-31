@@ -4,11 +4,13 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import frc.robot.Constants.IDs.SwerveModuleIDs;
+import frc.robot.Constants;
+import frc.robot.Constants.IDs.SwerveModuleConfig;
 
 public class SwerveModule {
     private WPI_TalonFX driver;
@@ -16,13 +18,15 @@ public class SwerveModule {
     private CANCoder modEnc;
     private PIDController pid;
 
+    private final double rotationOffset;
+
     private double kp = 0.09;
     private double ki = 0.15;
     private double kd = 0;
 
-    public SwerveModule(SwerveModuleIDs swerveModuleIDs){
-        driver = new WPI_TalonFX(swerveModuleIDs.driveMotorID);
-        rotator = new WPI_TalonFX(swerveModuleIDs.rotaterMotorID);
+    public SwerveModule(SwerveModuleConfig swerveModuleData){
+        driver = new WPI_TalonFX(swerveModuleData.driveMotorID);
+        rotator = new WPI_TalonFX(swerveModuleData.rotaterMotorID);
 
         driver.configFactoryDefault();
         rotator.configFactoryDefault();
@@ -32,22 +36,27 @@ public class SwerveModule {
 
         driver.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
-        modEnc = new CANCoder(swerveModuleIDs.encoderID);
-        double rot = modEnc.getPosition();
+        modEnc = new CANCoder(swerveModuleData.encoderID);
         modEnc.configFactoryDefault();
-        modEnc.setPosition(rot);
+
+        rotationOffset = swerveModuleData.rotationOffset;
 
         pid = new PIDController(kp, ki, kd);
     }
 
+    public double getTrueDegrees(){
+        return modEnc.getAbsolutePosition();
+    }
+
     public double getRotationInDegrees(){
         // return modToRange(modEnc.getPosition(), -180, 180);
-        return Math.floor(modToRange(modEnc.getPosition(), -180, 180) * 2) / 2;
+        return Math.floor(modToRange(getTrueDegrees() - rotationOffset, -180, 180) * 2) / 2;
     }
 
     private void setSpeed(double speed){
-        driver.set(speed);
+        driver.set(speed * Constants.RobotInfo.MOVEMENT_SPEED);
     }
+
     public void setDegrees(double degrees){
         rotator.setVoltage(-pid.calculate(getRotationInDegrees(), degrees));
     }
@@ -58,10 +67,6 @@ public class SwerveModule {
 
     public double getTurningVelocity(){
         return modEnc.getVelocity();
-    }
-
-    public void resetEncoder(){
-        modEnc.setPosition(0);
     }
 
     public SwerveModuleState getState(){

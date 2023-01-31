@@ -21,20 +21,22 @@ public final class Constants {
 
 		public static final int CLAW_SOLENOID_CHANNEL = 3;	
 
-		public static class SwerveModuleIDs{
+		public static class SwerveModuleConfig {
 			public final int driveMotorID, rotaterMotorID, encoderID;
+			public final double rotationOffset;
 
-			public SwerveModuleIDs(int driveMotorID, int rotaterMotorID, int encoderID) {
+			public SwerveModuleConfig(int driveMotorID, int rotaterMotorID, int encoderID, double rotationOffset) {
 				this.driveMotorID = driveMotorID;
 				this.rotaterMotorID = rotaterMotorID;
 				this.encoderID = encoderID;
+				this.rotationOffset = rotationOffset;
 			}
 		}
 
-		public static final SwerveModuleIDs MODULE_FRONT_LEFT  = new SwerveModuleIDs(1, 2, 9 );
-		public static final SwerveModuleIDs MODULE_FRONT_RIGHT = new SwerveModuleIDs(3, 4, 10);
-		public static final SwerveModuleIDs MODULE_BACK_LEFT   = new SwerveModuleIDs(5, 6, 11);
-		public static final SwerveModuleIDs MODULE_BACK_RIGHT  = new SwerveModuleIDs(7, 8, 12);
+		public static final SwerveModuleConfig MODULE_FRONT_LEFT  = new SwerveModuleConfig(1, 2, 9 , 124.277);
+		public static final SwerveModuleConfig MODULE_FRONT_RIGHT = new SwerveModuleConfig(3, 4, 10, 233.877);
+		public static final SwerveModuleConfig MODULE_BACK_LEFT   = new SwerveModuleConfig(5, 6, 11, 9.668);
+		public static final SwerveModuleConfig MODULE_BACK_RIGHT  = new SwerveModuleConfig(7, 8, 12, 50.400);
 
 	}
 
@@ -43,6 +45,8 @@ public final class Constants {
 		public static final double wheelbase =0.44;
 		public static final double SWERVE_KI = 0.1;
 		public static final double SWERVE_KP = 0.1;
+
+		public static final double MOVEMENT_SPEED = 0.2; // 0 - 1
 	}
 
 	public static final class Timing {
@@ -53,7 +57,9 @@ public final class Constants {
 	public static final int NUMBER_OF_CONTROLLERS = 2;
 
     public enum Axes {
-		LEFT_STICK_X(0), LEFT_STICK_Y(4), LEFT_TRIGGER(2), RIGHT_TRIGGER(3), RIGHT_STICK_X(1), RIGHT_STICK_Y(5);
+		LEFT_STICK_X(0), LEFT_STICK_Y(1), 
+		LEFT_TRIGGER(2), RIGHT_TRIGGER(3), 
+		RIGHT_STICK_X(4), RIGHT_STICK_Y(5);
 
 		private final int value;
 
