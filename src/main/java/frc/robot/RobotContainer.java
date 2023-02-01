@@ -17,8 +17,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.CloseClawCommand;
 import frc.robot.Commands.DriveCommand;
 import frc.robot.Commands.OpenClawCommand;
+import frc.robot.Commands.navXCommand;
 import frc.robot.Subsystem.ClawSubsystem;
 import frc.robot.Subsystem.SwerveDriveSubsystem;
+import frc.robot.Subsystem.navXSubsystem;
 import frc.robot.Subsystem.ObstructionSensor;
 
 /**
@@ -39,6 +41,7 @@ public class RobotContainer {
     private final ObstructionSensor sensor = new ObstructionSensor(0);
     // private final ArmPivotSubsystem arm = new ArmPivotSubsystem();
 
+    private final navXSubsystem navx = new navXSubsystem();
     private Trigger clawObstructedTrigger;
     private double lastClawOpenTime = Double.NEGATIVE_INFINITY;
 
@@ -77,6 +80,10 @@ public class RobotContainer {
             }, claw)
         );
 
+        oi.getButton(0, Constants.Buttons.X_BUTTON).onTrue(
+            new navXCommand(swerveDriveSubsystem, navx)
+        );
+        
         oi.getButton(0, Constants.Buttons.A_BUTTON).onTrue(
             new CloseClawCommand(claw)
         );
@@ -85,6 +92,7 @@ public class RobotContainer {
             {
                 addRequirements(swerveDriveSubsystem);
             }
+
 
             @Override
             public void execute(){

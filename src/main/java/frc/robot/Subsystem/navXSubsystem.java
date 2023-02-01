@@ -9,7 +9,6 @@ public class navXSubsystem extends SubsystemBase{
         ahrs = new AHRS();
         pid = new PIDController(0, 0, 0);
     }
-
     public float readPitch(){
         return ahrs.getPitch();
     }
@@ -22,6 +21,6 @@ public class navXSubsystem extends SubsystemBase{
         return false;
     }
 
-    
+
 
     }
