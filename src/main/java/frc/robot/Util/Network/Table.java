@@ -2,13 +2,14 @@ package frc.robot.Util.Network;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Table {
-    private final String name;
+    public final String name;
     // The networktable for the limelight
     private final NetworkTable table;
     // Cache the NetworkTableEntries so we don't have to keep accessing it
@@ -31,8 +32,24 @@ public class Table {
         return entry;
     }
 
-    public double getNumber(String key){
-        return (double) getEntry(key).getNumber(0.0);
+    interface foo<T> {
+        T apply(NetworkTableEntry entry, T defaultValue);
+    }
+
+    private <T> T getEntry(String key, foo<T> func, T defaultValue){
+        return func.apply(getEntry(key), defaultValue);
+    }
+
+    public boolean getBoolean(String key){
+        return getEntry(key, NetworkTableEntry::getBoolean, false);
+    }
+
+    public double getDouble(String key){
+        return getEntry(key, NetworkTableEntry::getDouble, 0.0);
+    }
+    
+    public float getFloat(String key){
+        return getEntry(key).getFloat(0.0f);
     }
 
     public int getInteger(String key){
@@ -41,5 +58,22 @@ public class Table {
 
     public String getString(String key){
         return getEntry(key).getString("");
+    }
+
+    public Map<String, String> getAllEntries(){
+        var keys = table.getKeys();
+        Map<String, String> res = new HashMap<>();
+        for(var key : keys){
+            var entry = getEntry(key);
+            var str = switch (entry.getType()) {
+                case kBoolean -> Boolean.toString(entry.getBoolean(false));
+                case kDouble -> Double.toString(entry.getDouble(0));
+                case kFloat -> Float.toString(entry.getFloat(0));
+                default -> "UNKNOWN VALUE TYPE";
+            };
+            res.put(key, str);
+        }
+
+        return res;
     }
 }
