@@ -53,11 +53,11 @@ public class SwerveModule {
     }
 
     private void setSpeed(double speed){
-        driver.set(speed * Constants.RobotInfo.MOVEMENT_SPEED);
+        //driver.set(speed * Constants.RobotInfo.MOVEMENT_SPEED);
     }
 
     public void setDegrees(double degrees){
-        rotator.setVoltage(-pid.calculate(getRotationInDegrees(), degrees));
+        //rotator.setVoltage(-pid.calculate(getRotationInDegrees(), degrees));
     }
 
     public double getVelocity(){
