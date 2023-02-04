@@ -41,7 +41,7 @@ public class RobotContainer {
     private final ObstructionSensor sensor = new ObstructionSensor(0);
     // private final ArmPivotSubsystem arm = new ArmPivotSubsystem();
 
-    //private final navXSubsystem navx = new navXSubsystem();
+    private final navXSubsystem navx = new navXSubsystem();
     private Trigger clawObstructedTrigger;
     private double lastClawOpenTime = Double.NEGATIVE_INFINITY;
 
@@ -80,9 +80,9 @@ public class RobotContainer {
             }, claw)
         );
 
-        // oi.getButton(0, Constants.Buttons.X_BUTTON).onTrue(
-        //     new navXCommand(swerveDriveSubsystem, navx)
-        // );
+        oi.getButton(0, Constants.Buttons.X_BUTTON).onTrue(
+            new navXCommand(swerveDriveSubsystem, navx)
+        );
         
         oi.getButton(0, Constants.Buttons.A_BUTTON).onTrue(
             new CloseClawCommand(claw)

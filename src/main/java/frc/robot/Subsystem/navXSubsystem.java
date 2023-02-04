@@ -1,13 +1,14 @@
 package frc.robot.Subsystem;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class navXSubsystem extends SubsystemBase{
     private final AHRS ahrs;
-    private final PIDController pid;
+    //private final PIDController pid;
     public navXSubsystem(){
-        ahrs = new AHRS();
-        pid = new PIDController(0, 0, 0);
+        ahrs = new AHRS(SerialPort.Port.kMXP);
+        //pid = new PIDController(0, 0, 0);
     }
     public float readPitch(){
         return ahrs.getPitch();
