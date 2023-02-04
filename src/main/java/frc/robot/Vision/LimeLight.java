@@ -15,7 +15,5 @@ public class LimeLight {
         SmartDashboard.putNumber("ta", table.getEntry("ta").getDouble(0));
         
     }
-
-     
 }
 
