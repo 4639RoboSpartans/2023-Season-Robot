@@ -16,7 +16,9 @@ public final class Constants {
 	public static final class IDs{
 		public static final int ARM_PIVOT_1 = 6;
 		public static final int ARM_PIVOT_2 = 6;
-
+		public static final int MOTOR_1 = 10;
+		public static final int ENCODER_1 = 20;
+		public static final int ENCODER_2 = 6;
 		public static final int CLAW_SOLENOID_CHANNEL = 3;	
 
 		public static final int TELESCOPE_MOTOR = 0;
