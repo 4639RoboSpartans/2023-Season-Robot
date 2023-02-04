@@ -17,7 +17,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
  */
 public final class Constants {
 	public static final class IDs{
-		public static final int ARM_PIVOT_ID = 6;
+		public static final int ARM_PIVOT1_ID = 6;
+		public static final int ARM_PIVOT2_ID = 6;
 
 		public static final int CLAW_SOLENOID_CHANNEL = 3;	
 

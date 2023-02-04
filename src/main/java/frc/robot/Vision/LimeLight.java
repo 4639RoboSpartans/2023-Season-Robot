@@ -1,5 +1,6 @@
 package frc.robot.Vision;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import frc.robot.Util.Network.Network;
 import frc.robot.Util.Network.Table;
 
@@ -8,6 +9,10 @@ public class LimeLight {
     public static Table getTable() {
         if(table == null)
             table = Network.getInstance().getTable("limelight");
+           
         return table;
     }
+
+     
 }
+

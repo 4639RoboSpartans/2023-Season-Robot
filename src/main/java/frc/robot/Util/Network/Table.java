@@ -23,7 +23,7 @@ public class Table {
         return name;
     }
 
-    private NetworkTableEntry getEntry(String key){
+    public NetworkTableEntry getEntry(String key){
         if(entryCache.containsKey(key))
             return entryCache.get(key);
         var entry = table.getEntry(key);
