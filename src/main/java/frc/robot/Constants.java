@@ -4,9 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -17,35 +14,24 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
  */
 public final class Constants {
 	public static final class IDs{
-		public static final int ARM_PIVOT1_ID = 6;
-		public static final int ARM_PIVOT2_ID = 6;
+		public static final int ARM_PIVOT_1 = 6;
+		public static final int ARM_PIVOT_2 = 6;
 
 		public static final int CLAW_SOLENOID_CHANNEL = 3;	
 
-		public static class SwerveModuleConfig {
-			public final int driveMotorID, rotaterMotorID, encoderID;
-			public final double rotationOffset;
-
-			public SwerveModuleConfig(int driveMotorID, int rotaterMotorID, int encoderID, double rotationOffset) {
-				this.driveMotorID = driveMotorID;
-				this.rotaterMotorID = rotaterMotorID;
-				this.encoderID = encoderID;
-				this.rotationOffset = rotationOffset;
-			}
-		}
+		public static final int TELESCOPE_MOTOR = 0;
 
 		public static final SwerveModuleConfig MODULE_FRONT_LEFT  = new SwerveModuleConfig(1, 2, 9 , 124.277);
 		public static final SwerveModuleConfig MODULE_FRONT_RIGHT = new SwerveModuleConfig(3, 4, 10, 233.877);
 		public static final SwerveModuleConfig MODULE_BACK_LEFT   = new SwerveModuleConfig(5, 6, 11, 9.668);
 		public static final SwerveModuleConfig MODULE_BACK_RIGHT  = new SwerveModuleConfig(7, 8, 12, 50.400);
-
 	}
 
 	public static final class RobotInfo {
-		public static final double trackwidth = 0.44;
-		public static final double wheelbase =0.44;
-		public static final double SWERVE_KI = 0.1;
+		public static final double wheelBaseRadius = 0.44;
+
 		public static final double SWERVE_KP = 0.1;
+		public static final double SWERVE_KI = 0.1;
 
 		public static final double MOVEMENT_SPEED = 0.2; // 0 - 1
 	}
@@ -56,6 +42,18 @@ public final class Constants {
 	
     public static final double DEADZONE_VALUE = 0.01;
 	public static final int NUMBER_OF_CONTROLLERS = 2;
+
+	public static class SwerveModuleConfig {
+		public final int driveMotorID, rotaterMotorID, encoderID;
+		public final double rotationOffset;
+
+		public SwerveModuleConfig(int driveMotorID, int rotaterMotorID, int encoderID, double rotationOffset) {
+			this.driveMotorID = driveMotorID;
+			this.rotaterMotorID = rotaterMotorID;
+			this.encoderID = encoderID;
+			this.rotationOffset = rotationOffset;
+		}
+	}
 
     public enum Axes {
 		LEFT_STICK_X(0), LEFT_STICK_Y(1), 
@@ -86,6 +84,5 @@ public final class Constants {
 		public int getValue() {
 			return value;
 		}
-
-	}   
+	}
 }

@@ -19,11 +19,11 @@ public class ArmPivotSubsystem extends SubsystemBase {
 
         pid = new PIDController(0, 0, 0);
 
-        armPivotMotor1 = new WPI_VictorSPX(Constants.IDs.ARM_PIVOT1_ID);
+        armPivotMotor1 = new WPI_VictorSPX(Constants.IDs.ARM_PIVOT_1);
         armPivotMotor1.configFactoryDefault();
         armPivotMotor1.setNeutralMode(NeutralMode.Brake);
 
-        armPivotMotor2 = new WPI_VictorSPX(Constants.IDs.ARM_PIVOT2_ID);
+        armPivotMotor2 = new WPI_VictorSPX(Constants.IDs.ARM_PIVOT_2);
         armPivotMotor2.configFactoryDefault();
         armPivotMotor2.setNeutralMode(NeutralMode.Brake);
 
