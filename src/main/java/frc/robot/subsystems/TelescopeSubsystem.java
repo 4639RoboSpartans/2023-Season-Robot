@@ -1,4 +1,4 @@
-package frc.robot.Subsystem;
+package frc.robot.subsystems;
 
 import java.lang.invoke.ConstantBootstraps;
 

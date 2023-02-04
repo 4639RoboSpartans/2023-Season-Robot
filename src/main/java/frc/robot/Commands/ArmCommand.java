@@ -1,9 +1,9 @@
-package frc.robot.Commands;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.Subsystem.ArmPivotSubsystem;
 import frc.robot.OI;
+import frc.robot.subsystems.ArmPivotSubsystem;
 
 public class ArmCommand extends CommandBase {
     private final OI oi;

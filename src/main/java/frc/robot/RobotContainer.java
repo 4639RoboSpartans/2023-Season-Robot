@@ -13,14 +13,14 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Commands.CloseClawCommand;
-import frc.robot.Commands.DriveCommand;
-import frc.robot.Commands.OpenClawCommand;
-import frc.robot.Commands.navXCommand;
-import frc.robot.Subsystem.ClawSubsystem;
-import frc.robot.Subsystem.SwerveDriveSubsystem;
-import frc.robot.Subsystem.navXSubsystem;
-import frc.robot.Subsystem.ObstructionSensor;
+import frc.robot.commands.CloseClawCommand;
+import frc.robot.commands.DriveCommand;
+import frc.robot.commands.OpenClawCommand;
+import frc.robot.commands.navXCommand;
+import frc.robot.subsystems.ClawSubsystem;
+import frc.robot.subsystems.ObstructionSensor;
+import frc.robot.subsystems.SwerveDriveSubsystem;
+import frc.robot.subsystems.navXSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
