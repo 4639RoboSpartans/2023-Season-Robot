@@ -1,9 +1,7 @@
-package frc.robot.Vision;
+package frc.robot.vision;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Util.Network.Network;
-import frc.robot.Util.Network.Table;
+import frc.robot.util.network.Network;
 
 public class LimeLight {
     

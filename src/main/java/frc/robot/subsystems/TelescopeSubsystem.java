@@ -1,4 +1,4 @@
-package frc.robot.Subsystem;
+package frc.robot.subsystems;
 
 import java.lang.invoke.ConstantBootstraps;
 
@@ -10,18 +10,18 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class ElevatorSubsystem  extends SubsystemBase{
+public class TelescopeSubsystem  extends SubsystemBase{
 
     public WPI_VictorSPX motor;
     private final CANCoder encoder;
 
     private final PIDController pid;
 
-    public ElevatorSubsystem() {
-        motor = new WPI_VictorSPX(Constants.IDs.MOTOR_1);
+    public TelescopeSubsystem() {
+        motor = new WPI_VictorSPX(Constants.IDs.TELESCOPE_MOTOR);
         motor.configFactoryDefault();
         motor.setNeutralMode(NeutralMode.Brake);
-        encoder = new CANCoder(Constants.IDs.ENCODER_1);
+        encoder = new CANCoder(Constants.IDs.ENCODER_2);
         pid = new PIDController(0.01, 0, 0);
     }
 

@@ -1,4 +1,4 @@
-package frc.robot.Util.Network;
+package frc.robot.util.network;
 
 import java.util.Arrays;
 import java.util.HashMap;

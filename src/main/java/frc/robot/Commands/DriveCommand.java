@@ -1,10 +1,10 @@
-package frc.robot.Commands;
+package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
-import frc.robot.Subsystem.SwerveDriveSubsystem;
+import frc.robot.subsystems.SwerveDriveSubsystem;
 import frc.robot.Constants;
 
 public class DriveCommand extends CommandBase {
@@ -25,12 +25,12 @@ public class DriveCommand extends CommandBase {
         double speed = Math.sqrt(rawX * rawX + rawY * rawY);
         double direction = Math.atan2(rawY, rawX);
         
-        swerveDriveSubsystem.setAllModules(new SwerveModuleState(speed, Rotation2d.fromRadians(direction)));
+        swerveDriveSubsystem.setModules(new SwerveModuleState(speed, Rotation2d.fromRadians(direction)));
     }
 
     @Override
     public void end(boolean interrupted) {
-        swerveDriveSubsystem.setAllModules(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));
+        swerveDriveSubsystem.setModules(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));
     }
 
     @Override
