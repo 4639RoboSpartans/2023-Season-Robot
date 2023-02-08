@@ -13,10 +13,12 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.ArmTestCommand;
 import frc.robot.commands.CloseClawCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.OpenClawCommand;
 import frc.robot.commands.navXCommand;
+import frc.robot.subsystems.ArmPivotSubsystem;
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.ObstructionSensor;
 import frc.robot.subsystems.SwerveDriveSubsystem;
@@ -38,7 +40,7 @@ public class RobotContainer {
     private final SwerveDriveSubsystem swerveDriveSubsystem = new SwerveDriveSubsystem();
     private final ClawSubsystem claw = new ClawSubsystem();
     private final ObstructionSensor sensor = new ObstructionSensor(0);
-    // private final ArmPivotSubsystem arm = new ArmPivotSubsystem();
+    private final ArmPivotSubsystem arm = new ArmPivotSubsystem();
 
     private final navXSubsystem navx = new navXSubsystem();
     private Trigger clawObstructedTrigger;
@@ -50,7 +52,7 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the button bindings
         swerveDriveSubsystem.setDefaultCommand(new DriveCommand(swerveDriveSubsystem, oi));
-        // arm.setDefaultCommand(new ArmTestCommand(arm, oi));
+        arm.setDefaultCommand(new ArmTestCommand(arm, oi));
         configureButtonBindings();
     }
 
@@ -111,5 +113,7 @@ public class RobotContainer {
         return null;
     }
 
-    public void periodic(){}
+    public void periodic(){
+        LimeLight.getOffsetFromCenteredAprilTag();
+    }
 }

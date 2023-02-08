@@ -1,5 +1,6 @@
 package frc.robot.util.network;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,6 +58,9 @@ public class Table {
     public String getString(String key){
         return getEntry(key).getString("");
     }
+    public double[] getDoubleArray(String key) {
+        return getEntry(key).getDoubleArray(new double[]{});
+    }
 
     public Map<String, String> getAllEntries(){
         var keys = table.getKeys();
@@ -67,7 +71,9 @@ public class Table {
                 case kBoolean -> Boolean.toString(entry.getBoolean(false));
                 case kDouble -> Double.toString(entry.getDouble(0));
                 case kFloat -> Float.toString(entry.getFloat(0));
-                default -> "UNKNOWN VALUE TYPE";
+                case kString -> entry.getString("UNKNOWN STRING");
+                case kDoubleArray -> Arrays.toString(entry.getDoubleArray(new double[]{}));
+                default -> "UNKNOWN VALUE TYPE: " + entry.getType().toString();
             };
             res.put(key, str);
         }

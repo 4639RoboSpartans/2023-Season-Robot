@@ -6,18 +6,18 @@ import frc.robot.subsystems.ArmPivotSubsystem;
 import frc.robot.Constants;
 
 public class ArmTestCommand extends CommandBase{
-    private final ArmPivotSubsystem ArmPivot;
+    private final ArmPivotSubsystem armPivot;
     private final OI oi;
     public ArmTestCommand(ArmPivotSubsystem arm, OI oi){
-        ArmPivot = arm;
+        armPivot = arm;
         this.oi = oi;
-        addRequirements(ArmPivot);
+        addRequirements(armPivot);
     }
 
     @Override
     public void execute() {
-        double position =  oi.getAxis(0, Constants.Axes.LEFT_STICK_Y);
-        ArmPivot.set(position);
+        double speed =  oi.getAxis(0, Constants.Axes.RIGHT_STICK_Y);
+        armPivot.set(speed * 0.05);
         super.execute();
     }
 }

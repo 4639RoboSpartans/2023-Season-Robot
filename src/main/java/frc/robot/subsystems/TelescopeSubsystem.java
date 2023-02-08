@@ -21,7 +21,7 @@ public class TelescopeSubsystem  extends SubsystemBase{
         motor = new WPI_VictorSPX(Constants.IDs.TELESCOPE_MOTOR);
         motor.configFactoryDefault();
         motor.setNeutralMode(NeutralMode.Brake);
-        encoder = new CANCoder(6);
+        encoder = new CANCoder(Constants.IDs.ENCODER_2);
         pid = new PIDController(0.01, 0, 0);
     }
 

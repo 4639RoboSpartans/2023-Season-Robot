@@ -18,10 +18,10 @@ public class ElevatorSubsystem  extends SubsystemBase{
     private final PIDController pid;
 
     public ElevatorSubsystem() {
-        motor = new WPI_VictorSPX(10);
+        motor = new WPI_VictorSPX(Constants.IDs.MOTOR_1);
         motor.configFactoryDefault();
         motor.setNeutralMode(NeutralMode.Brake);
-        encoder = new CANCoder(20);
+        encoder = new CANCoder(Constants.IDs.ENCODER_1);
         pid = new PIDController(0.01, 0, 0);
     }
 
