@@ -8,7 +8,7 @@ import frc.robot.Constants;
 import frc.robot.OI;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 import frc.robot.subsystems.navXSubsystem;
-import frc.robot.util.math;
+import frc.robot.util.math.math;
 import frc.robot.util.swerve.SwerveMovement;
 
 public class DriveCommand extends CommandBase {
