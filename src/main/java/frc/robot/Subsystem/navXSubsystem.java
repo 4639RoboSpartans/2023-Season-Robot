@@ -12,6 +12,7 @@ public class navXSubsystem extends SubsystemBase{
     }
     public float readPitch(){
         return ahrs.getPitch();
+        
     }
 
     public boolean isZero(){
