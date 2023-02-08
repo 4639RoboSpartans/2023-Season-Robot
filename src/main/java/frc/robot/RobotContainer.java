@@ -95,7 +95,7 @@ public class RobotContainer {
 
             @Override
             public void execute(){
-                swerveDriveSubsystem.setAllModules(new SwerveModuleState(
+                swerveDriveSubsystem.setModules(new SwerveModuleState(
                     1,
                     new Rotation2d()
                 ));

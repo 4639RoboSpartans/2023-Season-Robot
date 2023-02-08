@@ -25,12 +25,12 @@ public class DriveCommand extends CommandBase {
         double speed = Math.sqrt(rawX * rawX + rawY * rawY);
         double direction = Math.atan2(rawY, rawX);
         
-        swerveDriveSubsystem.setAllModules(new SwerveModuleState(speed, Rotation2d.fromRadians(direction)));
+        swerveDriveSubsystem.setModules(new SwerveModuleState(speed, Rotation2d.fromRadians(direction)));
     }
 
     @Override
     public void end(boolean interrupted) {
-        swerveDriveSubsystem.setAllModules(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));
+        swerveDriveSubsystem.setModules(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));
     }
 
     @Override

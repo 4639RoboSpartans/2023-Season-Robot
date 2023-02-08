@@ -17,35 +17,19 @@ public class SwerveDriveSubsystem extends SubsystemBase{
         moduleBackLeft   = new SwerveModule(Constants.IDs.MODULE_BACK_LEFT);
         moduleBackRight  = new SwerveModule(Constants.IDs.MODULE_BACK_RIGHT);
     }
+
+    public void setModules(SwerveModuleState... states){
+        moduleFrontLeft.setDesiredState(states[0]);
+        moduleFrontRight.setDesiredState(states[1]);
+        moduleBackLeft.setDesiredState(states[2]);
+        moduleBackRight.setDesiredState(states[3]);
+    }
     
-    public void setAllModules(SwerveModuleState state){
-        moduleFrontLeft.setDesiredState(state);
-        moduleFrontRight.setDesiredState(state);
-        moduleBackLeft.setDesiredState(state);
-        moduleBackRight.setDesiredState(state);
+    public void setModules(SwerveModuleState state){
+        setModules(new SwerveModuleState[]{state, state, state, state});
     }
 
-    @Override
-    public void periodic() {
-        SwerveModule[] modules = new SwerveModule[]{
-            moduleFrontLeft,
-            moduleFrontRight,
-            moduleBackLeft,
-            moduleBackRight,
-        };
-
-        String[] keys = new String[]{
-            "Front Left",
-            "Front Right",
-            "Back Left",
-            "Back Right",
-        };
-        for(int i = 0; i < modules.length; i++){
-            var module = modules[i];
-            double degrees = (module.getTrueDegrees() % 360 + 360) % 360;
-            String key = keys[i];
-
-            SmartDashboard.putNumber(key, degrees);
-        }
+    public void stop(){
+        setModules(new SwerveModuleState());
     }
 }
