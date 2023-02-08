@@ -39,11 +39,11 @@ public class navXCommand extends CommandBase{
             double rot = speed > 0 ? 180 : 0;
             speed = Math.abs(speed);
 
-            swerve.setAllModules(new SwerveModuleState(speed, Rotation2d.fromDegrees(rot)));
+            swerve.setModules(new SwerveModuleState(speed, Rotation2d.fromDegrees(rot)));
             flatTime = 0;
         }   
         else{
-            swerve.setAllModules(new SwerveModuleState());
+            swerve.setModules(new SwerveModuleState());
             flatTime += Timer.getFPGATimestamp()- lastFrameTime;
             lastFrameTime = Timer.getFPGATimestamp();
 

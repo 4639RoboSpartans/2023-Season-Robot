@@ -1,4 +1,4 @@
-package frc.robot.vision;
+package frc.robot.util.network.vision;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.util.network.Network;
