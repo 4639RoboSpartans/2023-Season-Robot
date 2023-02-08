@@ -5,6 +5,7 @@ package frc.robot.Commands;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //to move forward/backwards do: swerve.setAllState(new SwerveModuleState(speed, new Rotation2d()))
 //getPitch() - angle of the front of the robot off the ground 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -32,10 +33,13 @@ public class navXCommand extends CommandBase{
     public void execute(){
 
         if(!navx.isZero()){
-            double speed = Math.max(Math.min(navx.readPitch()/11, 1), -1);
+            double speed = Math.max(Math.min(navx.readPitch()/16, 1), -1);
+            SmartDashboard.putNumber("Motor Value", speed);
             
-            
-            swerve.setAllModules(new SwerveModuleState(speed, new Rotation2d()));
+            double rot = speed > 0 ? 180 : 0;
+            speed = Math.abs(speed);
+
+            swerve.setAllModules(new SwerveModuleState(speed, Rotation2d.fromDegrees(rot)));
             flatTime = 0;
         }   
         else{
@@ -44,6 +48,7 @@ public class navXCommand extends CommandBase{
             lastFrameTime = Timer.getFPGATimestamp();
 
         }
+        
 
      }
     public void end(){
@@ -51,7 +56,8 @@ public class navXCommand extends CommandBase{
     }
     public boolean isFinished(){
 
-        return (flatTime<=3);
+        //return (flatTime<=3)
+        return false;
 
     }
     
