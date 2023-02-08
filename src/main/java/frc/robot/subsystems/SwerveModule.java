@@ -11,18 +11,21 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Constants.SwerveModuleConfig;
+import frc.robot.util.math.math;
+import frc.robot.util.swerve.SwerveUtil;
 
 public class SwerveModule {
-    private WPI_TalonFX driver;
-    private WPI_TalonFX rotator;
-    private CANCoder modEnc;
-    private PIDController pid;
+    private final WPI_TalonFX driver, rotator;
+    private final CANCoder encoder;
+    private final PIDController rotationPID;
 
     private final double rotationOffset;
 
-    private double kp = 0.09;
-    private double ki = 0.15;
-    private double kd = 0;
+    private final double kp = 0.09;
+    private final double ki = 0.15;
+    private final double kd = 0;
+
+    private double speed;
 
     public SwerveModule(SwerveModuleConfig swerveModuleData){
         driver = new WPI_TalonFX(swerveModuleData.driveMotorID);
@@ -36,30 +39,33 @@ public class SwerveModule {
 
         driver.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
-        modEnc = new CANCoder(swerveModuleData.encoderID);
-        modEnc.configFactoryDefault();
+        encoder = new CANCoder(swerveModuleData.encoderID);
+        encoder.configFactoryDefault();
 
         rotationOffset = swerveModuleData.rotationOffset;
 
-        pid = new PIDController(kp, ki, kd);
+        rotationPID = new PIDController(kp, ki, kd);
     }
 
-    public double getTrueDegrees(){
-        return modEnc.getAbsolutePosition();
+    public void periodic() {
+        rotator.set(-rotationPID.calculate(getRotationInDegrees()));
+        driver.set(Constants.RobotInfo.MOVEMENT_SPEED * 0.2);
+
+        SmartDashboard.putNumber("Module Speed " + driver.getDeviceID(), speed);
+        SmartDashboard.putNumber("Module Rotation " + driver.getDeviceID(), rotationPID.getSetpoint());
     }
 
     public double getRotationInDegrees(){
-        // return modToRange(modEnc.getPosition(), -180, 180);
-        return Math.floor(modToRange(getTrueDegrees() - rotationOffset, -180, 180) * 2) / 2;
+        double rotation = encoder.getAbsolutePosition() - rotationOffset;
+        return math.round(math.mod(rotation, -180, 180), 0.5);
     }
 
     private void setSpeed(double speed){
-        SmartDashboard.putNumber("Module Speed " + driver.getDeviceID(), speed);
-        driver.set(speed * Constants.RobotInfo.MOVEMENT_SPEED);
+        this.speed = speed;
     }
 
-    public void setDegrees(double degrees){
-        rotator.setVoltage(-pid.calculate(getRotationInDegrees(), degrees));
+    public void setRotation(double degrees){
+        rotationPID.setSetpoint(degrees);
     }
 
     public double getVelocity(){
@@ -67,57 +73,36 @@ public class SwerveModule {
     }
 
     public double getTurningVelocity(){
-        return modEnc.getVelocity();
+        return encoder.getVelocity();
     }
 
     public SwerveModuleState getState(){
         return new SwerveModuleState(getVelocity(), Rotation2d.fromDegrees(getRotationInDegrees()));
     }
 
-    public void setDesiredState(SwerveModuleState state){
-        if(isNegligible(state)){
-            stop();
-        }
+    public void setState(SwerveModuleState state){
+        if(isNegligible(state)) stop();
         else{
-            SwerveModuleState optimized = optimize(state);
+            SwerveModuleState optimized = SwerveUtil.optimize(state, getRotationInDegrees());
             setSpeed(optimized.speedMetersPerSecond);
-            setDegrees(optimized.angle.getDegrees());
+            setRotation(optimized.angle.getDegrees());
         }
     }
 
     public void resetAngleAndPosition(){
         setSpeed(0);
-        setDegrees(0);
+        setRotation(0);
+    }
+
+    public void stop(){
+        setSpeed(0);
+        setRotation(getRotationInDegrees());
+
+        driver.stopMotor();
+        rotator.stopMotor();
     }
     
     private static boolean isNegligible(SwerveModuleState state){
         return state.speedMetersPerSecond < 0.001;
     }
-
-    private SwerveModuleState optimize(SwerveModuleState state){
-        double degrees = state.angle.getDegrees();
-        double speed = state.speedMetersPerSecond;
-
-        double currDegrees = getRotationInDegrees();
-        double rawDelta = currDegrees - degrees;
-
-        double delta = modToRange(rawDelta, -90, 90);
-        boolean shouldReverse = Math.abs(modToRange(rawDelta, -180, 180)) >= 90;
-
-        double finalAngle = currDegrees - delta;
-        double finalSpeed = shouldReverse ? -speed : speed;
-
-        return new SwerveModuleState(finalSpeed, Rotation2d.fromDegrees(finalAngle));
-    }
-
-    private static double modToRange(double x, double min, double max){
-        double range = max - min;
-        return ((x - min) % range + range) % range + min;
-    }
-
-    public void stop(){
-        driver.setVoltage(0);
-        rotator.setVoltage(0);
-    }
-    
 }

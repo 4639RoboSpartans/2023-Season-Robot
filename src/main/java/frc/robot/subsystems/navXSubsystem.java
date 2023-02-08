@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class navXSubsystem extends SubsystemBase{
@@ -14,7 +12,10 @@ public class navXSubsystem extends SubsystemBase{
     }
     public float readPitch(){
         return ahrs.getRoll();
-        
+    }
+
+    public double getHeading() {
+        return ahrs.getAngle();
     }
 
     public boolean isZero(){

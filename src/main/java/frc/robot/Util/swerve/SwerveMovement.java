@@ -13,25 +13,9 @@ public record SwerveMovement(double forwardMovement, double strideMovement, doub
     }
 
     /**
-     * Converts a field-centric {@link SwerveMovement} to a robot-centric.
-     * That is, this method converts a swerve movement measured relative to the field
-     * to a swerve movement relative to the robot
-     * @param robotHeadingDegrees The direction that the robot is pointing, measured counterclockwise in degrees
-     * @return
-     */
-    public SwerveMovement toRobotCentric(double robotHeadingDegrees) {
-        vec2 rawMovement = getMovementVector();
-        double rawRotation = rotation();
-
-        vec2 movement = math.rotateCW(rawMovement, robotHeadingDegrees);
-
-        return new SwerveMovement(movement, rawRotation);
-    }
-
-    /**
      * @return The movement represented by this swerve movement. +X is forward
      */
-    public vec2 getMovementVector(){
+    public vec2 movement(){
         return new vec2(forwardMovement(), strideMovement());
     }
 }
