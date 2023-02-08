@@ -13,10 +13,12 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Commands.ArmTestCommand;
 import frc.robot.Commands.CloseClawCommand;
 import frc.robot.Commands.DriveCommand;
 import frc.robot.Commands.OpenClawCommand;
 import frc.robot.Commands.navXCommand;
+import frc.robot.Subsystem.ArmPivotSubsystem;
 import frc.robot.Subsystem.ClawSubsystem;
 import frc.robot.Subsystem.SwerveDriveSubsystem;
 import frc.robot.Subsystem.navXSubsystem;
@@ -39,7 +41,7 @@ public class RobotContainer {
     private final SwerveDriveSubsystem swerveDriveSubsystem = new SwerveDriveSubsystem();
     private final ClawSubsystem claw = new ClawSubsystem();
     private final ObstructionSensor sensor = new ObstructionSensor(0);
-    // private final ArmPivotSubsystem arm = new ArmPivotSubsystem();
+    private final ArmPivotSubsystem arm = new ArmPivotSubsystem();
 
     private final navXSubsystem navx = new navXSubsystem();
     private Trigger clawObstructedTrigger;
@@ -51,7 +53,7 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the button bindings
         swerveDriveSubsystem.setDefaultCommand(new DriveCommand(swerveDriveSubsystem, oi));
-        // arm.setDefaultCommand(new ArmTestCommand(arm, oi));
+        arm.setDefaultCommand(new ArmTestCommand(arm, oi));
         configureButtonBindings();
     }
 

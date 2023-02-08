@@ -12,12 +12,12 @@ public class ArmPivotSubsystem extends SubsystemBase {
     private final WPI_VictorSPX armLeftMotor;
     private final WPI_VictorSPX armRightMotor;
 
-    private final PIDController pid; 
-    private final CANCoder canCoder;
+    // private final PIDController pid; 
+    // private final CANCoder canCoder;
 
     public ArmPivotSubsystem(){
 
-        pid = new PIDController(0, 0, 0);
+        // pid = new PIDController(0, 0, 0);
 
         armLeftMotor = new WPI_VictorSPX(Constants.IDs.ARM_PIVOT_1);
         armLeftMotor.configFactoryDefault();
@@ -27,7 +27,7 @@ public class ArmPivotSubsystem extends SubsystemBase {
         armRightMotor.configFactoryDefault();
         armRightMotor.setNeutralMode(NeutralMode.Brake);
 
-        canCoder = new CANCoder(0);
+        // canCoder = new CANCoder(0);
     }
 
     public void stop(){
@@ -41,14 +41,14 @@ public class ArmPivotSubsystem extends SubsystemBase {
     }
 
     public void setAngle(double angle){
-        pid.setSetpoint(angle);
-        pid.setSetpoint(angle);
+        // pid.setSetpoint(angle);
+        // pid.setSetpoint(angle);
     }
 
 
     @Override
     public void periodic( ) {
-       double speed =  pid.calculate(canCoder.getAbsolutePosition());
-       set(speed);
+    //    double speed =  pid.calculate(canCoder.getAbsolutePosition());
+    //    set(speed);
     }
 }
