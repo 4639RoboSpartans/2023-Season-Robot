@@ -1,10 +1,8 @@
 package frc.robot.subsystems;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 public class SwerveDriveSubsystem extends SubsystemBase{
-
     private final SwerveModule
         moduleFrontLeft,
         moduleFrontRight,
@@ -19,10 +17,10 @@ public class SwerveDriveSubsystem extends SubsystemBase{
     }
 
     public void setModules(SwerveModuleState... states){
-        moduleFrontLeft.setDesiredState(states[0]);
+        moduleFrontLeft .setDesiredState(states[0]);
         moduleFrontRight.setDesiredState(states[1]);
-        moduleBackLeft.setDesiredState(states[2]);
-        moduleBackRight.setDesiredState(states[3]);
+        moduleBackLeft  .setDesiredState(states[2]);
+        moduleBackRight .setDesiredState(states[3]);
     }
     
     public void setModules(SwerveModuleState state){
