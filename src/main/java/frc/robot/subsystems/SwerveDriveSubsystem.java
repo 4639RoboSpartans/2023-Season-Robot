@@ -21,65 +21,58 @@ public class SwerveDriveSubsystem extends SubsystemBase{
     }
 
     public void setMovement(SwerveMovement swerveMovement){
-        double wa1 = 0, wa2 = 0, wa3 = 0, wa4 = 0;
 
-        double A = swerveMovement.strideMovement()  - swerveMovement.rotation() / Math.sqrt(2);
-        double B = swerveMovement.strideMovement()  + swerveMovement.rotation() / Math.sqrt(2);
-        double C = swerveMovement.forwardMovement() - swerveMovement.rotation() / Math.sqrt(2);
-        double D = swerveMovement.forwardMovement() + swerveMovement.rotation() / Math.sqrt(2);
+        double A = swerveMovement.forwardMovement() + swerveMovement.rotation();
+        double B = swerveMovement.forwardMovement() - swerveMovement.rotation();
+        double C = swerveMovement.strideMovement()  + swerveMovement.rotation();
+        double D = swerveMovement.strideMovement()  - swerveMovement.rotation();
 
+        double speedFrontLeft  = math.magnitude(A, C);
+        double speedFrontRight = math.magnitude(B, C);
+        double speedBackLeft   = math.magnitude(A, D);
+        double speedBackRight  = math.magnitude(B, D);
 
-        double wheelSpeedFrontLeft = math.magnitude(B, C);
-        double wheelSpeedFrontRight = math.magnitude(B, D);
-        double wheelSpeedBackLeft = math.magnitude(A, C);
-        double wheelSpeedBackRight = math.magnitude(A, D);
+        double angleFrontLeft  = math.atan2(A, C);
+        double angleFrontRight = Math.atan2(B, C);
+        double angleBackLeft   = Math.atan2(A, D);
+        double angleBackRight  = Math.atan2(B, D);
 
-        if (wheelSpeedBackLeft > 0.05 || wheelSpeedBackLeft < -0.05) {
-            wa1 = Math.atan2(B, C) * 180 / Math.PI;
-        }
-        if (wheelSpeedBackLeft > 0.05 || wheelSpeedBackLeft < -0.05) {
-            wa2 = Math.atan2(B, D) * 180 / Math.PI;
-        }
-        if (wheelSpeedBackLeft > 0.05 || wheelSpeedBackLeft < -0.05) {
-            wa3 = Math.atan2(A, D) * 180 / Math.PI;
-        }
-        if (wheelSpeedBackLeft > 0.05 || wheelSpeedBackLeft < -0.05) {
-            wa4 = Math.atan2(A, C) * 180 / Math.PI;
-        }
+        double max = math.max(
+            speedFrontLeft, 
+            speedFrontRight, 
+            speedBackLeft, 
+            speedBackRight
+        );
 
-        // 1 is FR, 2 is FL, 3 is RL, 4 is RR
-
-        double max = wheelSpeedFrontLeft;
-        if (wheelSpeedFrontRight > max)
-            max = wheelSpeedFrontRight;
-        if (wheelSpeedBackLeft > max)
-            max = wheelSpeedBackLeft;
-        if (wheelSpeedBackRight > max)
-            max = wheelSpeedBackRight;
         if (max > 1) {
-            wheelSpeedFrontLeft /= max;
-            wheelSpeedFrontRight /= max;
-            wheelSpeedBackLeft /= max;
-            wheelSpeedBackRight /= max;
+            speedFrontLeft  /= max;
+            speedFrontRight /= max;
+            speedBackLeft   /= max;
+            speedBackRight  /= max;
         }
 
         setModules(
-            new SwerveModuleState(wheelSpeedFrontLeft, new Rotation2d(wa1)),
-            new SwerveModuleState(wheelSpeedFrontRight, new Rotation2d(wa2)),
-            new SwerveModuleState(wheelSpeedBackLeft, new Rotation2d(wa3)),
-            new SwerveModuleState(wheelSpeedBackRight, new Rotation2d(wa4))
+            new SwerveModuleState(speedFrontLeft, new Rotation2d(angleFrontLeft)),
+            new SwerveModuleState(speedFrontRight, new Rotation2d(angleFrontRight)),
+            new SwerveModuleState(speedBackLeft, new Rotation2d(angleBackLeft)),
+            new SwerveModuleState(speedBackRight, new Rotation2d(angleBackRight))
         );
     }
 
-    public void setModules(SwerveModuleState... states){
-        moduleFrontLeft .setState(states[0]);
-        moduleFrontRight.setState(states[1]);
-        moduleBackLeft  .setState(states[2]);
-        moduleBackRight .setState(states[3]);
+    public void setModules(
+            SwerveModuleState stateFrontLeft,
+            SwerveModuleState stateFrontRight,
+            SwerveModuleState stateBackLeft,
+            SwerveModuleState stateBackRight
+    ){
+        moduleFrontLeft .setState(stateFrontLeft);
+        moduleFrontRight.setState(stateFrontRight);
+        moduleBackLeft  .setState(stateBackLeft);
+        moduleBackRight .setState(stateBackRight);
     }
     
     public void setModules(SwerveModuleState state){
-        setModules(new SwerveModuleState[]{state, state, state, state});
+        setModules(state, state, state, state);
     }
 
     public void stop(){
