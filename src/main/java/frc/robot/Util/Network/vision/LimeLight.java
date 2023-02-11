@@ -7,7 +7,7 @@ public class LimeLight {
     
     public static void getOffsetFromCenteredAprilTag(){
         var table = Network.getTable("limelight");
-        // TODO: finish implementation
+        
         SmartDashboard.putNumber("tv", table.getDouble("tv"));
         SmartDashboard.putNumber("tx", table.getDouble("tx"));
         SmartDashboard.putNumber("ty", table.getDouble("ty"));
@@ -41,47 +41,28 @@ public class LimeLight {
             //SmartDashboard.putString("limelight-" + i.getKey(), i.getValue());
         //}
     }
+
+    private static double getOrNaN(double[] arr, int idx){
+        return arr.length > idx ? arr[idx] : Double.NaN;
+    }
+
     public static double getZDistance() {
-        var arr = Network.getTable("limelight").getDoubleArray("botpose");
-        if(arr.length == 0) {
-            return Double.NaN;
-        }
-        return Network.getTable("limelight").getDoubleArray("botpose")[0];
+        return getOrNaN(Network.getTable("limelight").getDoubleArray("botpose"), 0);
     }
     public static double getXDistance() {
-        var arr = Network.getTable("limelight").getDoubleArray("botpose");
-        if(arr.length == 0) {
-            return Double.NaN;
-        }
-        return Network.getTable("limelight").getDoubleArray("botpose")[1];
+        return getOrNaN(Network.getTable("limelight").getDoubleArray("botpose"), 1);
     }
     public static double getYDistance() {
-        var arr = Network.getTable("limelight").getDoubleArray("botpose");
-        if(arr.length == 0) {
-            return Double.NaN;
-        }
-        return Network.getTable("limelight").getDoubleArray("botpose")[2];
+        return getOrNaN(Network.getTable("limelight").getDoubleArray("botpose"), 2);
     }
     public static double getZRotation() {
-        var arr = Network.getTable("limelight").getDoubleArray("botpose");
-        if(arr.length == 0) {
-            return Double.NaN;
-        }
-        return Network.getTable("limelight").getDoubleArray("botpose")[3];
+        return getOrNaN(Network.getTable("limelight").getDoubleArray("botpose"), 3);
     }
     public static double getXRotation() {
-        var arr = Network.getTable("limelight").getDoubleArray("botpose");
-        if(arr.length == 0) {
-            return Double.NaN;
-        }
-        return Network.getTable("limelight").getDoubleArray("botpose")[4];
+        return getOrNaN(Network.getTable("limelight").getDoubleArray("botpose"), 4);
     }
     public static double getYRotation() {
-        var arr = Network.getTable("limelight").getDoubleArray("botpose");
-        if(arr.length == 0) {
-            return Double.NaN;
-        }
-        return Network.getTable("limelight").getDoubleArray("botpose")[5];
+        return getOrNaN(Network.getTable("limelight").getDoubleArray("botpose"), 5);
     }
 }
 

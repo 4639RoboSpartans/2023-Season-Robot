@@ -14,20 +14,22 @@ package frc.robot;
  */
 public final class Constants {
 	public static final class IDs{
-		public static final int ARM_PIVOT_1 = 6;
-		public static final int ARM_PIVOT_2 = 6;
-		public static final int MOTOR_1 = 10;
+		// Swerve uses up motor ids 1-12
+		public static final SwerveModuleConfig MODULE_FRONT_LEFT  = new SwerveModuleConfig(1, 2, 9 , 124.277);
+		public static final SwerveModuleConfig MODULE_FRONT_RIGHT = new SwerveModuleConfig(3, 4, 10, 233.877);
+		public static final SwerveModuleConfig MODULE_BACK_LEFT   = new SwerveModuleConfig(5, 6, 11, 9.668);
+		public static final SwerveModuleConfig MODULE_BACK_RIGHT  = new SwerveModuleConfig(7, 8, 12, 50.400);
+
+		public static final int ARM_PIVOT_1 = 13;
+		public static final int ARM_PIVOT_2 = 14;
+		public static final int TELESCOPE_MOTOR_LEFT = 15;
+		public static final int TELESCOPE_MOTOR_RIGHT = 16;
 		public static final int ENCODER_1 = 20;
 		public static final int ENCODER_2 = 6;
 		public static final int ENCODER_3 = 1;
 		public static final int CLAW_SOLENOID_CHANNEL = 3;	
 
 		public static final int TELESCOPE_MOTOR = 0;
-
-		public static final SwerveModuleConfig MODULE_FRONT_LEFT  = new SwerveModuleConfig(1, 2, 9 , 124.277);
-		public static final SwerveModuleConfig MODULE_FRONT_RIGHT = new SwerveModuleConfig(3, 4, 10, 233.877);
-		public static final SwerveModuleConfig MODULE_BACK_LEFT   = new SwerveModuleConfig(5, 6, 11, 9.668);
-		public static final SwerveModuleConfig MODULE_BACK_RIGHT  = new SwerveModuleConfig(7, 8, 12, 50.400);
 	}
 
 	public static final class RobotInfo {

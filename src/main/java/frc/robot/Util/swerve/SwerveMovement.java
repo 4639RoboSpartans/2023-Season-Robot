@@ -1,6 +1,5 @@
 package frc.robot.util.swerve;
 
-import frc.robot.util.math.math;
 import frc.robot.util.math.vec2;
 
 /**

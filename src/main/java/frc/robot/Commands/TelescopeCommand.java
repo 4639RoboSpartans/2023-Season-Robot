@@ -2,8 +2,9 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
+import frc.robot.Constants;
+import frc.robot.subsystems.TelescopeSubsystem;
 
-/*
 public class TelescopeCommand extends CommandBase {
     private final TelescopeSubsystem telescope;
     private final OI oi;
@@ -21,6 +22,4 @@ public class TelescopeCommand extends CommandBase {
         double Position = oi.getAxis(0, Constants.Axes.RIGHT_STICK_Y);
         telescope.setPosition(Position);
     }
-
 }
-*/

@@ -15,15 +15,11 @@ import frc.robot.subsystems.navXSubsystem;
 public class navXCommand extends CommandBase{
     private final SwerveDriveSubsystem swerve;
     private final navXSubsystem navx;
-    private double flatTime;
-    private double lastFrameTime;
-
     public navXCommand(SwerveDriveSubsystem swerve, navXSubsystem navx){
         this.swerve = swerve;
         this.navx = navx;
         addRequirements(swerve);
-        flatTime = 0.0;
-        lastFrameTime = Timer.getFPGATimestamp();
+        Timer.getFPGATimestamp();
         
 
     }
@@ -40,12 +36,10 @@ public class navXCommand extends CommandBase{
             speed = Math.abs(speed);
 
             swerve.setModules(new SwerveModuleState(speed, Rotation2d.fromDegrees(rot)));
-            flatTime = 0;
         }   
         else{
             swerve.setModules(new SwerveModuleState());
-            flatTime += Timer.getFPGATimestamp()- lastFrameTime;
-            lastFrameTime = Timer.getFPGATimestamp();
+            Timer.getFPGATimestamp();
 
         }
         
@@ -55,10 +49,7 @@ public class navXCommand extends CommandBase{
 
     }
     public boolean isFinished(){
-
-        //return (flatTime<=3)
         return false;
-
     }
     
 }

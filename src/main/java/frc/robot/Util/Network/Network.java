@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Network {
     // Implement the singleton pattern
@@ -34,5 +35,15 @@ public class Network {
 
     public static Table getTable(String tableName){
         return getInstance()._getTable(tableName);
+    }
+
+    public static void printAllEntriesFromTable(String tableName){
+        var table = getTable(tableName);
+        var entries = table.getAllEntries();
+        for(var entry : entries.entrySet()){
+            String entryKey = entry.getKey();
+            String entryValue = entry.getValue();
+            SmartDashboard.putString(tableName + ":" + entryKey, entryValue);
+        }
     }
 }

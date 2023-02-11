@@ -1,7 +1,11 @@
 package frc.robot.commands;
 
-/*
-public class ElevatorCommand extends CommandBase{
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.OI;
+import frc.robot.Constants;
+import frc.robot.subsystems.ElevatorSubsystem;
+
+public class ElevatorCommand extends CommandBase {
     private final ElevatorSubsystem elevator;
     private final OI oi;
     
@@ -10,25 +14,15 @@ public class ElevatorCommand extends CommandBase{
         this.oi = oi;
         addRequirements(elevator);
     }
-    @Override
-    public void initialize() {
-        // TODO Auto-generated method stub
-        super.initialize();
-    }
+
     @Override
     public void execute() {
-        // TODO Auto-generated method stub
         double speed = oi.getAxis(0, Constants.Axes.LEFT_STICK_Y);
+        elevator.setPosition(0);
     }
-    @Override
-    public void end(boolean interrupted) {
-        // TODO Auto-generated method stub
-        super.end(interrupted);
-    }
+
     @Override
     public boolean isFinished() {
         return false;
     }
-
 }
-*/

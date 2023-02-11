@@ -1,27 +1,24 @@
 package frc.robot.subsystems;
 
-import java.lang.invoke.ConstantBootstraps;
-
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ElevatorSubsystem  extends SubsystemBase{
-
-    public WPI_VictorSPX motor;
-    private final CANCoder encoder;
+    public WPI_TalonFX motorLeft;
+    public WPI_TalonFX motorRight;
 
     private final PIDController pid;
 
     public ElevatorSubsystem() {
-        motor = new WPI_VictorSPX(Constants.IDs.MOTOR_1);
-        motor.configFactoryDefault();
-        motor.setNeutralMode(NeutralMode.Brake);
-        encoder = new CANCoder(Constants.IDs.ENCODER_1);
+        motorLeft = new WPI_TalonFX(Constants.IDs.TELESCOPE_MOTOR_LEFT);
+        motorLeft.configFactoryDefault();
+        motorLeft.setNeutralMode(NeutralMode.Brake);
+        motorLeft.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
         pid = new PIDController(0.01, 0, 0);
     }
 
@@ -29,10 +26,9 @@ public class ElevatorSubsystem  extends SubsystemBase{
         pid.setSetpoint(position);
     }
 
-    //called continuously forever
     @Override
     public void periodic() {
-        double voltage = pid.calculate(encoder.getPosition());
-        motor.set(voltage);
+        double voltage = pid.calculate(motorLeft.getSelectedSensorPosition());
+        motorLeft.set(voltage);
     }
 }

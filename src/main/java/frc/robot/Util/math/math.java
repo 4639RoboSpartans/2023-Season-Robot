@@ -4,14 +4,14 @@ public class math {
     private math() {}
 
     /**
-     * @returns The magnitude of the vector &lt;x, y&gt;
+     * @return The magnitude of the vector &lt;x, y&gt;
      */
     public static double magnitude(double x, double y){
         return Math.sqrt(x * x + y * y);
     }
 
     /**
-     * @returns The magnitude of the v
+     * @return The magnitude of the v
      */
     public static double magnitude(vec2 v){
         return magnitude(v.x(), v.y());
@@ -41,7 +41,7 @@ public class math {
     
     /**
      * The atan2 function in degrees mode
-     * @returns the angle in degrees that the vector &lt;x, y&gt; makes with the x-axis, measured counterclockwise from positive x
+     * @return the angle in degrees that the vector &lt;x, y&gt; makes with the x-axis, measured counterclockwise from positive x
      */
     public static double atan2(double y, double x){
         return Math.toDegrees(Math.atan2(y, x));
@@ -49,7 +49,7 @@ public class math {
 
     /**
      * The atan2 function in degrees mode
-     * @returns the angle in degrees that v makes with the x-axis, measured counterclockwise from positive x
+     * @return the angle in degrees that v makes with the x-axis, measured counterclockwise from positive x
      */
     public static double atan2(vec2 v){
         return atan2(v.y(), v.x());
@@ -69,11 +69,7 @@ public class math {
      * @return v rotated clockwise by angle, measured in degrees
      */
     public static vec2 rotateCW(vec2 v, double degrees){
-        
-        return new vec2(
-            v.x() * cos(degrees) + v.y() * sin(degrees), 
-            v.x() * sin(degrees) - v.y() * cos(degrees)
-        );
+        return rotateCCW(v, -degrees);
     }
 
     /**
@@ -85,7 +81,7 @@ public class math {
 
     /**
      * The modulo function.
-     * @returns a value v such that v is in [0, m) and v = x - N * m where N is an integer
+     * @return a value v such that v is in [0, m) and v = x - N * m where N is an integer
      */
     public static double mod(double x, double m){
         return (x % m + m) % m;
@@ -94,7 +90,7 @@ public class math {
     /**
      * Constrains x to the range [min, max). values outside of the range will wrap around.
      * For min = 0, this behaves the same as mod
-     * @returns a value v such that v is in [min, max) and v = x - N * (max - min) where N is an integer
+     * @return a value v such that v is in [min, max) and v = x - N * (max - min) where N is an integer
      */
     public static double mod(double x, double min, double max){
         return mod(x - min, max - min) + min;
