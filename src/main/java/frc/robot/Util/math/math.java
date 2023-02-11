@@ -106,4 +106,10 @@ public class math {
     public static double round(double x, double precision){
         return Math.round(x / precision) * precision;
     }
+
+    public static double max(double... arr){
+        double max = Double.NEGATIVE_INFINITY;
+        for(double i : arr) if(i > max) max = i;
+        return max;
+    }
 }
