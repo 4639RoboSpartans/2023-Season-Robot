@@ -1,4 +1,4 @@
-package frc.robot.Util.math;
+package frc.robot.util.math;
 
 public class math {
     private math() {}

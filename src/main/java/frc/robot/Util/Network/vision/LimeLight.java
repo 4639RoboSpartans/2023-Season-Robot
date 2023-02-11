@@ -1,7 +1,7 @@
-package frc.robot.Util.Network.vision;
+package frc.robot.util.network.vision;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Util.Network.Network;
+import frc.robot.util.network.Network;
 
 public class LimeLight {
     
@@ -23,6 +23,8 @@ public class LimeLight {
         SmartDashboard.putNumber("z rotation", a[3]);
         SmartDashboard.putNumber("x rotation", a[4]);
         SmartDashboard.putNumber("y rotation", a[5]);
+
+        
 
         var b = table.getDoubleArray("campose"); 
         if(b.length != 6) b = new double[]{-1, -1, -1, -1, -1, -1};

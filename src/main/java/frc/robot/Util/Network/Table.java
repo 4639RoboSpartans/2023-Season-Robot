@@ -1,4 +1,4 @@
-package frc.robot.Util.Network;
+package frc.robot.util.network;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,6 +11,7 @@ public class Table {
     public final String name;
     // The networktable for the limelight
     private final NetworkTable table;
+    
     // Cache the NetworkTableEntries so we don't have to keep accessing it
     private final Map<String, NetworkTableEntry> entryCache = new HashMap<>();
 
@@ -21,6 +22,7 @@ public class Table {
 
     public String getName() {
         return name;
+        
     }
 
     public NetworkTableEntry getEntry(String key){

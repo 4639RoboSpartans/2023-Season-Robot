@@ -1,4 +1,4 @@
-package frc.robot.Util.math;
+package frc.robot.util.math;
 
 public record vec2 (double x, double y) {
     public static final vec2 iHat = new vec2(1, 0);
