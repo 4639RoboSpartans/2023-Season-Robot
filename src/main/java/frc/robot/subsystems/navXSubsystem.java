@@ -15,7 +15,8 @@ public class navXSubsystem extends SubsystemBase{
     }
 
     public double getHeading() {
-        return ahrs.getAngle();
+        return 0;
+        //return ahrs.getAngle();
     }
 
     public boolean isZero(){

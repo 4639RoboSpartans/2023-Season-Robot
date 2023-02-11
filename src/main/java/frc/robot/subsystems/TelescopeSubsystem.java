@@ -31,6 +31,6 @@ public class TelescopeSubsystem  extends SubsystemBase{
     @Override
     public void periodic() {
         double voltage = pid.calculate(encoder.getPosition());
-        motor.set(voltage);
+        // motor.set(voltage);
     }
 }

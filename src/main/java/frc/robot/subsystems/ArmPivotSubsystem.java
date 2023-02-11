@@ -36,8 +36,8 @@ public class ArmPivotSubsystem extends SubsystemBase {
     }
 
     public void set(double speed){
-        armPivotMotor1.set(speed);
-        armPivotMotor2.set(-speed);
+        // armPivotMotor1.set(speed);
+        // armPivotMotor2.set(-speed);
     }
 
     public void setAngle(double angle){

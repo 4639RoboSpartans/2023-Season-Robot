@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.util.math.math;
@@ -32,9 +33,9 @@ public class SwerveDriveSubsystem extends SubsystemBase{
         double speedBackRight  = math.magnitude(B, D);
 
         double angleFrontLeft  = math.atan2(A, C);
-        double angleFrontRight = Math.atan2(B, C);
-        double angleBackLeft   = Math.atan2(A, D);
-        double angleBackRight  = Math.atan2(B, D);
+        double angleFrontRight = math.atan2(B, C);
+        double angleBackLeft   = math.atan2(A, D);
+        double angleBackRight  = math.atan2(B, D);
 
         double max = math.max(
             speedFrontLeft, 
@@ -49,6 +50,11 @@ public class SwerveDriveSubsystem extends SubsystemBase{
             speedBackLeft   /= max;
             speedBackRight  /= max;
         }
+
+        SmartDashboard.putNumber("angle 1", angleFrontLeft);
+        SmartDashboard.putNumber("angle 2", angleFrontRight);
+        SmartDashboard.putNumber("angle 3", angleBackLeft);
+        SmartDashboard.putNumber("angle 4", angleBackRight);
 
         setModules(
             new SwerveModuleState(speedFrontLeft, new Rotation2d(angleFrontLeft)),
@@ -76,5 +82,13 @@ public class SwerveDriveSubsystem extends SubsystemBase{
 
     public void stop(){
         setModules(new SwerveModuleState());
+    }
+
+    @Override
+    public void periodic() {
+        moduleFrontLeft.periodic();
+        moduleFrontRight.periodic();
+        moduleBackLeft.periodic();
+        moduleBackRight.periodic();
     }
 }

@@ -21,11 +21,11 @@ public class SwerveModule {
 
     private final double rotationOffset;
 
-    private final double kp = 0.09;
-    private final double ki = 0.15;
+    private final double kp = 0.001;
+    private final double ki = 0;
     private final double kd = 0;
 
-    private double speed;
+    private double speed = 0;
 
     public SwerveModule(SwerveModuleConfig swerveModuleData){
         driver = new WPI_TalonFX(swerveModuleData.driveMotorID);
@@ -34,8 +34,8 @@ public class SwerveModule {
         driver.configFactoryDefault();
         rotator.configFactoryDefault();
 
-        driver.setNeutralMode(NeutralMode.Coast);
-        rotator.setNeutralMode(NeutralMode.Coast);
+        driver.setNeutralMode(NeutralMode.Brake);
+        rotator.setNeutralMode(NeutralMode.Brake);
 
         driver.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
@@ -48,16 +48,20 @@ public class SwerveModule {
     }
 
     public void periodic() {
+        double rotate = rotationPID.calculate(getRotationInDegrees());
         rotator.set(-rotationPID.calculate(getRotationInDegrees()));
-        driver.set(Constants.RobotInfo.MOVEMENT_SPEED * 0.2);
+        // driver.set(speed * Constants.RobotInfo.MOVEMENT_SPEED);
 
         SmartDashboard.putNumber("Module Speed " + driver.getDeviceID(), speed);
-        SmartDashboard.putNumber("Module Rotation " + driver.getDeviceID(), rotationPID.getSetpoint());
+        SmartDashboard.putNumber("Module Rotation Encoder " + driver.getDeviceID(), getRotationInDegrees());
+        SmartDashboard.putNumber("Module Rotation Setpoint " + driver.getDeviceID(), rotationPID.getSetpoint());
+        SmartDashboard.putNumber("Module Rotation Value " + driver.getDeviceID(), rotate);
     }
 
     public double getRotationInDegrees(){
         double rotation = encoder.getAbsolutePosition() - rotationOffset;
-        return math.round(math.mod(rotation, -180, 180), 0.5);
+        // return math.round(math.mod(rotation, -180, 180), 0.5);
+        return math.mod(rotation, -180, 180);
     }
 
     private void setSpeed(double speed){

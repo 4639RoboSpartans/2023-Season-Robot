@@ -9,17 +9,26 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ElevatorSubsystem  extends SubsystemBase{
-    public WPI_TalonFX motorLeft;
-    public WPI_TalonFX motorRight;
+    private final WPI_TalonFX motorLeft;
+    private final WPI_TalonFX motorRight;
 
     private final PIDController pid;
 
     public ElevatorSubsystem() {
-        motorLeft = new WPI_TalonFX(Constants.IDs.TELESCOPE_MOTOR_LEFT);
+        motorLeft = new WPI_TalonFX(Constants.IDs.ELEVATOR_MOTOR_LEFT);
+        motorRight = new WPI_TalonFX(Constants.IDs.ELEVATOR_MOTOR_RIGHT);
         motorLeft.configFactoryDefault();
+        motorRight.configFactoryDefault();
         motorLeft.setNeutralMode(NeutralMode.Brake);
-        motorLeft.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+        motorRight.setNeutralMode(NeutralMode.Brake);
+        
+        getEncoderMotor().configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+        
         pid = new PIDController(0.01, 0, 0);
+    }
+
+    private WPI_TalonFX getEncoderMotor(){
+        return motorLeft;
     }
 
     public void setPosition(double position) {
@@ -28,7 +37,8 @@ public class ElevatorSubsystem  extends SubsystemBase{
 
     @Override
     public void periodic() {
-        double voltage = pid.calculate(motorLeft.getSelectedSensorPosition());
-        motorLeft.set(voltage);
+        double voltage = pid.calculate(getEncoderMotor().getSelectedSensorPosition());
+        // motorLeft.set(voltage);
+        // motorRight.set(-voltage);
     }
 }

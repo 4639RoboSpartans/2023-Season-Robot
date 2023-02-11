@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.OI;
@@ -30,12 +31,9 @@ public class DriveCommand extends CommandBase {
         //     swerveMovement = SwerveUtil.toRobotCentric(new SwerveMovement(LimeLight.getZDistance(), LimeLight.getXDistance(), LimeLight.getXRotation()), navX.getHeading());
         // }
         // else {
-            var rawMovement = getRawMovement();
-        
-            swerveMovement = SwerveUtil.toRobotCentric(rawMovement, navX.getHeading());
-        // }
-        
-        
+        var rawMovement = getRawMovement();
+        swerveMovement = SwerveUtil.toRobotCentric(rawMovement, navX.getHeading());
+        SmartDashboard.putString("swerve movement", swerveMovement.toString());
         swerveDriveSubsystem.setMovement(swerveMovement);
     }
 

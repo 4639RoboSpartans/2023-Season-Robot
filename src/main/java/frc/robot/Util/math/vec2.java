@@ -19,4 +19,8 @@ public record vec2 (double x, double y) {
     public vec2 times(double scale){
         return new vec2(x() * scale, y() * scale);
     }
+
+    public String toString(){
+        return "(" + x + ", " + y + ")";
+    }
 }

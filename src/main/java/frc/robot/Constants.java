@@ -22,14 +22,14 @@ public final class Constants {
 
 		public static final int ARM_PIVOT_1 = 13;
 		public static final int ARM_PIVOT_2 = 14;
-		public static final int TELESCOPE_MOTOR_LEFT = 15;
-		public static final int TELESCOPE_MOTOR_RIGHT = 16;
+		public static final int ELEVATOR_MOTOR_LEFT = 15;
+		public static final int ELEVATOR_MOTOR_RIGHT = 16;
 		public static final int ENCODER_1 = 20;
-		public static final int ENCODER_2 = 6;
-		public static final int ENCODER_3 = 1;
+		public static final int ENCODER_2 = 20;
+		public static final int ENCODER_3 = 20;
 		public static final int CLAW_SOLENOID_CHANNEL = 3;	
 
-		public static final int TELESCOPE_MOTOR = 0;
+		public static final int TELESCOPE_MOTOR = 20;
 	}
 
 	public static final class RobotInfo {
