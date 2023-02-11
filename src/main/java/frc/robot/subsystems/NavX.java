@@ -2,10 +2,10 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-public class navXSubsystem extends SubsystemBase{
+public class NavX extends SubsystemBase{
     private final AHRS ahrs;
     //private final PIDController pid;
-    public navXSubsystem(){
+    public NavX(){
         ahrs = new AHRS();
         
         //pid = new PIDController(0, 0, 0);
