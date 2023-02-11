@@ -8,11 +8,13 @@ import frc.robot.Constants;
 import frc.robot.OI;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 import frc.robot.subsystems.navXSubsystem;
-import frc.robot.util.math.math;
-import frc.robot.util.swerve.SwerveMovement;
-import frc.robot.util.swerve.SwerveUtil;
+import frc.robot.Util.Network.vision.LimeLight;
+import frc.robot.Util.math.math;
+import frc.robot.Util.swerve.SwerveMovement;
+import frc.robot.Util.swerve.SwerveUtil;
 
 public class DriveCommand extends CommandBase {
+    //private LimeLight light;
     private final OI oi;
     private final SwerveDriveSubsystem swerveDriveSubsystem;
     private final navXSubsystem navX;
@@ -28,8 +30,16 @@ public class DriveCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        var rawMovement = getRawMovement();
-        var swerveMovement = SwerveUtil.toRobotCentric(rawMovement, navX.getHeading());
+        SwerveMovement swerveMovement;
+        // if(LimeLight.getZDistance() != -1) {
+        //     swerveMovement = SwerveUtil.toRobotCentric(new SwerveMovement(LimeLight.getZDistance(), LimeLight.getXDistance(), LimeLight.getXRotation()), navX.getHeading());
+        // }
+        // else {
+            var rawMovement = getRawMovement();
+        
+            swerveMovement = SwerveUtil.toRobotCentric(rawMovement, navX.getHeading());
+        // }
+        
         
         swerveDriveSubsystem.setMovement(swerveMovement);
     }
@@ -39,7 +49,7 @@ public class DriveCommand extends CommandBase {
         double rawY = oi.getAxis(0, Constants.Axes.LEFT_STICK_Y);
         double rawRot = oi.getAxis(0, Constants.Axes.RIGHT_STICK_X);
         
-        return new SwerveMovement(rawX, rawY, rawRot);
+        return new SwerveMovement(rawY, rawX, rawRot);
     }
 
     // Called once the command ends or is interrupted.

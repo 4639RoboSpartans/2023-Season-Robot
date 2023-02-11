@@ -1,9 +1,9 @@
-package frc.robot.util.swerve;
+package frc.robot.Util.swerve;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import frc.robot.util.math.math;
-import frc.robot.util.math.vec2;
+import frc.robot.Util.math.math;
+import frc.robot.Util.math.vec2;
 
 public class SwerveUtil {
     private SwerveUtil() {}

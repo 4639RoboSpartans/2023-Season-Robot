@@ -1,4 +1,4 @@
-package frc.robot.util.math;
+package frc.robot.Util.math;
 
 public class math {
     private math() {}
@@ -69,7 +69,11 @@ public class math {
      * @return v rotated clockwise by angle, measured in degrees
      */
     public static vec2 rotateCW(vec2 v, double degrees){
-        return rotateCW(v, -degrees);
+        
+        return new vec2(
+            v.x() * cos(degrees) + v.y() * sin(degrees), 
+            v.x() * sin(degrees) - v.y() * cos(degrees)
+        );
     }
 
     /**

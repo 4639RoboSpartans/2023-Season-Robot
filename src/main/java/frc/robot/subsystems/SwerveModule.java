@@ -11,8 +11,8 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Constants.SwerveModuleConfig;
-import frc.robot.util.math.math;
-import frc.robot.util.swerve.SwerveUtil;
+import frc.robot.Util.math.math;
+import frc.robot.Util.swerve.SwerveUtil;
 
 public class SwerveModule {
     private final WPI_TalonFX driver, rotator;

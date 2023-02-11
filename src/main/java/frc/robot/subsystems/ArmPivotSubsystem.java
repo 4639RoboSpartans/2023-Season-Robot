@@ -27,7 +27,7 @@ public class ArmPivotSubsystem extends SubsystemBase {
         armPivotMotor2.configFactoryDefault();
         armPivotMotor2.setNeutralMode(NeutralMode.Brake);
 
-        canCoder = new CANCoder(0);
+        canCoder = new CANCoder(Constants.IDs.ENCODER_3);
     }
 
     public void stop(){
@@ -48,7 +48,7 @@ public class ArmPivotSubsystem extends SubsystemBase {
 
     @Override
     public void periodic( ) {
-       double speed =  pid.calculate(canCoder.getAbsolutePosition());
+       double speed =  pid.calculate(canCoder.getPosition());
        set(speed);
     }
 }
