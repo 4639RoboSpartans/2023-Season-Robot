@@ -37,14 +37,11 @@ public class SwerveUtil {
 
         double rawAngleDifference = currRotation - degrees;
 
-        // double angleDifference = math.mod(rawAngleDifference, -90, 90);
-        // boolean shouldReverse = Math.abs(math.mod(rawAngleDifference, -180, 180)) >= 90;
+        double angleDifference = math.mod(rawAngleDifference, -90, 90);
+        boolean shouldReverse = Math.abs(math.mod(rawAngleDifference, -180, 180)) >= 90;
 
-        // double finalAngle = currRotation - angleDifference;
-        // double finalSpeed = shouldReverse ? -speed : speed;
-
-        double finalAngle = math.mod(degrees, -180, 180);
-        double finalSpeed = speed;
+        double finalAngle = currRotation - angleDifference;
+        double finalSpeed = shouldReverse ? -speed : speed;
 
         return new SwerveModuleState(finalSpeed, Rotation2d.fromDegrees(finalAngle));
     }

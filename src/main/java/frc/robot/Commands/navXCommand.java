@@ -29,7 +29,7 @@ public class navXCommand extends CommandBase{
     public void execute(){
 
         if(!navx.isZero()){
-            double speed = Math.max(Math.min(navx.readPitch()/16, 1), -1);
+            double speed = Math.max(Math.min(navx.readPitch()/22, 1), -1);
             SmartDashboard.putNumber("Motor Value", speed);
             
             double rot = speed > 0 ? 180 : 0;

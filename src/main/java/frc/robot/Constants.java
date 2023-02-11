@@ -38,7 +38,7 @@ public final class Constants {
 		public static final double SWERVE_KP = 0.1;
 		public static final double SWERVE_KI = 0.1;
 
-		public static final double MOVEMENT_SPEED = 0.2; // 0 - 1
+		public static final double MOVEMENT_SPEED = 0.3; // 0 - 1
 	}
 
 	public static final class Timing {

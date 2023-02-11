@@ -22,8 +22,8 @@ public class SwerveDriveSubsystem extends SubsystemBase{
 
     public void setMovement(SwerveMovement swerveMovement){
 
-        double A = swerveMovement.forwardMovement() + swerveMovement.rotation();
-        double B = swerveMovement.forwardMovement() - swerveMovement.rotation();
+        double B = swerveMovement.forwardMovement() + swerveMovement.rotation();
+        double A = swerveMovement.forwardMovement() - swerveMovement.rotation();
         double C = swerveMovement.strideMovement()  + swerveMovement.rotation();
         double D = swerveMovement.strideMovement()  - swerveMovement.rotation();
 
@@ -32,10 +32,10 @@ public class SwerveDriveSubsystem extends SubsystemBase{
         double speedBackLeft   = math.magnitude(A, D);
         double speedBackRight  = math.magnitude(B, D);
 
-        double angleFrontLeft  = math.atan2(A, C);
-        double angleFrontRight = math.atan2(B, C);
-        double angleBackLeft   = math.atan2(A, D);
-        double angleBackRight  = math.atan2(B, D);
+        double angleFrontLeft  = math.atan2(C, A);
+        double angleFrontRight = math.atan2(C, B);
+        double angleBackLeft   = math.atan2(D, A);
+        double angleBackRight  = math.atan2(D, B);
 
         double max = math.max(
             speedFrontLeft, 
@@ -57,10 +57,10 @@ public class SwerveDriveSubsystem extends SubsystemBase{
         SmartDashboard.putNumber("angle 4", angleBackRight);
 
         setModules(
-            new SwerveModuleState(speedFrontLeft, new Rotation2d(angleFrontLeft)),
-            new SwerveModuleState(speedFrontRight, new Rotation2d(angleFrontRight)),
-            new SwerveModuleState(speedBackLeft, new Rotation2d(angleBackLeft)),
-            new SwerveModuleState(speedBackRight, new Rotation2d(angleBackRight))
+            new SwerveModuleState(speedFrontLeft, Rotation2d.fromDegrees(angleFrontLeft)),
+            new SwerveModuleState(speedFrontRight, Rotation2d.fromDegrees(angleFrontRight)),
+            new SwerveModuleState(speedBackLeft, Rotation2d.fromDegrees(angleBackLeft)),
+            new SwerveModuleState(speedBackRight, Rotation2d.fromDegrees(angleBackRight))
         );
     }
 

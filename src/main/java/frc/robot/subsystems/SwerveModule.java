@@ -21,7 +21,7 @@ public class SwerveModule {
 
     private final double rotationOffset;
 
-    private final double kp = 0.001;
+    private final double kp = 0.005;
     private final double ki = 0;
     private final double kd = 0;
 
@@ -37,8 +37,6 @@ public class SwerveModule {
         driver.setNeutralMode(NeutralMode.Brake);
         rotator.setNeutralMode(NeutralMode.Brake);
 
-        driver.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-
         encoder = new CANCoder(swerveModuleData.encoderID);
         encoder.configFactoryDefault();
 
@@ -50,7 +48,7 @@ public class SwerveModule {
     public void periodic() {
         double rotate = rotationPID.calculate(getRotationInDegrees());
         rotator.set(-rotationPID.calculate(getRotationInDegrees()));
-        // driver.set(speed * Constants.RobotInfo.MOVEMENT_SPEED);
+        driver.set(speed * Constants.RobotInfo.MOVEMENT_SPEED);
 
         SmartDashboard.putNumber("Module Speed " + driver.getDeviceID(), speed);
         SmartDashboard.putNumber("Module Rotation Encoder " + driver.getDeviceID(), getRotationInDegrees());
