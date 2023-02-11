@@ -24,8 +24,7 @@ public final class Constants {
 		public static final int ARM_PIVOT_2 = 14;
 		public static final int ELEVATOR_MOTOR_LEFT = 15;
 		public static final int ELEVATOR_MOTOR_RIGHT = 16;
-		public static final int ENCODER_1 = 20;
-		public static final int ENCODER_2 = 20;
+		public static final int TELESCOPE_ENCODER = 20;
 		public static final int ENCODER_3 = 20;
 		public static final int CLAW_SOLENOID_CHANNEL = 3;	
 

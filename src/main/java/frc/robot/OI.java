@@ -55,7 +55,7 @@ public class OI {
 		// whenever the controller moves LESS than the magic number, the
 		// joystick is in the loose position so return zero - as if the
 		// joystick was not moved
-		if (Math.abs(value) < Constants.DEADZONE_VALUE) {
+		if (Math.abs(value) < DEADZONE_VALUE) {
 			return 0;
 		}
 

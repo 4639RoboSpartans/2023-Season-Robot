@@ -32,10 +32,10 @@ public class SwerveDriveSubsystem extends SubsystemBase{
         double speedBackLeft   = math.magnitude(A, D);
         double speedBackRight  = math.magnitude(B, D);
 
-        double angleFrontLeft  = math.atan2(C, A);
-        double angleFrontRight = math.atan2(C, B);
-        double angleBackLeft   = math.atan2(D, A);
-        double angleBackRight  = math.atan2(D, B);
+        double angleFrontLeft  = math.atan(C, A);
+        double angleFrontRight = math.atan(C, B);
+        double angleBackLeft   = math.atan(D, A);
+        double angleBackRight  = math.atan(D, B);
 
         double max = math.max(
             speedFrontLeft, 
