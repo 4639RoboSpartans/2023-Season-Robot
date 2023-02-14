@@ -23,13 +23,17 @@ public class TelescopeSubsystem  extends SubsystemBase{
         pid = new PIDController(0.01, 0, 0);
     }
 
-    public void setPosition(double position) {
-        pid.setSetpoint(position);
+    // public void setPosition(double position) {
+    //     pid.setSetpoint(position);
+    // }
+
+    public void extend(double speed) {
+        motor.set(speed);
     }
 
-    @Override
-    public void periodic() {
-        double voltage = pid.calculate(encoder.getPosition());
-        motor.set(voltage);
-    }
+    // @Override
+    // public void periodic() {
+    //     double voltage = pid.calculate(encoder.getPosition());
+    //     motor.set(voltage);
+    // }
 }

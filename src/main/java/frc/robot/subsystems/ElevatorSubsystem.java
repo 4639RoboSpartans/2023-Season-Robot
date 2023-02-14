@@ -12,7 +12,7 @@ public class ElevatorSubsystem  extends SubsystemBase{
     private final WPI_TalonFX motorLeft;
     private final WPI_TalonFX motorRight;
 
-    private final PIDController pid;
+    // private final PIDController pid;
 
     public ElevatorSubsystem() {
         motorLeft = new WPI_TalonFX(Constants.IDs.ELEVATOR_MOTOR_LEFT);
@@ -22,23 +22,28 @@ public class ElevatorSubsystem  extends SubsystemBase{
         motorLeft.setNeutralMode(NeutralMode.Brake);
         motorRight.setNeutralMode(NeutralMode.Brake);
         
-        getEncoderMotor().configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+        // getEncoderMotor().configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
         
-        pid = new PIDController(0.01, 0, 0);
+        // pid = new PIDController(0.01, 0, 0);
     }
 
     private WPI_TalonFX getEncoderMotor(){
         return motorLeft;
     }
 
-    public void setPosition(double position) {
-        pid.setSetpoint(position);
-    }
+    // public void setPosition(double position) {
+    //     pid.setSetpoint(position);
+    // }
 
     @Override
     public void periodic() {
-        double voltage = pid.calculate(getEncoderMotor().getSelectedSensorPosition());
+        // double voltage = pid.calculate(getEncoderMotor().getSelectedSensorPosition());
         // motorLeft.set(voltage);
         // motorRight.set(-voltage);
+    }
+
+    public void move(double speed) {
+        motorRight.set(speed);
+        motorLeft.set(-speed);
     }
 }
