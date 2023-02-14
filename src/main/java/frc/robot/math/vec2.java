@@ -1,4 +1,4 @@
-package frc.robot.util.math;
+package frc.robot.math;
 
 public record vec2 (double x, double y) {
     public static final vec2 iHat = new vec2(1, 0);
@@ -21,6 +21,10 @@ public record vec2 (double x, double y) {
     }
 
     public String toString(){
-        return "(" + x + ", " + y + ")";
+        return "("
+            + math.round(x, 0.0001)
+            + ", "
+            + math.round(y, 0.0001)
+            + ")";
     }
 }

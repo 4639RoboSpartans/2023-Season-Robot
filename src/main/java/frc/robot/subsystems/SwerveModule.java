@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
@@ -11,8 +10,8 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Constants.SwerveModuleConfig;
-import frc.robot.util.math.math;
-import frc.robot.util.swerve.SwerveUtil;
+import frc.robot.math.math;
+import frc.robot.swerve.SwerveUtil;
 
 public class SwerveModule {
     private final WPI_TalonFX driver, rotator;

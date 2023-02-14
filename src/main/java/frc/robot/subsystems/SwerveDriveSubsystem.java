@@ -1,11 +1,15 @@
 package frc.robot.subsystems;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.util.math.math;
-import frc.robot.util.swerve.SwerveMovement;
+import frc.robot.math.math;
+import frc.robot.swerve.SwerveMovement;
 public class SwerveDriveSubsystem extends SubsystemBase{
     private final SwerveModule
         moduleFrontLeft,
@@ -13,17 +17,30 @@ public class SwerveDriveSubsystem extends SubsystemBase{
         moduleBackLeft,
         moduleBackRight;
 
+    private final SwerveDriveKinematics kinematics;
+    private final SwerveDriveOdometry odometry;
+
     public SwerveDriveSubsystem(){
         moduleFrontLeft  = new SwerveModule(Constants.IDs.MODULE_FRONT_LEFT);
         moduleFrontRight = new SwerveModule(Constants.IDs.MODULE_FRONT_RIGHT);
         moduleBackLeft   = new SwerveModule(Constants.IDs.MODULE_BACK_LEFT);
         moduleBackRight  = new SwerveModule(Constants.IDs.MODULE_BACK_RIGHT);
+
+        double d = Constants.RobotInfo.robotBaseLength / 2;
+        kinematics = new SwerveDriveKinematics(
+            new Translation2d(-d,  d),
+            new Translation2d( d,  d),
+            new Translation2d(-d, -d),
+            new Translation2d( d, -d)
+        );
+
+        // TODO: write instantiation code
+        odometry = null;
     }
 
     public void setMovement(SwerveMovement swerveMovement){
-
-        double B = swerveMovement.forwardMovement() + swerveMovement.rotation();
         double A = swerveMovement.forwardMovement() - swerveMovement.rotation();
+        double B = swerveMovement.forwardMovement() + swerveMovement.rotation();
         double C = swerveMovement.strideMovement()  + swerveMovement.rotation();
         double D = swerveMovement.strideMovement()  - swerveMovement.rotation();
 
@@ -90,5 +107,19 @@ public class SwerveDriveSubsystem extends SubsystemBase{
         moduleFrontRight.periodic();
         moduleBackLeft.periodic();
         moduleBackRight.periodic();
+    }
+
+
+    public SwerveDriveKinematics getKinematics() {
+        return kinematics;
+    }
+
+    public Pose2d getPose() {
+        return odometry.getPoseMeters();
+    }
+
+    public void resetPose(Pose2d pose2d) {
+        // TODO: implement
+//        odometry.resetPosition();
     }
 }

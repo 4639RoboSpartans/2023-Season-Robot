@@ -1,6 +1,6 @@
-package frc.robot.util.swerve;
+package frc.robot.swerve;
 
-import frc.robot.util.math.vec2;
+import frc.robot.math.vec2;
 
 /**
  * A struct containing a desired translation and a rotation of the swerve drive.

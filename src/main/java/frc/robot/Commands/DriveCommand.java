@@ -6,8 +6,8 @@ import frc.robot.Constants;
 import frc.robot.OI;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 import frc.robot.subsystems.NavX;
-import frc.robot.util.swerve.SwerveMovement;
-import frc.robot.util.swerve.SwerveUtil;
+import frc.robot.swerve.SwerveMovement;
+import frc.robot.swerve.SwerveUtil;
 
 public class DriveCommand extends CommandBase {
     //private LimeLight light;

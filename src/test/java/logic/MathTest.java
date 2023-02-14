@@ -1,7 +1,7 @@
 package logic;
 
-import frc.robot.util.math.math;
-import frc.robot.util.math.vec2;
+import frc.robot.math.math;
+import frc.robot.math.vec2;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,7 +32,6 @@ public class MathTest {
             () -> assertEquals("(12.0, 30.0)", v1.times(scale).toString())
         );
     }
-
     @Test
     @DisplayName("Testing modulo operation")
     void testModulo(){
@@ -43,13 +42,22 @@ public class MathTest {
             () -> assertEquals(-8, math.mod(-48, -10, 10))
         );
     }
-
     @Test
     @DisplayName("Testing vector operations in math")
     void testVecMath(){
+        assertAll(
+            // Vector magnitude
+            () -> assertEquals(5, math.magnitude(3, 4), ACCEPTABLE_ERROR),
+            () -> assertEquals(13, math.magnitude(12, 5), ACCEPTABLE_ERROR),
 
+            // Vector normalization
+            () -> assertEquals(new vec2(.6, .8).toString(), math.normalize(new vec2(3, 4)).toString()),
+
+            // Vector rotation
+            () -> assertEquals(vec2.jHat.toString(), math.rotateCCW(vec2.iHat, 90).toString()),
+            () -> assertEquals(vec2.jHat.times(-1).toString(), math.rotateCW(vec2.iHat, 90).toString())
+        );
     }
-
     @Test
     @DisplayName("Testing trig")
     void testTrig(){
@@ -81,7 +89,6 @@ public class MathTest {
             () -> assertEquals(90, math.atan(1, 0), ACCEPTABLE_ERROR)
         );
     }
-
     @Test
     @DisplayName("Testing misc math operations")
     void testMisc(){

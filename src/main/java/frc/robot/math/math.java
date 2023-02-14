@@ -1,4 +1,4 @@
-package frc.robot.util.math;
+package frc.robot.math;
 
 public class math {
     private math() {}
@@ -41,18 +41,28 @@ public class math {
     
     /**
      * The atan2 function in degrees mode
-     * @return the angle in degrees that the vector &lt;x, y&gt; makes with the x-axis, measured counterclockwise from positive x
+     * @return the angle in degrees that the vector &lt;x, y&gt; makes with the
+     * positive x-axis, measured counterclockwise
      */
-    public static double atan2(double y, double x){
+    public static double atan(double y, double x){
         return Math.toDegrees(Math.atan2(y, x));
     }
 
     /**
      * The atan2 function in degrees mode
-     * @return the angle in degrees that v makes with the x-axis, measured counterclockwise from positive x
+     * @return the angle in degrees that v makes with the positive x-axis,
+     * measured counterclockwise
      */
-    public static double atan2(vec2 v){
-        return atan2(v.y(), v.x());
+    public static double atan(vec2 v){
+        return atan(v.y(), v.x());
+    }
+
+    /**
+     * @return the angle in degrees that the line y = slope * x makes with the positive
+     * x-axis, measured counterclockwise
+     */
+    public static double atan(double slope){
+        return Math.toDegrees(Math.atan(slope));
     }
 
     /**
@@ -97,10 +107,10 @@ public class math {
     }
 
     /**
-     * Rounds x to the nearest multiple of precision
+     * Rounds num to the nearest multiple of precision
      */
-    public static double round(double x, double precision){
-        return Math.round(x / precision) * precision;
+    public static double round(double num, double precision){
+        return Math.round(num / precision) * precision;
     }
 
     public static double max(double... arr){
