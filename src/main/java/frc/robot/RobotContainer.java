@@ -13,15 +13,19 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.ArmTestCommand;
+import frc.robot.commands.ArmCommand;
 import frc.robot.commands.CloseClawCommand;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.ElevatorCommand;
 import frc.robot.commands.OpenClawCommand;
+import frc.robot.commands.TelescopeCommand;
 import frc.robot.commands.navXCommand;
 import frc.robot.subsystems.ArmPivotSubsystem;
 import frc.robot.subsystems.ClawSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ObstructionSensor;
 import frc.robot.subsystems.SwerveDriveSubsystem;
+import frc.robot.subsystems.TelescopeSubsystem;
 import frc.robot.subsystems.NavX;
 import frc.robot.util.network.vision.LimeLight;
 
@@ -34,6 +38,7 @@ import frc.robot.util.network.vision.LimeLight;
  * the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
+
 public class RobotContainer {
     private final OI oi = new OI();
     private final NavX navx = new NavX();
@@ -41,8 +46,10 @@ public class RobotContainer {
     private final SwerveDriveSubsystem swerveDriveSubsystem = new SwerveDriveSubsystem();
     private final ClawSubsystem clawSubsystem = new ClawSubsystem();
     private final ObstructionSensor clawObstructionSensor = new ObstructionSensor(0);
-    private final ArmPivotSubsystem armSubsystem = new ArmPivotSubsystem();
-
+    private final ArmPivotSubsystem armPivotSubsystem = new ArmPivotSubsystem();
+    private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
+    private final TelescopeSubsystem telescopeSubsystem = new TelescopeSubsystem();
+    
     private final Trigger clawObstructedTrigger;
     private double lastClawOpenTime = Double.NEGATIVE_INFINITY;
 
@@ -51,14 +58,17 @@ public class RobotContainer {
      */
     public RobotContainer() {
         swerveDriveSubsystem.setDefaultCommand(new DriveCommand(swerveDriveSubsystem, oi, navx));
-        armSubsystem.setDefaultCommand(new ArmTestCommand(armSubsystem, oi));
+        armPivotSubsystem.setDefaultCommand(new ArmCommand(armPivotSubsystem, oi));
+        elevatorSubsystem.setDefaultCommand(new ElevatorCommand(elevatorSubsystem, oi));
+        telescopeSubsystem.setDefaultCommand(new TelescopeCommand(telescopeSubsystem, oi));
+            
 
         clawObstructedTrigger = new Trigger(() ->
             clawObstructionSensor.isObstructed()
             && Timer.getFPGATimestamp() > lastClawOpenTime + Constants.Timing.CLAW_DELAY_AFTER_OPEN
         );
 
-        configureButtonBindings();
+        // configureButtonBindings();
     }
 
     /**
