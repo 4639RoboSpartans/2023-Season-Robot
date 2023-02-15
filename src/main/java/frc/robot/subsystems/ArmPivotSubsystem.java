@@ -13,17 +13,17 @@ public class ArmPivotSubsystem extends SubsystemBase {
     private final PWMSparkMax armPivotMotor1;
     private final PWMSparkMax armPivotMotor2;
 
-    private final PIDController pid; 
-    private final CANCoder canCoder;
+    // private final PIDController pid; 
+    // private final CANCoder canCoder;
 
     public ArmPivotSubsystem(){
 
-        pid = new PIDController(0, 0, 0);
+        // pid = new PIDController(0, 0, 0);
 
         armPivotMotor1 = new PWMSparkMax(Constants.IDs.ARM_PIVOT_1);
         armPivotMotor2 = new PWMSparkMax(Constants.IDs.ARM_PIVOT_2);
 
-        canCoder = new CANCoder(Constants.IDs.ENCODER_3);
+        // canCoder = new CANCoder(Constants.IDs.ENCODER_3);
     }
 
     public void stop(){
@@ -32,19 +32,19 @@ public class ArmPivotSubsystem extends SubsystemBase {
     }
 
     public void set(double speed){
-        // armPivotMotor1.set(speed);
-        // armPivotMotor2.set(-speed);
+        armPivotMotor1.set(speed);
+        armPivotMotor2.set(-speed);
     }
 
-    public void setAngle(double angle){
-        pid.setSetpoint(angle);
-        pid.setSetpoint(angle);
-    }
+    // public void setAngle(double angle){
+    //     pid.setSetpoint(angle);
+    //     pid.setSetpoint(angle);
+    // }
 
 
     @Override
     public void periodic( ) {
-       double speed =  pid.calculate(canCoder.getPosition());
-       set(speed);
+    //    double speed =  pid.calculate(canCoder.getPosition());
+    //    set(speed);
     }
 }

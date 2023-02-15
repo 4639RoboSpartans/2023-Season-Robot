@@ -8,8 +8,14 @@ import frc.robot.subsystems.ElevatorSubsystem;
 public class ElevatorCommand extends CommandBase {
     private final ElevatorSubsystem elevator;
     private final OI oi;
+    private boolean pressedUp;
+    private boolean pressedDown;
+    private boolean endDown;
     
     public ElevatorCommand(ElevatorSubsystem elevator, OI oi) {
+        pressedUp = false;
+        pressedDown = false;
+        endDown = false;
         this.elevator = elevator;
         this.oi = oi;
         addRequirements(elevator);
@@ -17,9 +23,20 @@ public class ElevatorCommand extends CommandBase {
 
     @Override
     public void execute() {
-        double speed = oi.getAxis(0, Constants.Axes.LEFT_STICK_Y);
-        elevator.setPosition(0);
-        //elevator.setPosition(0);
+        // pressedUp = oi.getButton(0, Constants.Buttons.Y_BUTTON).getAsBoolean();
+        // pressedDown = oi.getButton(0, Constants.Buttons.A_BUTTON).getAsBoolean();
+        // endDown = oi.getButton(0, Constants.Buttons.B_BUTTON).getAsBoolean();
+        // if(pressedUp) 
+        //     elevator.move(0.5);
+        // if(pressedDown) 
+        //     elevator.move(-0.5);
+        // if(endDown)
+        //     elevator.move(0);
+
+        double speed = oi.getPovButton(0, 90).getAsBoolean() ? 1 : oi.getPovButton(0, 270).getAsBoolean() ? -1 : 0;
+        elevator.move(speed * .05);
+        // elevator.setPosition(0);
+
     }
 
     @Override

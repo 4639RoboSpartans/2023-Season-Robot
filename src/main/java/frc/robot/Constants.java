@@ -24,8 +24,7 @@ public final class Constants {
 		public static final int ARM_PIVOT_2 = 14;
 		public static final int ELEVATOR_MOTOR_LEFT = 15;
 		public static final int ELEVATOR_MOTOR_RIGHT = 16;
-		public static final int ENCODER_1 = 20;
-		public static final int ENCODER_2 = 20;
+		public static final int TELESCOPE_ENCODER = 20;
 		public static final int ENCODER_3 = 20;
 		public static final int CLAW_SOLENOID_CHANNEL = 3;	
 
@@ -33,12 +32,22 @@ public final class Constants {
 	}
 
 	public static final class RobotInfo {
-		public static final double wheelBaseRadius = 0.44;
+		public static final double robotBaseLength = 0.44;
 
 		public static final double SWERVE_KP = 0.1;
 		public static final double SWERVE_KI = 0.1;
 
 		public static final double MOVEMENT_SPEED = 0.3; // 0 - 1
+		public static final double MAX_VELOCITY = 4;
+		public static final double MAX_ACCELERATION = 3;
+
+		public static class Auton {
+			public static final double POSITION_KP = 5.0;
+			public static final double POSITION_KI = 0.0;
+			public static final double ROTATION_KP = 5.0;
+
+			public static final double ROTATION_KI = 0.0;
+		}
 	}
 
 	public static final class Timing {

@@ -10,12 +10,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //getPitch() - angle of the front of the robot off the ground 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SwerveDriveSubsystem;
-import frc.robot.subsystems.navXSubsystem;
+import frc.robot.subsystems.NavX;
 
 public class navXCommand extends CommandBase{
     private final SwerveDriveSubsystem swerve;
-    private final navXSubsystem navx;
-    public navXCommand(SwerveDriveSubsystem swerve, navXSubsystem navx){
+    private final NavX navx;
+    public navXCommand(SwerveDriveSubsystem swerve, NavX navx){
         this.swerve = swerve;
         this.navx = navx;
         addRequirements(swerve);

@@ -19,18 +19,21 @@ public class TelescopeSubsystem  extends SubsystemBase{
         motor = new WPI_VictorSPX(Constants.IDs.TELESCOPE_MOTOR);
         motor.configFactoryDefault();
         motor.setNeutralMode(NeutralMode.Brake);
-        encoder = new CANCoder(Constants.IDs.ENCODER_2);
+        encoder = new CANCoder(Constants.IDs.TELESCOPE_ENCODER);
         pid = new PIDController(0.01, 0, 0);
     }
 
-    public void setPosition(double position) {
-        pid.setSetpoint(position);
+    // public void setPosition(double position) {
+    //     pid.setSetpoint(position);
+    // }
+
+    public void extend(double speed) {
+        motor.set(speed);
     }
 
-    //called continuously forever
-    @Override
-    public void periodic() {
-        double voltage = pid.calculate(encoder.getPosition());
-        // motor.set(voltage);
-    }
+    // @Override
+    // public void periodic() {
+    //     double voltage = pid.calculate(encoder.getPosition());
+    //     motor.set(voltage);
+    // }
 }

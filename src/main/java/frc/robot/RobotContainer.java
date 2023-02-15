@@ -13,19 +13,23 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.ArmTestCommand;
+import frc.robot.commands.ArmCommand;
 import frc.robot.commands.CloseClawCommand;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.ElevatorCommand;
 import frc.robot.commands.OpenClawCommand;
+import frc.robot.commands.TelescopeCommand;
 import frc.robot.commands.WristCommand;
 import frc.robot.commands.navXCommand;
 import frc.robot.subsystems.ArmPivotSubsystem;
 import frc.robot.subsystems.ClawSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ObstructionSensor;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 import frc.robot.subsystems.WristSubsystem;
-import frc.robot.subsystems.navXSubsystem;
-import frc.robot.util.network.vision.LimeLight;
+import frc.robot.subsystems.TelescopeSubsystem;
+import frc.robot.subsystems.NavX;
+import frc.robot.network.vision.LimeLight;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -36,27 +40,37 @@ import frc.robot.util.network.vision.LimeLight;
  * the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
+
 public class RobotContainer {
     private final OI oi = new OI();
+    private final NavX navx = new NavX();
 
-    // The robot's subsystems and commands are defined here...
     private final SwerveDriveSubsystem swerveDriveSubsystem = new SwerveDriveSubsystem();
-    private final ClawSubsystem claw = new ClawSubsystem();
-    private final ObstructionSensor sensor = new ObstructionSensor(0);
-    private final ArmPivotSubsystem arm = new ArmPivotSubsystem();
-    private final WristSubsystem wrist = new WristSubsystem();
+    private final ClawSubsystem clawSubsystem = new ClawSubsystem();
+    private final ObstructionSensor clawObstructionSensor = new ObstructionSensor(0);
+    private final ArmPivotSubsystem armPivotSubsystem = new ArmPivotSubsystem();
+    private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
+    private final TelescopeSubsystem telescopeSubsystem = new TelescopeSubsystem();
+        private final WristSubsystem wrist = new WristSubsystem();
 
-    private final navXSubsystem navx = new navXSubsystem();
-    private Trigger clawObstructedTrigger;
+    private final Trigger clawObstructedTrigger;
     private double lastClawOpenTime = Double.NEGATIVE_INFINITY;
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
-        // Configure the button bindings
         // swerveDriveSubsystem.setDefaultCommand(new DriveCommand(swerveDriveSubsystem, oi, navx));
-        // arm.setDefaultCommand(new ArmTestCommand(arm, oi));
+        // armPivotSubsystem.setDefaultCommand(new ArmCommand(armPivotSubsystem, oi));
+        elevatorSubsystem.setDefaultCommand(new ElevatorCommand(elevatorSubsystem, oi));
+        teles// copeSubsystem.setDefaultCommand(new TelescopeCommand(telescopeSubsystem, oi));
+            
+
+        clawObstructedTrigger = new Trigger(() ->
+            clawObstructionSensor.isObstructed()
+            && Timer.getFPGATimestamp() > lastClawOpenTime + Constants.Timing.CLAW_DELAY_AFTER_OPEN
+        );
+
         // configureButtonBindings();
         wrist.setDefaultCommand(new WristCommand(wrist, oi));
     }
@@ -70,20 +84,16 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        clawObstructedTrigger = new Trigger(() -> {
-            return sensor.isObstructed() 
-                && Timer.getFPGATimestamp() > lastClawOpenTime + Constants.Timing.CLAW_DELAY_AFTER_OPEN;
-        });
-
-        clawObstructedTrigger.onTrue(new CloseClawCommand(claw).andThen(() -> {
+        clawObstructedTrigger.onTrue(new CloseClawCommand(clawSubsystem).andThen(() -> {
             lastClawOpenTime = Double.POSITIVE_INFINITY;
-        }, claw));
+        }, clawSubsystem));
 
         oi.getButton(0, Constants.Buttons.B_BUTTON).onTrue(
-            new OpenClawCommand(claw)
-            .andThen(() -> {
-                lastClawOpenTime = Timer.getFPGATimestamp();
-            }, claw)
+            new OpenClawCommand(clawSubsystem)
+            .andThen(() ->
+                lastClawOpenTime = Timer.getFPGATimestamp(),
+                clawSubsystem
+            )
         );
 
         oi.getButton(0, Constants.Buttons.X_BUTTON).onTrue(
@@ -91,14 +101,13 @@ public class RobotContainer {
         );
         
         oi.getButton(0, Constants.Buttons.A_BUTTON).onTrue(
-            new CloseClawCommand(claw)
+            new CloseClawCommand(clawSubsystem)
         );
 
         oi.getButton(0, Constants.Buttons.Y_BUTTON).whileTrue(new CommandBase(){
             {
                 addRequirements(swerveDriveSubsystem);
             }
-
 
             @Override
             public void execute(){

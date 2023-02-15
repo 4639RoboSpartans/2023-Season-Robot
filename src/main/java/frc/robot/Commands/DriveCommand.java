@@ -5,17 +5,17 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.OI;
 import frc.robot.subsystems.SwerveDriveSubsystem;
-import frc.robot.subsystems.navXSubsystem;
-import frc.robot.util.swerve.SwerveMovement;
-import frc.robot.util.swerve.SwerveUtil;
+import frc.robot.subsystems.NavX;
+import frc.robot.swerve.SwerveMovement;
+import frc.robot.swerve.SwerveUtil;
 
 public class DriveCommand extends CommandBase {
     //private LimeLight light;
     private final OI oi;
     private final SwerveDriveSubsystem swerveDriveSubsystem;
-    private final navXSubsystem navX;
+    private final NavX navX;
 
-    public DriveCommand(SwerveDriveSubsystem swerveDriveSubsystem, OI oi, navXSubsystem navX) {
+    public DriveCommand(SwerveDriveSubsystem swerveDriveSubsystem, OI oi, NavX navX) {
         this.oi = oi;
         this.swerveDriveSubsystem = swerveDriveSubsystem;
         this.navX = navX;
