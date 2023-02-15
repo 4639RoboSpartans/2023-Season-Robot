@@ -43,11 +43,14 @@ public final class Constants {
 		public static final double MAX_VELOCITY = 4;
 		public static final double MAX_ACCELERATION = 3;
 
+		public static final double ROTATOR_MOTOR_KP = 0.005;
+		public static final double ROTATOR_MOTOR_KI = 0;
+
 		public static class Auton {
 			public static final double POSITION_KP = 5.0;
 			public static final double POSITION_KI = 0.0;
-			public static final double ROTATION_KP = 5.0;
 
+			public static final double ROTATION_KP = 5.0;
 			public static final double ROTATION_KI = 0.0;
 		}
 	}
@@ -59,17 +62,12 @@ public final class Constants {
     public static final double DEADZONE_VALUE = 0.01;
 	public static final int NUMBER_OF_CONTROLLERS = 2;
 
-	public static class SwerveModuleConfig {
-		public final int driveMotorID, rotaterMotorID, encoderID;
-		public final double rotationOffset;
-
-		public SwerveModuleConfig(int driveMotorID, int rotaterMotorID, int encoderID, double rotationOffset) {
-			this.driveMotorID = driveMotorID;
-			this.rotaterMotorID = rotaterMotorID;
-			this.encoderID = encoderID;
-			this.rotationOffset = rotationOffset;
-		}
-	}
+	public record SwerveModuleConfig (
+			int driveMotorID,
+			int rotaterMotorID,
+			int encoderID,
+			double rotationOffset
+	) {}
 
     public enum Axes {
 		LEFT_STICK_X(0), LEFT_STICK_Y(1), 
