@@ -22,7 +22,4 @@ public class NavX extends SubsystemBase{
     public void periodic() {
         SmartDashboard.putNumber("AHRS Value", ahrs.getRoll());
     }
-
-
-
-    }
+}

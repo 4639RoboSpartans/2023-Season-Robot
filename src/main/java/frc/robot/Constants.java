@@ -29,6 +29,8 @@ public final class Constants {
 		public static final int CLAW_SOLENOID_CHANNEL = 3;	
 
 		public static final int TELESCOPE_MOTOR = 20;
+		public static final int WRIST_MOTOR = 21;	
+
 	}
 
 	public static final class RobotInfo {

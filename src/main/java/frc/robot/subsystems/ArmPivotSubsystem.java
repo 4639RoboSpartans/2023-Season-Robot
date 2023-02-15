@@ -17,12 +17,9 @@ public class ArmPivotSubsystem extends SubsystemBase {
     // private final CANCoder canCoder;
 
     public ArmPivotSubsystem(){
-
         // pid = new PIDController(0, 0, 0);
-
         armPivotMotor1 = new PWMSparkMax(Constants.IDs.ARM_PIVOT_1);
         armPivotMotor2 = new PWMSparkMax(Constants.IDs.ARM_PIVOT_2);
-
         // canCoder = new CANCoder(Constants.IDs.ENCODER_3);
     }
 
@@ -40,7 +37,6 @@ public class ArmPivotSubsystem extends SubsystemBase {
     //     pid.setSetpoint(angle);
     //     pid.setSetpoint(angle);
     // }
-
 
     @Override
     public void periodic( ) {
