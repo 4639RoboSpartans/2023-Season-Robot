@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +18,17 @@ public class AutonPath {
     private final PathPlannerTrajectory traj;
 
     private static final Map<String, Command> eventMap = new HashMap<>();
+
+    private static final PIDConstants positionPIDConstants = new PIDConstants(
+        Constants.RobotInfo.Auton.POSITION_KP,
+        Constants.RobotInfo.Auton.POSITION_KI,
+        0.0
+    );
+    private static final PIDConstants rotationPIDConstants = new PIDConstants(
+        Constants.RobotInfo.Auton.ROTATION_KP,
+        Constants.RobotInfo.Auton.ROTATION_KI,
+        0.0
+    );
 
     public AutonPath(String file){
         traj = PathPlanner.loadPath(file, new PathConstraints(
@@ -30,26 +42,15 @@ public class AutonPath {
             swerve::getPose,
             swerve::resetPose,
             swerve.getKinematics(),
-            new PIDConstants(
-                Constants.RobotInfo.Auton.POSITION_KP,
-                Constants.RobotInfo.Auton.POSITION_KI,
-                0.0
-            ),
-            new PIDConstants(
-                Constants.RobotInfo.Auton.ROTATION_KP,
-                0.0,
-                0.0
-            ),
-            (SwerveModuleState... states) -> swerve.setModules(states[0], states[1], states[2], states[3]),
+            positionPIDConstants,
+            rotationPIDConstants,
+            swerve::setModules,
             eventMap,
             true,
             swerve
         );
-        // TODO
-        // Link to some prob helpful docs: https://github.com/mjansen4857/pathplanner/wiki/PathPlannerLib:-Java-Usage
-        // Search up stuff ig
 
-        return null; // Replace with something meaningful
+        return builder.fullAuto(traj);
     }
 
     public static void registerEvents (Event... events){

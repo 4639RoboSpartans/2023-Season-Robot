@@ -81,6 +81,10 @@ public class SwerveDriveSubsystem extends SubsystemBase{
         );
     }
 
+    public void setModules(SwerveModuleState[] states){
+        setModules(states[0], states[1], states[2], states[3]);
+    }
+
     public void setModules(
             SwerveModuleState stateFrontLeft,
             SwerveModuleState stateFrontRight,
