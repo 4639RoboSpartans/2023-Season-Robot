@@ -17,11 +17,13 @@ import frc.robot.commands.ArmTestCommand;
 import frc.robot.commands.CloseClawCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.OpenClawCommand;
+import frc.robot.commands.WristCommand;
 import frc.robot.commands.navXCommand;
 import frc.robot.subsystems.ArmPivotSubsystem;
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.ObstructionSensor;
 import frc.robot.subsystems.SwerveDriveSubsystem;
+import frc.robot.subsystems.WristSubsystem;
 import frc.robot.subsystems.navXSubsystem;
 import frc.robot.util.network.vision.LimeLight;
 
@@ -42,6 +44,7 @@ public class RobotContainer {
     private final ClawSubsystem claw = new ClawSubsystem();
     private final ObstructionSensor sensor = new ObstructionSensor(0);
     private final ArmPivotSubsystem arm = new ArmPivotSubsystem();
+    private final WristSubsystem wrist = new WristSubsystem();
 
     private final navXSubsystem navx = new navXSubsystem();
     private Trigger clawObstructedTrigger;
@@ -52,9 +55,10 @@ public class RobotContainer {
      */
     public RobotContainer() {
         // Configure the button bindings
-        swerveDriveSubsystem.setDefaultCommand(new DriveCommand(swerveDriveSubsystem, oi, navx));
-        arm.setDefaultCommand(new ArmTestCommand(arm, oi));
-        configureButtonBindings();
+        // swerveDriveSubsystem.setDefaultCommand(new DriveCommand(swerveDriveSubsystem, oi, navx));
+        // arm.setDefaultCommand(new ArmTestCommand(arm, oi));
+        // configureButtonBindings();
+        wrist.setDefaultCommand(new WristCommand(wrist, oi));
     }
 
     /**

@@ -19,6 +19,7 @@ public class ElevatorCommand extends CommandBase {
     public void execute() {
         double speed = oi.getAxis(0, Constants.Axes.LEFT_STICK_Y);
         elevator.setPosition(0);
+        //elevator.setPosition(0);
     }
 
     @Override
