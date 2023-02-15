@@ -6,11 +6,12 @@ import com.ctre.phoenix.sensors.CANCoder;
 
 import frc.robot.Constants;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmPivotSubsystem extends SubsystemBase {
-    private final WPI_VictorSPX armPivotMotor1;
-    private final WPI_VictorSPX armPivotMotor2;
+    private final PWMSparkMax armPivotMotor1;
+    private final PWMSparkMax armPivotMotor2;
 
     // private final PIDController pid; 
     // private final CANCoder canCoder;
@@ -19,13 +20,8 @@ public class ArmPivotSubsystem extends SubsystemBase {
 
         // pid = new PIDController(0, 0, 0);
 
-        armPivotMotor1 = new WPI_VictorSPX(Constants.IDs.ARM_PIVOT_1);
-        armPivotMotor1.configFactoryDefault();
-        armPivotMotor1.setNeutralMode(NeutralMode.Brake);
-
-        armPivotMotor2 = new WPI_VictorSPX(Constants.IDs.ARM_PIVOT_2);
-        armPivotMotor2.configFactoryDefault();
-        armPivotMotor2.setNeutralMode(NeutralMode.Brake);
+        armPivotMotor1 = new PWMSparkMax(Constants.IDs.ARM_PIVOT_1);
+        armPivotMotor2 = new PWMSparkMax(Constants.IDs.ARM_PIVOT_2);
 
         // canCoder = new CANCoder(Constants.IDs.ENCODER_3);
     }

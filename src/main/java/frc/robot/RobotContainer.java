@@ -19,12 +19,14 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.ElevatorCommand;
 import frc.robot.commands.OpenClawCommand;
 import frc.robot.commands.TelescopeCommand;
+import frc.robot.commands.WristCommand;
 import frc.robot.commands.navXCommand;
 import frc.robot.subsystems.ArmPivotSubsystem;
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ObstructionSensor;
 import frc.robot.subsystems.SwerveDriveSubsystem;
+import frc.robot.subsystems.WristSubsystem;
 import frc.robot.subsystems.TelescopeSubsystem;
 import frc.robot.subsystems.NavX;
 import frc.robot.network.vision.LimeLight;
@@ -49,7 +51,8 @@ public class RobotContainer {
     private final ArmPivotSubsystem armPivotSubsystem = new ArmPivotSubsystem();
     private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
     private final TelescopeSubsystem telescopeSubsystem = new TelescopeSubsystem();
-    
+        private final WristSubsystem wrist = new WristSubsystem();
+
     private final Trigger clawObstructedTrigger;
     private double lastClawOpenTime = Double.NEGATIVE_INFINITY;
 
@@ -57,10 +60,10 @@ public class RobotContainer {
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
-        swerveDriveSubsystem.setDefaultCommand(new DriveCommand(swerveDriveSubsystem, oi, navx));
-        armPivotSubsystem.setDefaultCommand(new ArmCommand(armPivotSubsystem, oi));
+        // swerveDriveSubsystem.setDefaultCommand(new DriveCommand(swerveDriveSubsystem, oi, navx));
+        // armPivotSubsystem.setDefaultCommand(new ArmCommand(armPivotSubsystem, oi));
         elevatorSubsystem.setDefaultCommand(new ElevatorCommand(elevatorSubsystem, oi));
-        telescopeSubsystem.setDefaultCommand(new TelescopeCommand(telescopeSubsystem, oi));
+        teles// copeSubsystem.setDefaultCommand(new TelescopeCommand(telescopeSubsystem, oi));
             
 
         clawObstructedTrigger = new Trigger(() ->
@@ -69,6 +72,7 @@ public class RobotContainer {
         );
 
         // configureButtonBindings();
+        wrist.setDefaultCommand(new WristCommand(wrist, oi));
     }
 
     /**
