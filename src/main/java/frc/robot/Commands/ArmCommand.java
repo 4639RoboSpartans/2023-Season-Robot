@@ -10,7 +10,6 @@ public class ArmCommand extends CommandBase {
     private final OI oi;
     private final ArmPivotSubsystem pivot;
     
-
     public ArmCommand(ArmPivotSubsystem pivot, OI oi){
         this.pivot= pivot;
         this.oi = oi;
