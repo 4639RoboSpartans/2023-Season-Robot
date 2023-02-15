@@ -5,13 +5,23 @@
 
 package frc.robot;
 
+import java.util.List;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ArmCommand;
 import frc.robot.commands.CloseClawCommand;
@@ -63,7 +73,6 @@ public class RobotContainer {
         // swerveDriveSubsystem.setDefaultCommand(new DriveCommand(swerveDriveSubsystem, oi, navx));
         // armPivotSubsystem.setDefaultCommand(new ArmCommand(armPivotSubsystem, oi));
         elevatorSubsystem.setDefaultCommand(new ElevatorCommand(elevatorSubsystem, oi));
-        teles// copeSubsystem.setDefaultCommand(new TelescopeCommand(telescopeSubsystem, oi));
             
 
         clawObstructedTrigger = new Trigger(() ->
@@ -124,7 +133,40 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return null;
+
+        TrajectoryConfig trajectoryConfig = new TrajectoryConfig(Constants.RobotInfo.Auton.kMaxSpeedMetersPerSecond,Constants.RobotInfo.Auton.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.RobotInfo.DriveConstants.kDriveKinematics);
+       
+       
+        //sample trajectory
+        Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+            new Pose2d(0, 0, new Rotation2d(0)),
+            List.of(
+                    new Translation2d(1, 0),
+                    new Translation2d(1, -1)),
+            new Pose2d(2, -1, Rotation2d.fromDegrees(180)),
+            trajectoryConfig);
+        
+         // 3. Define PID controllers for tracking trajectory
+         PIDController xController = new PIDController(Constants.RobotInfo.Auton.kPXController, 0, 0);
+         PIDController yController = new PIDController(Constants.RobotInfo.Auton.kPYController, 0, 0);
+         ProfiledPIDController thetaController = new ProfiledPIDController(
+            Constants.RobotInfo.Auton.kPThetaController, 0, 0, Constants.RobotInfo.Auton.kThetaControllerConstraints);
+         thetaController.enableContinuousInput(-Math.PI, Math.PI);
+
+        
+        //  SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
+        //         trajectory,
+        //         swerveDriveSubsystem::getPose,
+        //         Constants.RobotInfo.DriveConstants.kDriveKinematics,
+        //         xController,
+        //         yController,
+        //         thetaController,
+        //         swerveDriveSubsystem.getRotation(),
+        //         swerveDriveSubsystem::setModuleStates,
+        //         swerveDriveSubsystem);
+
+         return null;
+
     }
 
     public void periodic(){

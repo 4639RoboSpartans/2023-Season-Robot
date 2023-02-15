@@ -4,6 +4,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -12,9 +16,11 @@ package frc.robot;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
+
 public final class Constants {
 	public static final class IDs{
 		// Swerve uses up motor ids 1-12
+		
 		public static final SwerveModuleConfig MODULE_FRONT_LEFT  = new SwerveModuleConfig(1, 2, 9 , 124.277);
 		public static final SwerveModuleConfig MODULE_FRONT_RIGHT = new SwerveModuleConfig(3, 4, 10, 233.877);
 		public static final SwerveModuleConfig MODULE_BACK_LEFT   = new SwerveModuleConfig(5, 6, 11, 9.668);
@@ -41,12 +47,41 @@ public final class Constants {
 		public static final double MAX_VELOCITY = 4;
 		public static final double MAX_ACCELERATION = 3;
 
+		//https://github.com/SeanSun6814/FRC0ToAutonomous/blob/master/%236%20Swerve%20Drive%20Auto/src/main/java/frc/robot/Constants.java#L57
+		public static class DriveConstants {
+			public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
+        	public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
+
+			public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
+            new Translation2d( robotBaseLength,  robotBaseLength),//front left
+            new Translation2d(  robotBaseLength, - robotBaseLength), //front right
+            new Translation2d(- robotBaseLength,  robotBaseLength), //back left
+            new Translation2d(-robotBaseLength,  -robotBaseLength) //back right
+            //originally
+            /* back left -front left- backright- front right */
+        );
+		}
+
 		public static class Auton {
 			public static final double POSITION_KP = 5.0;
 			public static final double POSITION_KI = 0.0;
 			public static final double ROTATION_KP = 5.0;
 
 			public static final double ROTATION_KI = 0.0;
+
+			public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 4;
+			public static final double kMaxAngularSpeedRadiansPerSecond = //
+					DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
+			public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+			public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4;
+			public static final double kPXController = 1.5;
+			public static final double kPYController = 1.5;
+			public static final double kPThetaController = 3;
+			
+			public static final TrapezoidProfile.Constraints kThetaControllerConstraints = //
+			new TrapezoidProfile.Constraints(
+					kMaxAngularSpeedRadiansPerSecond,
+					kMaxAngularAccelerationRadiansPerSecondSquared);
 		}
 	}
 
