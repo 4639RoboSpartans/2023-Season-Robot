@@ -19,7 +19,7 @@ public class SwerveModule {
     private final PIDController rotationPID;
 
     private final double rotationOffset;
-
+    
     private final double kp = 0.005;
     private final double ki = 0;
     private final double kd = 0;
@@ -27,8 +27,8 @@ public class SwerveModule {
     private double speed = 0;
 
     public SwerveModule(SwerveModuleConfig swerveModuleData){
-        driver = new WPI_TalonFX(swerveModuleData.driveMotorID);
-        rotator = new WPI_TalonFX(swerveModuleData.rotaterMotorID);
+        driver = new WPI_TalonFX(swerveModuleData.driveMotorID());
+        rotator = new WPI_TalonFX(swerveModuleData.rotaterMotorID());
 
         driver.configFactoryDefault();
         rotator.configFactoryDefault();
@@ -36,12 +36,16 @@ public class SwerveModule {
         driver.setNeutralMode(NeutralMode.Brake);
         rotator.setNeutralMode(NeutralMode.Brake);
 
-        encoder = new CANCoder(swerveModuleData.encoderID);
+        encoder = new CANCoder(swerveModuleData.encoderID());
         encoder.configFactoryDefault();
 
-        rotationOffset = swerveModuleData.rotationOffset;
+        rotationOffset = swerveModuleData.rotationOffset();
 
-        rotationPID = new PIDController(kp, ki, kd);
+        rotationPID = new PIDController(
+            Constants.RobotInfo.ROTATOR_MOTOR_KP,
+            Constants.RobotInfo.ROTATOR_MOTOR_KI,
+            0
+        );
     }
 
     public void periodic() {
