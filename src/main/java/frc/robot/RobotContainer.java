@@ -21,12 +21,13 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ArmCommand;
 import frc.robot.commands.CloseClawCommand;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.ElevatorCommand;
+//import frc.robot.commands.ElevatorCommand;
 import frc.robot.commands.OpenClawCommand;
 import frc.robot.commands.TelescopeCommand;
 import frc.robot.commands.WristCommand;
@@ -61,7 +62,7 @@ public class RobotContainer {
     private final ArmPivotSubsystem armPivotSubsystem = new ArmPivotSubsystem();
     private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
     private final TelescopeSubsystem telescopeSubsystem = new TelescopeSubsystem();
-        private final WristSubsystem wrist = new WristSubsystem();
+       // private final WristSubsystem wrist = new WristSubsystem();
 
     private final Trigger clawObstructedTrigger;
     private double lastClawOpenTime = Double.NEGATIVE_INFINITY;
@@ -72,7 +73,9 @@ public class RobotContainer {
     public RobotContainer() {
         // swerveDriveSubsystem.setDefaultCommand(new DriveCommand(swerveDriveSubsystem, oi, navx));
         // armPivotSubsystem.setDefaultCommand(new ArmCommand(armPivotSubsystem, oi));
-        elevatorSubsystem.setDefaultCommand(new ElevatorCommand(elevatorSubsystem, oi));
+        //elevatorSubsystem.setDefaultCommand(new ElevatorCommand(elevatorSubsystem, oi));
+
+      //  teles// copeSubsystem.setDefaultCommand(new TelescopeCommand(telescopeSubsystem, oi));
             
 
         clawObstructedTrigger = new Trigger(() ->
@@ -81,7 +84,10 @@ public class RobotContainer {
         );
 
         // configureButtonBindings();
-        wrist.setDefaultCommand(new WristCommand(wrist, oi));
+
+        //oi.getButton(1, Constants.Buttons.Y_BUTTON).onTrue(new ElevatorCommand(elevatorSubsystem, oi));
+
+      //  wrist.setDefaultCommand(new WristCommand(wrist, oi));
     }
 
     /**
@@ -96,7 +102,13 @@ public class RobotContainer {
         clawObstructedTrigger.onTrue(new CloseClawCommand(clawSubsystem).andThen(() -> {
             lastClawOpenTime = Double.POSITIVE_INFINITY;
         }, clawSubsystem));
-
+        oi.getButton(0, Constants.Buttons.Y_BUTTON).onTrue(
+            new RunCommand(
+                () -> {
+                    elevatorSubsystem.setPosition(0);
+                }, 
+                elevatorSubsystem
+            ));
         oi.getButton(0, Constants.Buttons.B_BUTTON).onTrue(
             new OpenClawCommand(clawSubsystem)
             .andThen(() ->
@@ -118,13 +130,13 @@ public class RobotContainer {
                 addRequirements(swerveDriveSubsystem);
             }
 
-            @Override
-            public void execute(){
-                swerveDriveSubsystem.setModules(new SwerveModuleState(
-                    1,
-                    new Rotation2d()
-                ));
-            }
+           // @Override
+            // public void execute(){
+            //     swerveDriveSubsystem.setModules(new SwerveModuleState(
+            //         1,
+            //         new Rotation2d()
+            //     ));
+            // }
         });
     }
 
@@ -133,7 +145,7 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-
+        
         TrajectoryConfig trajectoryConfig = new TrajectoryConfig(Constants.RobotInfo.Auton.kMaxSpeedMetersPerSecond,Constants.RobotInfo.Auton.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.RobotInfo.DriveConstants.kDriveKinematics);
        
        
@@ -154,18 +166,24 @@ public class RobotContainer {
          thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
         
-        //  SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-        //         trajectory,
-        //         swerveDriveSubsystem::getPose,
-        //         Constants.RobotInfo.DriveConstants.kDriveKinematics,
-        //         xController,
-        //         yController,
-        //         thetaController,
-        //         swerveDriveSubsystem.getRotation(),
-        //         swerveDriveSubsystem::setModuleStates,
-        //         swerveDriveSubsystem);
+         SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
+                trajectory,
+                swerveDriveSubsystem::getPose,
+                Constants.RobotInfo.DriveConstants.kDriveKinematics,
+                xController,
+                yController,
+                thetaController,
+                swerveDriveSubsystem::getRotation,
+                swerveDriveSubsystem::setModules,
+                swerveDriveSubsystem);
 
-         return null;
+         swerveDriveSubsystem.resetPose(trajectory.getInitialPose());           
+         return swerveControllerCommand.andThen(new RunCommand(
+            () -> {
+                swerveDriveSubsystem.stop();
+            }, 
+            swerveDriveSubsystem
+        ));
 
     }
 
