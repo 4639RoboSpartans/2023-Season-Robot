@@ -76,7 +76,20 @@ public class RobotContainer {
         //elevatorSubsystem.setDefaultCommand(new ElevatorCommand(elevatorSubsystem, oi));
 
       //  teles// copeSubsystem.setDefaultCommand(new TelescopeCommand(telescopeSubsystem, oi));
-            
+    
+      oi.getButton(0, Constants.Buttons.Y_BUTTON).onTrue(new RunCommand(()->{
+        elevatorSubsystem.setPosition(.1);
+      }, elevatorSubsystem));
+
+
+      oi.getButton(0, Constants.Buttons.X_BUTTON).onTrue(new RunCommand(()->{
+        elevatorSubsystem.setPosition(.2);
+      }, elevatorSubsystem));
+
+      oi.getButton(0, Constants.Buttons.A_BUTTON).onTrue(new RunCommand(()->{
+        elevatorSubsystem.setPosition(.4);
+      }, elevatorSubsystem));
+
 
         clawObstructedTrigger = new Trigger(() ->
             clawObstructionSensor.isObstructed()
