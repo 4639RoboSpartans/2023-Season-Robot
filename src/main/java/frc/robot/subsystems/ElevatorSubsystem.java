@@ -20,9 +20,7 @@ public class ElevatorSubsystem  extends SubsystemBase{
         motorRight.configFactoryDefault();
         motorLeft.setNeutralMode(NeutralMode.Brake);
         motorRight.setNeutralMode(NeutralMode.Brake);
-        
         getEncoderMotor().configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-        
         pid = new PIDController(1.2, 0.09, 0);
         pid.setSetpoint(0.2);
     }
@@ -51,6 +49,7 @@ public class ElevatorSubsystem  extends SubsystemBase{
        setSpeed(voltage);
         // stop();
         SmartDashboard.putNumber("elevator voltage", voltage);
+        SmartDashboard.putNumber("pid diff", pid.getSetpoint() - getPosition());
     }
 
     public void stop(){
