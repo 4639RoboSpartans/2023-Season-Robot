@@ -23,7 +23,8 @@ public class ElevatorSubsystem  extends SubsystemBase{
         
         getEncoderMotor().configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
         
-        pid = new PIDController(0.01, 0, 0);
+        pid = new PIDController(1.2, 0.09, 0);
+        pid.setSetpoint(0.2);
     }
 
     private WPI_TalonFX getEncoderMotor(){
@@ -47,8 +48,8 @@ public class ElevatorSubsystem  extends SubsystemBase{
     public void periodic() {
         double voltage = pid.calculate(getPosition());
         SmartDashboard.putNumber("Encoder Position", getPosition());
-//        setSpeed(voltage);
-        stop();
+       setSpeed(voltage);
+        // stop();
         SmartDashboard.putNumber("elevator voltage", voltage);
         SmartDashboard.putNumber("pid diff", pid.getSetpoint() - getPosition());
     }
