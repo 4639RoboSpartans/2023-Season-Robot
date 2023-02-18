@@ -50,7 +50,6 @@ public class ElevatorSubsystem  extends SubsystemBase{
 //        setSpeed(voltage);
         stop();
         SmartDashboard.putNumber("elevator voltage", voltage);
-        SmartDashboard.putNumber("pid diff", pid.getSetpoint() - getPosition());
     }
 
     public void stop(){

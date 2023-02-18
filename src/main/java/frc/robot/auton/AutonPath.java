@@ -1,4 +1,4 @@
-package frc.robot.swerve.auton;
+package frc.robot.auton;
 
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;

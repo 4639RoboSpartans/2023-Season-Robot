@@ -15,7 +15,7 @@ import frc.robot.swerve.SwerveUtil;
 
 public class SwerveModule {
     private final WPI_TalonFX driver, rotator;
-    private final CANCoder encoder;
+    private final CANCoder rotationEncoder;
     private final PIDController rotationPID;
 
     private final double rotationOffset;
@@ -36,8 +36,8 @@ public class SwerveModule {
         driver.setNeutralMode(NeutralMode.Brake);
         rotator.setNeutralMode(NeutralMode.Brake);
 
-        encoder = new CANCoder(swerveModuleData.encoderID());
-        encoder.configFactoryDefault();
+        rotationEncoder = new CANCoder(swerveModuleData.encoderID());
+        rotationEncoder.configFactoryDefault();
 
         rotationOffset = swerveModuleData.rotationOffset();
 
@@ -60,16 +60,16 @@ public class SwerveModule {
     }
 
     public double getRotationInDegrees(){
-        double rotation = encoder.getAbsolutePosition() - rotationOffset;
-        // return math.round(math.mod(rotation, -180, 180), 0.5);
-        return math.mod(rotation, -180, 180);
+        double rawRotation = rotationEncoder.getAbsolutePosition() - rotationOffset;
+        // Constrain angle to be between -180 and 180
+        return math.mod(rawRotation, -180, 180);
     }
 
     private void setSpeed(double speed){
         this.speed = speed;
     }
 
-    public void setRotation(double degrees){
+    private void setRotation(double degrees){
         rotationPID.setSetpoint(degrees);
     }
 
@@ -78,19 +78,22 @@ public class SwerveModule {
     }
 
     public double getTurningVelocity(){
-        return encoder.getVelocity();
+        return rotationEncoder.getVelocity();
     }
 
-    public SwerveModuleState getState(){
-        return new SwerveModuleState(getVelocity(), Rotation2d.fromDegrees(getRotationInDegrees()));
+    public SwerveModuleState getState() {
+        double moduleSpeed = getVelocity();
+        double rotationDegrees = getRotationInDegrees();
+        Rotation2d rotation = Rotation2d.fromDegrees(rotationDegrees);
+        return new SwerveModuleState(moduleSpeed, rotation);
     }
 
     public void setState(SwerveModuleState state){
         if(isNegligible(state)) stop();
         else{
-            SwerveModuleState optimized = SwerveUtil.optimize(state, getRotationInDegrees());
-            setSpeed(optimized.speedMetersPerSecond);
-            setRotation(optimized.angle.getDegrees());
+            SwerveModuleState optimizedState = SwerveUtil.optimize(state, getRotationInDegrees());
+            setSpeed(optimizedState.speedMetersPerSecond);
+            setRotation(optimizedState.angle.getDegrees());
         }
     }
 

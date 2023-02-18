@@ -56,7 +56,7 @@ public class RobotContainer {
     private final OI oi = new OI();
     private final NavX navx = new NavX();
 
-    private final SwerveDriveSubsystem swerveDriveSubsystem = new SwerveDriveSubsystem();
+    private final SwerveDriveSubsystem swerveDriveSubsystem = new SwerveDriveSubsystem(navx);
     private final ClawSubsystem clawSubsystem = new ClawSubsystem();
     private final ObstructionSensor clawObstructionSensor = new ObstructionSensor(0);
     private final ArmPivotSubsystem armPivotSubsystem = new ArmPivotSubsystem();

@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -9,11 +9,10 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants.RobotInfo.DriveConstants;
-import frc.robot.commands.navXCommand;
 import frc.robot.math.math;
 import frc.robot.swerve.SwerveMovement;
-public class SwerveDriveSubsystem extends SubsystemBase{
+
+public class SwerveDriveSubsystem extends SubsystemBase {
     private final SwerveModule
         moduleFrontLeft,
         moduleFrontRight,
@@ -27,13 +26,13 @@ public class SwerveDriveSubsystem extends SubsystemBase{
 
     private Pose2d pose;
     
-    public SwerveDriveSubsystem(){
+    public SwerveDriveSubsystem(NavX navX){
         moduleFrontLeft  = new SwerveModule(Constants.IDs.MODULE_FRONT_LEFT);
         moduleFrontRight = new SwerveModule(Constants.IDs.MODULE_FRONT_RIGHT);
         moduleBackLeft   = new SwerveModule(Constants.IDs.MODULE_BACK_LEFT);
         moduleBackRight  = new SwerveModule(Constants.IDs.MODULE_BACK_RIGHT);
 
-        navX = new NavX();
+        this.navX = navX;
         pose = new Pose2d();
 
         d = Constants.RobotInfo.robotBaseLength / 2;
