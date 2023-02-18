@@ -75,7 +75,7 @@ public class RobotContainer {
         // armPivotSubsystem.setDefaultCommand(new ArmCommand(armPivotSubsystem, oi));
         //elevatorSubsystem.setDefaultCommand(new ElevatorCommand(elevatorSubsystem, oi));
 
-      //  teles// copeSubsystem.setDefaultCommand(new TelescopeCommand(telescopeSubsystem, oi));
+      //  telescopeSubsystem.setDefaultCommand(new TelescopeCommand(telescopeSubsystem, oi));
     
       oi.getButton(0, Constants.Buttons.Y_BUTTON).onTrue(new RunCommand(()->{
         elevatorSubsystem.setPosition(.1);
@@ -159,9 +159,13 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         
-        TrajectoryConfig trajectoryConfig = new TrajectoryConfig(Constants.RobotInfo.Auton.kMaxSpeedMetersPerSecond,Constants.RobotInfo.Auton.kMaxAccelerationMetersPerSecondSquared).setKinematics(Constants.RobotInfo.DriveConstants.kDriveKinematics);
-       
-       
+        TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
+            Constants.RobotInfo.Auton.kMaxSpeedMetersPerSecond,
+            Constants.RobotInfo.Auton.kMaxAccelerationMetersPerSecondSquared
+        ).setKinematics(
+            Constants.RobotInfo.DriveConstants.kDriveKinematics
+        );
+
         //sample trajectory
         Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
             new Pose2d(0, 0, new Rotation2d(0)),
@@ -175,10 +179,12 @@ public class RobotContainer {
          PIDController xController = new PIDController(Constants.RobotInfo.Auton.kPXController, 0, 0);
          PIDController yController = new PIDController(Constants.RobotInfo.Auton.kPYController, 0, 0);
          ProfiledPIDController thetaController = new ProfiledPIDController(
-            Constants.RobotInfo.Auton.kPThetaController, 0, 0, Constants.RobotInfo.Auton.kThetaControllerConstraints);
+            Constants.RobotInfo.Auton.kPThetaController,
+             0, 0,
+             Constants.RobotInfo.Auton.kThetaControllerConstraints
+         );
          thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-        
          SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
                 trajectory,
                 swerveDriveSubsystem::getPose,
@@ -191,16 +197,16 @@ public class RobotContainer {
                 swerveDriveSubsystem);
 
          swerveDriveSubsystem.resetPose(trajectory.getInitialPose());           
-         return swerveControllerCommand.andThen(new RunCommand(
-            () -> {
-                swerveDriveSubsystem.stop();
-            }, 
-            swerveDriveSubsystem
-        ));
+         return swerveControllerCommand.andThen(
+             new RunCommand(
+                 swerveDriveSubsystem::stop,
+                swerveDriveSubsystem
+            )
+         );
 
     }
 
     public void periodic(){
-        LimeLight.getOffsetFromCenteredAprilTag();
+//        LimeLight.getOffsetFromCenteredAprilTag();
     }
 }

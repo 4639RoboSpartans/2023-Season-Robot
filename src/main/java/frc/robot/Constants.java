@@ -60,7 +60,7 @@ public final class Constants {
             new Translation2d(- robotBaseLength,  robotBaseLength), //back left
             new Translation2d(-robotBaseLength,  -robotBaseLength) //back right
             //originally
-            /* back left -front left- backright- front right */
+            /* back left -front left- back right- front right */
         );
 		}
 		public static final double ROTATOR_MOTOR_KP = 0.005;

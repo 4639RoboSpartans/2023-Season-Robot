@@ -21,28 +21,30 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     private final SwerveDriveKinematics kinematics;
     private final SwerveDriveOdometry odometry;
-    private final NavX navX;
-    private final double d;
+    private final NavX navx;
+    private final double wheelRadius;
 
     private Pose2d pose;
     
-    public SwerveDriveSubsystem(NavX navX){
+    public SwerveDriveSubsystem(NavX navx){
         moduleFrontLeft  = new SwerveModule(Constants.IDs.MODULE_FRONT_LEFT);
         moduleFrontRight = new SwerveModule(Constants.IDs.MODULE_FRONT_RIGHT);
         moduleBackLeft   = new SwerveModule(Constants.IDs.MODULE_BACK_LEFT);
         moduleBackRight  = new SwerveModule(Constants.IDs.MODULE_BACK_RIGHT);
 
-        this.navX = navX;
+        this.navx = navx;
         pose = new Pose2d();
 
-        d = Constants.RobotInfo.robotBaseLength / 2;
-       kinematics = Constants.RobotInfo.DriveConstants.kDriveKinematics;
+        wheelRadius = Constants.RobotInfo.robotBaseLength / 2;
+        kinematics = Constants.RobotInfo.DriveConstants.kDriveKinematics;
+
         // Creating my odometry object from the kinematics object and the initial wheel positions.
         // Here, our starting pose is 5 meters along the long end of the field and in the
         // center of the field along the short end, facing the opposing alliance wall.
         odometry = new SwerveDriveOdometry(
-            kinematics, navX.getGyroRotation2d(),
-            getSwervemodulePositions(),
+            kinematics,
+            navx.getGyroRotation2d(),
+            getSwerveModulePositions(),
             new Pose2d(5.0, 13.5, new Rotation2d())
         );
     }
@@ -117,22 +119,23 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     public void resetPose() {
         odometry.resetPosition(
-        navX.getGyroRotation2d(),
-        getSwervemodulePositions(), 
-        new Pose2d(5.0, 13.5, new Rotation2d()));
+            navx.getGyroRotation2d(),
+            getSwerveModulePositions(),
+            new Pose2d(5.0, 13.5, new Rotation2d())
+        );
     }
 
-    public SwerveModulePosition[] getSwervemodulePositions() {
+    public SwerveModulePosition[] getSwerveModulePositions() {
         return new SwerveModulePosition[] {
-            new SwerveModulePosition(d * Math.sqrt(2), Rotation2d.fromDegrees(135)),
-            new SwerveModulePosition(d * Math.sqrt(2), Rotation2d.fromDegrees(45)),
-            new SwerveModulePosition(d * Math.sqrt(2), Rotation2d.fromDegrees(-135)),
-            new SwerveModulePosition(d * Math.sqrt(2), Rotation2d.fromDegrees(-45))
+            new SwerveModulePosition(wheelRadius * Math.sqrt(2), Rotation2d.fromDegrees(135)),
+            new SwerveModulePosition(wheelRadius * Math.sqrt(2), Rotation2d.fromDegrees(45)),
+            new SwerveModulePosition(wheelRadius * Math.sqrt(2), Rotation2d.fromDegrees(-135)),
+            new SwerveModulePosition(wheelRadius * Math.sqrt(2), Rotation2d.fromDegrees(-45))
         };
     }
 
     public Rotation2d getRotation() {
-        return navX.getGyroRotation2d();
+        return navx.getGyroRotation2d();
     }
 
     @Override
@@ -143,12 +146,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         moduleBackRight.periodic();
 
           // Get the rotation of the robot from the gyro.
-        var gyroAngle = navX.getGyroRotation2d();
+        var gyroAngle = navx.getGyroRotation2d();
 
         // Update the pose
-        pose = odometry.update(gyroAngle, getSwervemodulePositions());
+        pose = odometry.update(gyroAngle, getSwerveModulePositions());
     }
-
 
     public SwerveDriveKinematics getKinematics() {
         return kinematics;
@@ -159,12 +161,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     }
 
     public void resetPose(Pose2d pose2d) {
-        //rotation2d reset may be wrong
         odometry.resetPosition(
-          new Rotation2d(),
-          getSwervemodulePositions(),
+          navx.getGyroRotation2d(),
+          getSwerveModulePositions(),
           getPose()
         );
-
     }
 }
