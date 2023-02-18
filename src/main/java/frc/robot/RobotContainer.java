@@ -71,24 +71,24 @@ public class RobotContainer {
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
-        // swerveDriveSubsystem.setDefaultCommand(new DriveCommand(swerveDriveSubsystem, oi, navx));
+        swerveDriveSubsystem.setDefaultCommand(new DriveCommand(swerveDriveSubsystem, oi, navx));
         // armPivotSubsystem.setDefaultCommand(new ArmCommand(armPivotSubsystem, oi));
         //elevatorSubsystem.setDefaultCommand(new ElevatorCommand(elevatorSubsystem, oi));
 
       //  telescopeSubsystem.setDefaultCommand(new TelescopeCommand(telescopeSubsystem, oi));
     
-      oi.getButton(0, Constants.Buttons.Y_BUTTON).onTrue(new RunCommand(()->{
-        elevatorSubsystem.setPosition(.1);
-      }, elevatorSubsystem));
+    //   oi.getButton(0, Constants.Buttons.Y_BUTTON).onTrue(new RunCommand(()->{
+    //     elevatorSubsystem.setPosition(.1);
+    //   }, elevatorSubsystem));
 
 
-      oi.getButton(0, Constants.Buttons.X_BUTTON).onTrue(new RunCommand(()->{
-        elevatorSubsystem.setPosition(.2);
-      }, elevatorSubsystem));
+    //   oi.getButton(0, Constants.Buttons.X_BUTTON).onTrue(new RunCommand(()->{
+    //     elevatorSubsystem.setPosition(.2);
+    //   }, elevatorSubsystem));
 
-      oi.getButton(0, Constants.Buttons.A_BUTTON).onTrue(new RunCommand(()->{
-        elevatorSubsystem.setPosition(.4);
-      }, elevatorSubsystem));
+    //   oi.getButton(0, Constants.Buttons.A_BUTTON).onTrue(new RunCommand(()->{
+    //     elevatorSubsystem.setPosition(.4);
+    //   }, elevatorSubsystem));
 
 
         clawObstructedTrigger = new Trigger(() ->
