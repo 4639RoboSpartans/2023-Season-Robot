@@ -46,6 +46,7 @@ public class SwerveModule {
             Constants.RobotInfo.ROTATOR_MOTOR_KI,
             0
         );
+        rotationPID.enableContinuousInput(-180, 180);
     }
 
     public void periodic() {
@@ -91,7 +92,8 @@ public class SwerveModule {
     public void setState(SwerveModuleState state){
         if(isNegligible(state)) stop();
         else{
-            SwerveModuleState optimizedState = SwerveUtil.optimize(state, getRotationInDegrees());
+            // SwerveModuleState optimizedState = SwerveUtil.optimize(state, getRotationInDegrees());
+            SwerveModuleState optimizedState = SwerveModuleState.optimize(state, Rotation2d.fromDegrees(getRotationInDegrees()));
             setSpeed(optimizedState.speedMetersPerSecond);
             setRotation(optimizedState.angle.getDegrees());
         }

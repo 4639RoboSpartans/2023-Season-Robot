@@ -46,8 +46,8 @@ public class ElevatorSubsystem  extends SubsystemBase{
     public void periodic() {
         double voltage = pid.calculate(getPosition());
         SmartDashboard.putNumber("Encoder Position", getPosition());
-       setSpeed(voltage);
-        // stop();
+    //    setSpeed(voltage);
+        stop();
         SmartDashboard.putNumber("elevator voltage", voltage);
         SmartDashboard.putNumber("pid diff", pid.getSetpoint() - getPosition());
     }

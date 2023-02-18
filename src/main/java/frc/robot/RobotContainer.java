@@ -31,7 +31,7 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.OpenClawCommand;
 import frc.robot.commands.TelescopeCommand;
 import frc.robot.commands.WristCommand;
-import frc.robot.commands.navXCommand;
+import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.subsystems.ArmPivotSubsystem;
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -72,6 +72,11 @@ public class RobotContainer {
      */
     public RobotContainer() {
         swerveDriveSubsystem.setDefaultCommand(new DriveCommand(swerveDriveSubsystem, oi, navx));
+
+        oi.getButton(0, Constants.Buttons.X_BUTTON).whileTrue(
+            new AutoBalanceCommand(swerveDriveSubsystem, navx)
+        );
+
         // armPivotSubsystem.setDefaultCommand(new ArmCommand(armPivotSubsystem, oi));
         //elevatorSubsystem.setDefaultCommand(new ElevatorCommand(elevatorSubsystem, oi));
 
@@ -80,7 +85,6 @@ public class RobotContainer {
     //   oi.getButton(0, Constants.Buttons.Y_BUTTON).onTrue(new RunCommand(()->{
     //     elevatorSubsystem.setPosition(.1);
     //   }, elevatorSubsystem));
-
 
     //   oi.getButton(0, Constants.Buttons.X_BUTTON).onTrue(new RunCommand(()->{
     //     elevatorSubsystem.setPosition(.2);
@@ -131,7 +135,7 @@ public class RobotContainer {
         );
 
         oi.getButton(0, Constants.Buttons.X_BUTTON).onTrue(
-            new navXCommand(swerveDriveSubsystem, navx)
+            new AutoBalanceCommand(swerveDriveSubsystem, navx)
         );
         
         oi.getButton(0, Constants.Buttons.A_BUTTON).onTrue(

@@ -42,7 +42,7 @@ public class DriveCommand extends CommandBase {
         double rawY = oi.getAxis(0, Constants.Axes.LEFT_STICK_Y);
         double rawRot = oi.getAxis(0, Constants.Axes.RIGHT_STICK_X);
         
-        return new SwerveMovement(rawY, rawX, rawRot);
+        return new SwerveMovement(rawY * .6, -rawX * .6, rawRot * .5);
     }
 
     // Called once the command ends or is interrupted.
