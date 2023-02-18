@@ -46,9 +46,11 @@ public class ElevatorSubsystem  extends SubsystemBase{
 
     @Override
     public void periodic() {
-        double voltage = pid.calculate(getPosition());
+        double rawVoltage = pid.calculate(getPosition());
+        // Artificially cap the voltage
+        double voltage = Math.signum(rawVoltage) * Math.min(Math.abs(rawVoltage), 0.08);
         SmartDashboard.putNumber("Encoder Position", getPosition());
-       setSpeed(voltage);
+        setSpeed(voltage);
         // stop();
         SmartDashboard.putNumber("elevator voltage", voltage);
     }
