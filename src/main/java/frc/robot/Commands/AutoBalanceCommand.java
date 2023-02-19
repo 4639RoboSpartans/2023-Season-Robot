@@ -10,12 +10,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //getPitch() - angle of the front of the robot off the ground 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SwerveDriveSubsystem;
+import frc.robot.swerve.SwerveMovement;
+import frc.robot.swerve.SwerveUtil;
+import frc.robot.math.vec2;
 import frc.robot.subsystems.NavX;
 
-public class navXCommand extends CommandBase{
+public class AutoBalanceCommand extends CommandBase{
     private final SwerveDriveSubsystem swerve;
     private final NavX navx;
-    public navXCommand(SwerveDriveSubsystem swerve, NavX navx){
+    public AutoBalanceCommand(SwerveDriveSubsystem swerve, NavX navx){
         this.swerve = swerve;
         this.navx = navx;
         addRequirements(swerve);
@@ -29,13 +32,12 @@ public class navXCommand extends CommandBase{
     public void execute(){
 
         if(!navx.isZero()){
-            double speed = Math.max(Math.min(navx.readPitch()/22, 1), -1);
-            SmartDashboard.putNumber("Motor Value", speed);
+            double xSpeed = Math.max(Math.min(navx.getPitch()/23, 1), -1);
+            double ySpeed = Math.max(Math.min(navx.getRoll()/23, 1), -1);
             
-            double rot = speed > 0 ? 180 : 0;
-            speed = Math.abs(speed);
+            SwerveMovement movement = new SwerveMovement(new vec2(-xSpeed, -ySpeed), 0);
 
-            swerve.setModules(new SwerveModuleState(speed, Rotation2d.fromDegrees(rot)));
+            swerve.setMovement(movement);
         }   
         else{
             swerve.setModules(new SwerveModuleState());
@@ -48,8 +50,8 @@ public class navXCommand extends CommandBase{
     public void end(){
 
     }
+
     public boolean isFinished(){
         return false;
     }
-    
 }

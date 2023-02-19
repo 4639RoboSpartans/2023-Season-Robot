@@ -148,6 +148,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
           // Get the rotation of the robot from the gyro.
         var gyroAngle = navx.getGyroRotation2d();
 
+        SmartDashboard.putNumber("Gyro angle", navx.getHeading());
+
         // Update the pose
         pose = odometry.update(gyroAngle, getSwerveModulePositions());
     }

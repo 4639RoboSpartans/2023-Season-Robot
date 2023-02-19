@@ -15,12 +15,17 @@ public class NavX extends SubsystemBase{
     public NavX(){
         ahrs = new AHRS();
     }
-    public float readPitch(){
+    
+    public double getRoll(){
         return ahrs.getRoll();
+    }
+    
+    public double getPitch(){
+        return ahrs.getPitch();
     }
 
     public double getHeading() {
-        return 0;
+        return getGyroRotation2d().getDegrees();
     }
 
     public Rotation2d getGyroRotation2d() {
