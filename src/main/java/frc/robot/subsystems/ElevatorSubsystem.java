@@ -7,11 +7,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ElevatorSubsystem  extends SubsystemBase{
     private final WPI_TalonFX motorLeft;
     private final WPI_TalonFX motorRight;
 
     private final PIDController pid;
+
+    private final double encoderOffset;
+
+    public static final List<WPI_TalonFX> motors = new ArrayList<>();
 
     public ElevatorSubsystem() {
         motorLeft = new WPI_TalonFX(Constants.IDs.ELEVATOR_MOTOR_LEFT);
@@ -22,9 +29,12 @@ public class ElevatorSubsystem  extends SubsystemBase{
         motorRight.setNeutralMode(NeutralMode.Brake);
         
         getEncoderMotor().configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-        
-        pid = new PIDController(1.2, 0.09, 0);
-        pid.setSetpoint(0.2);
+        encoderOffset = getEncoderMotor().getSelectedSensorPosition();
+
+        pid = new PIDController(3.0, 1.0, 0);
+
+        motors.add(motorLeft);
+        motors.add(motorRight);
     }
 
     private WPI_TalonFX getEncoderMotor(){
@@ -32,7 +42,8 @@ public class ElevatorSubsystem  extends SubsystemBase{
     }
 
     private double getPosition() {
-        return getEncoderMotor().getSelectedSensorPosition() * .00001;
+        double rawEncoderValue = getEncoderMotor().getSelectedSensorPosition();
+        return (rawEncoderValue - encoderOffset) * .00001;
     }
 
     public void setPosition(double position) {
@@ -48,11 +59,12 @@ public class ElevatorSubsystem  extends SubsystemBase{
     public void periodic() {
         double rawVoltage = pid.calculate(getPosition());
         // Artificially cap the voltage
-        double voltage = Math.signum(rawVoltage) * Math.min(Math.abs(rawVoltage), 0.08);
-        SmartDashboard.putNumber("Encoder Position", getPosition());
+        double voltage = Math.signum(rawVoltage) * Math.min(Math.abs(rawVoltage), 0.15);
+        SmartDashboard.putNumber("elevator position", getPosition());
         setSpeed(voltage);
-        // stop();
+//        stop();
         SmartDashboard.putNumber("elevator voltage", voltage);
+        SmartDashboard.putNumber("elevator setpoint", pid.getSetpoint());
     }
 
     public void stop(){
