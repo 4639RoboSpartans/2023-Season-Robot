@@ -19,12 +19,12 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
 public final class Constants {
 	public static final class IDs{
-		// Swerve uses up motor ids 1-12
 		
-		public static final SwerveModuleConfig MODULE_FRONT_LEFT  = new SwerveModuleConfig(1, 2, 9 , 124.277);
-		public static final SwerveModuleConfig MODULE_FRONT_RIGHT = new SwerveModuleConfig(3, 4, 10, 233.877);
-		public static final SwerveModuleConfig MODULE_BACK_LEFT   = new SwerveModuleConfig(5, 6, 11, 9.668);
-		public static final SwerveModuleConfig MODULE_BACK_RIGHT  = new SwerveModuleConfig(7, 8, 12, 50.400);
+		// Swerve uses up motor ids 1-12
+				public static final SwerveModuleConfig MODULE_FRONT_LEFT  = new SwerveModuleConfig(1, 2, 9 , 126.1231);//124.77
+		public static final SwerveModuleConfig MODULE_FRONT_RIGHT = new SwerveModuleConfig(3, 4, 10,-124.1016);//233.877
+		public static final SwerveModuleConfig MODULE_BACK_LEFT   = new SwerveModuleConfig(5, 6, 11, 10.6348);//9.668
+		public static final SwerveModuleConfig MODULE_BACK_RIGHT  = new SwerveModuleConfig(7, 8, 12, 48.7793);//50.400
 
 		public static final int ARM_PIVOT_1 = 13;
 		public static final int ARM_PIVOT_2 = 14;
