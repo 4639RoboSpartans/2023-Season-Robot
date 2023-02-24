@@ -18,7 +18,7 @@ public class TelescopeSubsystem  extends SubsystemBase{
         motor.configFactoryDefault();
         motor.setNeutralMode(NeutralMode.Brake);
         encoder = new CANCoder(Constants.IDs.TELESCOPE_ENCODER);
-        pid = new PIDController(0.01, 0, 0);
+        pid = new PIDController(0.0000000001, 0, 0);
     }
 
     // public void setPosition(double position) {
