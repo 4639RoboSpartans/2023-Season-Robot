@@ -11,6 +11,7 @@ public class WristCommand extends CommandBase{
     public WristCommand(WristSubsystem wrist, OI oi){
         this.wrist = wrist;
         this.oi = oi;
+        addRequirements(wrist);
     }
     @Override
     public void initialize(){

@@ -16,9 +16,12 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -31,7 +34,7 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.OpenClawCommand;
 import frc.robot.commands.TelescopeCommand;
 import frc.robot.commands.WristCommand;
-import frc.robot.commands.navXCommand;
+import frc.robot.commands.AutoBalanceCommand;
 import frc.robot.subsystems.ArmPivotSubsystem;
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -58,12 +61,12 @@ public class RobotContainer {
 
     private final SwerveDriveSubsystem swerveDriveSubsystem = new SwerveDriveSubsystem(navx);
     private final ClawSubsystem clawSubsystem = new ClawSubsystem();
-    private final ObstructionSensor clawObstructionSensor = new ObstructionSensor(0);
+    private final ObstructionSensor clawObstructionSensor = new ObstructionSensor(8);
     private final ArmPivotSubsystem armPivotSubsystem = new ArmPivotSubsystem();
     private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
     private final TelescopeSubsystem telescopeSubsystem = new TelescopeSubsystem();
-       // private final WristSubsystem wrist = new WristSubsystem();
-
+       
+    private final WristSubsystem wristSubsystem = new WristSubsystem();
     private final Trigger clawObstructedTrigger;
     private double lastClawOpenTime = Double.NEGATIVE_INFINITY;
 
@@ -75,28 +78,48 @@ public class RobotContainer {
         // armPivotSubsystem.setDefaultCommand(new ArmCommand(armPivotSubsystem, oi));
         //elevatorSubsystem.setDefaultCommand(new ElevatorCommand(elevatorSubsystem, oi));
 
-      //  telescopeSubsystem.setDefaultCommand(new TelescopeCommand(telescopeSubsystem, oi));
+    //    telescopeSubsystem.setDefaultCommand(new TelescopeCommand(telescopeSubsystem, oi));
+        wristSubsystem.setDefaultCommand(new WristCommand(wristSubsystem, oi));
+        //swerveDriveSubsystem.setDefaultCommand(new DriveCommand(swerveDriveSubsystem, oi, navx));
 
-        swerveDriveSubsystem.setDefaultCommand(new DriveCommand(swerveDriveSubsystem, oi, navx));
-
-      oi.getButton(0, Constants.Buttons.Y_BUTTON).onTrue(new RunCommand(()->{
-        elevatorSubsystem.setPosition(.1);
-      }, elevatorSubsystem));
+    //   oi.getButton(0, Constants.Buttons.Y_BUTTON).onTrue(new RunCommand(()->{
+    //     elevatorSubsystem.setPosition(.1);
+    //   }, elevatorSubsystem));
 
 
-      oi.getButton(0, Constants.Buttons.X_BUTTON).onTrue(new RunCommand(()->{
-        elevatorSubsystem.setPosition(.2);
-      }, elevatorSubsystem));
+    //   oi.getButton(0, Constants.Buttons.X_BUTTON).onTrue(new RunCommand(()->{
+    //     elevatorSubsystem.setPosition(.2);
+    //   }, elevatorSubsystem));
 
-      oi.getButton(0, Constants.Buttons.A_BUTTON).onTrue(new RunCommand(()->{
-        elevatorSubsystem.setPosition(.4);
-      }, elevatorSubsystem));
+    //   oi.getButton(0, Constants.Buttons.A_BUTTON).onTrue(new RunCommand(()->{
+    //     elevatorSubsystem.setPosition(.4);
+    //   }, elevatorSubsystem));
+
+        Compressor pcmCompressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
+        Compressor phCompressor = new Compressor(1, PneumaticsModuleType.REVPH);
+
+        pcmCompressor.enableDigital();
+        pcmCompressor.disable();
+
 
 
         clawObstructedTrigger = new Trigger(() ->
             clawObstructionSensor.isObstructed()
             && Timer.getFPGATimestamp() > lastClawOpenTime + Constants.Timing.CLAW_DELAY_AFTER_OPEN
         );
+        oi.getButton(0, Constants.Buttons.B_BUTTON).onTrue(
+            new OpenClawCommand(clawSubsystem)
+            // .andThen(() ->
+            //     lastClawOpenTime = Timer.getFPGATimestamp(),
+            //     clawSubsystem
+            // )
+        );
+        
+        oi.getButton(0, Constants.Buttons.A_BUTTON).onTrue(
+            new CloseClawCommand(clawSubsystem)
+        );
+
+        
 
         // configureButtonBindings();
 
@@ -105,7 +128,7 @@ public class RobotContainer {
       //  wrist.setDefaultCommand(new WristCommand(wrist, oi));
     }
 
-    /**
+    /*
      * Use this method to define your button->command mappings. Buttons can be
      * created by
      * instantiating a {@link GenericHID} or one of its subclasses ({@link
@@ -113,10 +136,12 @@ public class RobotContainer {
      * it to a {@link
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
+        
     private void configureButtonBindings() {
         clawObstructedTrigger.onTrue(new CloseClawCommand(clawSubsystem).andThen(() -> {
             lastClawOpenTime = Double.POSITIVE_INFINITY;
         }, clawSubsystem));
+        
         oi.getButton(0, Constants.Buttons.Y_BUTTON).onTrue(
             new RunCommand(
                 () -> {
@@ -131,13 +156,13 @@ public class RobotContainer {
                 clawSubsystem
             )
         );
-
-        oi.getButton(0, Constants.Buttons.X_BUTTON).onTrue(
-            new navXCommand(swerveDriveSubsystem, navx)
-        );
         
         oi.getButton(0, Constants.Buttons.A_BUTTON).onTrue(
             new CloseClawCommand(clawSubsystem)
+        );
+
+        oi.getButton(0, Constants.Buttons.X_BUTTON).onTrue(
+            new AutoBalanceCommand(swerveDriveSubsystem, navx)
         );
 
         oi.getButton(0, Constants.Buttons.Y_BUTTON).whileTrue(new CommandBase(){
@@ -209,6 +234,7 @@ public class RobotContainer {
     }
 
     public void periodic(){
-//        LimeLight.getOffsetFromCenteredAprilTag();
+        SmartDashboard.putBoolean("claw", clawObstructionSensor.sensor.get());
+        System.out.println(clawObstructionSensor.sensor.get());
     }
 }

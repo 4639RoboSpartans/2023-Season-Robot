@@ -61,8 +61,8 @@ public class ElevatorSubsystem  extends SubsystemBase{
         // Artificially cap the voltage
         double voltage = Math.signum(rawVoltage) * Math.min(Math.abs(rawVoltage), 0.15);
         SmartDashboard.putNumber("elevator position", getPosition());
-        setSpeed(voltage);
-//        stop();
+        // setSpeed(voltage);
+       stop();
         SmartDashboard.putNumber("elevator voltage", voltage);
         SmartDashboard.putNumber("elevator setpoint", pid.getSetpoint());
     }

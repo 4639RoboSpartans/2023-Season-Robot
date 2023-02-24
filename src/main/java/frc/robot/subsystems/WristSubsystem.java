@@ -9,6 +9,7 @@ public class WristSubsystem extends SubsystemBase{
 
     public WristSubsystem(){
        neo = new PWMSparkMax(Constants.IDs.WRIST_MOTOR);
+       
     }
 
     public void setSpeed(double speed){
@@ -19,3 +20,4 @@ public class WristSubsystem extends SubsystemBase{
         neo.set(0);
     }
 }
+//hi
