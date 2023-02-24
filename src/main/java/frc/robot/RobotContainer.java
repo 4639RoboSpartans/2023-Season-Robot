@@ -61,7 +61,7 @@ public class RobotContainer {
 
     private final SwerveDriveSubsystem swerveDriveSubsystem = new SwerveDriveSubsystem(navx);
     private final ClawSubsystem clawSubsystem = new ClawSubsystem();
-    private final ObstructionSensor clawObstructionSensor = new ObstructionSensor(0);
+    private final ObstructionSensor clawObstructionSensor = new ObstructionSensor(8);
     private final ArmPivotSubsystem armPivotSubsystem = new ArmPivotSubsystem();
     private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
     private final TelescopeSubsystem telescopeSubsystem = new TelescopeSubsystem();
@@ -107,14 +107,12 @@ public class RobotContainer {
             clawObstructionSensor.isObstructed()
             && Timer.getFPGATimestamp() > lastClawOpenTime + Constants.Timing.CLAW_DELAY_AFTER_OPEN
         );
-
-        SmartDashboard.putBoolean("claw", clawObstructionSensor.isObstructed());
         oi.getButton(0, Constants.Buttons.B_BUTTON).onTrue(
             new OpenClawCommand(clawSubsystem)
-            .andThen(() ->
-                lastClawOpenTime = Timer.getFPGATimestamp(),
-                clawSubsystem
-            )
+            // .andThen(() ->
+            //     lastClawOpenTime = Timer.getFPGATimestamp(),
+            //     clawSubsystem
+            // )
         );
         
         oi.getButton(0, Constants.Buttons.A_BUTTON).onTrue(
@@ -236,6 +234,7 @@ public class RobotContainer {
     }
 
     public void periodic(){
-//        LimeLight.getOffsetFromCenteredAprilTag();
+        SmartDashboard.putBoolean("claw", clawObstructionSensor.sensor.get());
+        System.out.println(clawObstructionSensor.sensor.get());
     }
 }

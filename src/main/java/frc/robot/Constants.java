@@ -32,7 +32,7 @@ public final class Constants {
 		public static final int ELEVATOR_MOTOR_RIGHT = 16;
 		public static final int TELESCOPE_ENCODER = 15;
 		public static final int ENCODER_3 = 15;
-		public static final int CLAW_SOLENOID_CHANNEL = 3;	
+		public static final int CLAW_SOLENOID_CHANNEL = 0;	
 
 		public static final int TELESCOPE_MOTOR = 20;
 		public static final int WRIST_MOTOR = 15;	
