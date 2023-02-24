@@ -41,7 +41,7 @@ public class ElevatorSubsystem  extends SubsystemBase{
         return motorLeft;
     }
 
-    private double getPosition() {
+    public double getPosition() {
         double rawEncoderValue = getEncoderMotor().getSelectedSensorPosition();
         return (rawEncoderValue - encoderOffset) * .00001;
     }
