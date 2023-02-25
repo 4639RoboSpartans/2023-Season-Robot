@@ -11,4 +11,8 @@ public class ObstructionSensor{
     public boolean isObstructed() {
         return !sensor.get();
     }
+
+    public boolean getRaw(){
+        return sensor.get();
+    }
 }

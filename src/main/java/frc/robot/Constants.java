@@ -26,16 +26,18 @@ public final class Constants {
 		public static final SwerveModuleConfig MODULE_BACK_LEFT   = new SwerveModuleConfig(5, 6, 11, 10.6348);//9.668
 		public static final SwerveModuleConfig MODULE_BACK_RIGHT  = new SwerveModuleConfig(7, 8, 12, 48.7793);//50.400
 
-		public static final int ARM_PIVOT_1 = 13;
-		public static final int ARM_PIVOT_2 = 14;
-		public static final int ELEVATOR_MOTOR_LEFT = 15;
-		public static final int ELEVATOR_MOTOR_RIGHT = 16;
-		public static final int TELESCOPE_ENCODER = 15;
-		public static final int ENCODER_3 = 15;
-		public static final int CLAW_SOLENOID_CHANNEL = 0;	
+		// First 12 IDS taken by swerve
+		public static final int ARM_PIVOT_L = 13; //Spark Max
+		public static final int ARM_PIVOT_R = 14; // Spark Max
+		public static final int ELEVATOR_MOTOR_LEFT = 15; //Falcon
+		public static final int ELEVATOR_MOTOR_RIGHT = 16; // Falcon
+		public static final int TELESCOPE_MOTOR = 17; //talon to 775 pro
+		public static final int WRIST_MOTOR = 18;	//spark max
+		// public static final int TELESCOPE_ENCODER = 15;
+		// public static final int ENCODER_3 = 15;
+		public static final int CLAW_SOLENOID_CHANNEL = 0;	//pneumatics
 
-		public static final int TELESCOPE_MOTOR = 20;
-		public static final int WRIST_MOTOR = 15;	
+		
 
 	}
 

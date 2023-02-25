@@ -19,13 +19,13 @@ public class ClawSubsystem extends SubsystemBase {
     }
 
     public void open() {
-        isOpen = false;
-        m_solenoid.set(true);
+        isOpen = true;
+        m_solenoid.set(false);
     }
 
     public void close() {
-        isOpen = true;
-        m_solenoid.set(false);
+        isOpen = false;
+        m_solenoid.set(true);
     }
 
     public boolean isOpen() {

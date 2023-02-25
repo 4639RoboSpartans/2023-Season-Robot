@@ -55,12 +55,12 @@ public class RobotContainer {
 
     private final SwerveDriveSubsystem swerveDriveSubsystem = new SwerveDriveSubsystem(navx);
     private final ClawSubsystem clawSubsystem = new ClawSubsystem();
-    private final ObstructionSensor clawObstructionSensor = new ObstructionSensor(8);
-    private final ArmPivotSubsystem armPivotSubsystem = new ArmPivotSubsystem();
+    public final ObstructionSensor clawObstructionSensor = new ObstructionSensor(5);
+    public final ArmPivotSubsystem armPivotSubsystem = new ArmPivotSubsystem();
     private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
     private final TelescopeSubsystem telescopeSubsystem = new TelescopeSubsystem();
 
-    private final WristSubsystem wristSubsystem = new WristSubsystem();
+    public final WristSubsystem wristSubsystem = new WristSubsystem();
     private final Trigger clawObstructedTrigger;
     private double lastClawOpenTime = Double.NEGATIVE_INFINITY;
 
@@ -79,6 +79,7 @@ public class RobotContainer {
         );
 
         configureButtonBindings();
+        configureClaw();
     }
 
     public void enableCompressor() {
@@ -170,10 +171,5 @@ public class RobotContainer {
                 )
         );
 
-    }
-
-    public void periodic() {
-        SmartDashboard.putBoolean("claw", clawObstructionSensor.sensor.get());
-        System.out.println(clawObstructionSensor.sensor.get());
     }
 }
