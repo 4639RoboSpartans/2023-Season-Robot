@@ -17,6 +17,7 @@ public class ElevatorSubsystem  extends SubsystemBase{
     private final PIDController pid;
 
     private final double encoderOffset;
+    private final double encoderRatio;
 
     public static final List<WPI_TalonFX> motors = new ArrayList<>();
 
@@ -30,7 +31,7 @@ public class ElevatorSubsystem  extends SubsystemBase{
         
         getEncoderMotor().configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
         encoderOffset = getEncoderMotor().getSelectedSensorPosition();
-
+        encoderRatio = 1;
         pid = new PIDController(3.0, 1.0, 0);
 
         motors.add(motorLeft);
@@ -41,9 +42,8 @@ public class ElevatorSubsystem  extends SubsystemBase{
         return motorLeft;
     }
 
-    public double getPosition() {
-        double rawEncoderValue = getEncoderMotor().getSelectedSensorPosition();
-        return (rawEncoderValue - encoderOffset) * .00001;
+    public double getEncoderPos() {
+        return ((getEncoderMotor().getSelectedSensorPosition()-encoderOffset)/4096)*encoderRatio;
     }
 
     public void setPosition(double position) {
@@ -57,10 +57,10 @@ public class ElevatorSubsystem  extends SubsystemBase{
 
     @Override
     public void periodic() {
-        double rawVoltage = pid.calculate(getPosition());
+        double rawVoltage = pid.calculate(getEncoderPos());
         // Artificially cap the voltage
         double voltage = Math.signum(rawVoltage) * Math.min(Math.abs(rawVoltage), 0.15);
-        SmartDashboard.putNumber("elevator position", getPosition());
+        SmartDashboard.putNumber("elevator position", getEncoderPos());
         // setSpeed(voltage);
        stop();
         SmartDashboard.putNumber("elevator voltage", voltage);

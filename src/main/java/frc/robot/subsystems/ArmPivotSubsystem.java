@@ -16,18 +16,16 @@ public class ArmPivotSubsystem extends SubsystemBase {
     private final CANSparkMax armPivotMotorL;
     private final CANSparkMax armPivotMotorR;
     private final RelativeEncoder encoder;
-    // private final PIDController pid; 
-    // private final CANCoder canCoder;
-
+    private final double encoderRatio;
     public ArmPivotSubsystem(){
         // pid = new PIDController(0, 0, 0);
         armPivotMotorL = new CANSparkMax(Constants.IDs.ARM_PIVOT_L, MotorType.kBrushless);
         armPivotMotorR = new CANSparkMax(Constants.IDs.ARM_PIVOT_R, MotorType.kBrushless);
         encoder = armPivotMotorL.getEncoder();
-        // canCoder = new CANCoder(Constants.IDs.ENCODER_3);
+        encoderRatio = 1;
     }
-    public double getEncoder(){
-        return encoder.getPosition();
+    public double getEncoderPos(){
+        return (encoder.getPosition()/encoder.getCountsPerRevolution())*encoderRatio;
     }
     public void stop(){
         armPivotMotorL.stopMotor();

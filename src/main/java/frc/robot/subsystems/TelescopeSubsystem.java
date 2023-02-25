@@ -13,17 +13,22 @@ public class TelescopeSubsystem  extends SubsystemBase{
     public WPI_TalonSRX motor;
     // private final CANCoder encoder;
     private final PIDController pid;
-
+    private final double encoderRatio;
     public TelescopeSubsystem() {
         motor = new WPI_TalonSRX(Constants.IDs.TELESCOPE_MOTOR);
         motor.configFactoryDefault();
         motor.setNeutralMode(NeutralMode.Brake);
         pid = new PIDController(0.0000000001, 0, 0);
+        encoderRatio = 1;
     }
 
     // public void setPosition(double position) {
     //     pid.setSetpoint(position);
     // }
+
+    public double getEncoderPos(){
+        return (motor.getSelectedSensorPosition()/4096)*encoderRatio;
+    }
 
     public void extend(double speed) {
         motor.set(speed);

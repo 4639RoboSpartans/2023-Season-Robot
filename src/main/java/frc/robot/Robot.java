@@ -55,8 +55,10 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     SmartDashboard.putBoolean("IRSensor", robotContainer.clawObstructionSensor.isObstructed());
-    SmartDashboard.putNumber("WristEncoderValue", robotContainer.wristSubsystem.getEncoder());
-    SmartDashboard.putNumber("ArmEncoderValue", robotContainer.armPivotSubsystem.getEncoder());
+    SmartDashboard.putNumber("WristEncoderValue", robotContainer.wristSubsystem.getEncoderPos());
+    SmartDashboard.putNumber("ArmEncoderValue", robotContainer.armPivotSubsystem.getEncoderPos());
+    SmartDashboard.putNumber("TelescopeEncoderValue", robotContainer.telescopeSubsystem.getEncoderPos());
+    SmartDashboard.putNumber("ElevatorEncoderValue", robotContainer.elevatorSubsystem.getEncoderPos());
     CommandScheduler.getInstance().run();
   }
 

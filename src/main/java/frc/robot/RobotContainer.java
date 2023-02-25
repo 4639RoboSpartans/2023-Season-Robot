@@ -57,8 +57,8 @@ public class RobotContainer {
     private final ClawSubsystem clawSubsystem = new ClawSubsystem();
     public final ObstructionSensor clawObstructionSensor = new ObstructionSensor(5);
     public final ArmPivotSubsystem armPivotSubsystem = new ArmPivotSubsystem();
-    private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
-    private final TelescopeSubsystem telescopeSubsystem = new TelescopeSubsystem();
+    public final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
+    public final TelescopeSubsystem telescopeSubsystem = new TelescopeSubsystem();
 
     public final WristSubsystem wristSubsystem = new WristSubsystem();
     private final Trigger clawObstructedTrigger;
@@ -103,8 +103,8 @@ public class RobotContainer {
         oi.getButton(0, Constants.Buttons.Y_BUTTON)
                 .onTrue(new RunCommand(() -> elevatorSubsystem.setPosition(0), elevatorSubsystem));
 
-        oi.getPovButton(0, 90).whileTrue(new RunCommand(() -> elevatorSubsystem.setPosition(elevatorSubsystem.getPosition() + .03), elevatorSubsystem));
-        oi.getPovButton(0, 270).whileTrue(new RunCommand(() -> elevatorSubsystem.setPosition(elevatorSubsystem.getPosition() - .03), elevatorSubsystem));
+        oi.getPovButton(0, 90).whileTrue(new RunCommand(() -> elevatorSubsystem.setPosition(elevatorSubsystem.getEncoderPos() + .03), elevatorSubsystem));
+        oi.getPovButton(0, 270).whileTrue(new RunCommand(() -> elevatorSubsystem.setPosition(elevatorSubsystem.getEncoderPos() - .03), elevatorSubsystem));
 
         oi.getButton(0, Constants.Buttons.X_BUTTON).whileTrue(new AutoBalanceCommand(swerveDriveSubsystem, navx));
     }
