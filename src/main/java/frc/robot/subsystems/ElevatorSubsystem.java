@@ -20,31 +20,37 @@ public class ElevatorSubsystem  extends SubsystemBase{
     private final double kd;
 
     private final double encoderRatio;
-
+    private double set ;
     public static final List<WPI_TalonFX> motors = new ArrayList<>();
 
     public ElevatorSubsystem() {
         motorLeft = new WPI_TalonFX(Constants.IDs.ELEVATOR_MOTOR_LEFT);
         motorRight = new WPI_TalonFX(Constants.IDs.ELEVATOR_MOTOR_RIGHT);
-        motorLeft.configFactoryDefault();
-        motorRight.configFactoryDefault();
+        // motorLeft.configFactoryDefault();
+        // motorRight.configFactoryDefault();
+        //set max limit to 11, soft limit to 10
         motorLeft.setNeutralMode(NeutralMode.Brake);
         motorRight.setNeutralMode(NeutralMode.Brake);
         
+    
+
         getEncoderMotor().configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
         encoderRatio = 66/4.6;
 
-        kp =0;
-        ki =0;
+        kp =0.23;
+        ki =0.03;
         kd=0;
         PID = new PIDController(kp, ki,kd);
 
-
+        set= 0;
         motors.add(motorLeft);
         motors.add(motorRight);
     }
-
+    public double getVoltage(){
+        return  PID.calculate(getEncoderPos(), set);
+       }
     public void setMotorPos(double setpoint){
+        set = setpoint;
         setVoltage(PID.calculate(getEncoderPos(), setpoint));
     }
 

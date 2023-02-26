@@ -114,7 +114,7 @@ public class RobotContainer {
 
         oi.getButton(0, Constants.Buttons.X_BUTTON).whileTrue(new AutoBalanceCommand(swerveDriveSubsystem, navx));
 
-        oi.getButton(1, Constants.Buttons.X_BUTTON).whileTrue(new WristCommand(wristSubsystem, oi));
+        oi.getButton(1, Constants.Buttons.X_BUTTON).whileTrue(new ElevatorCommand(elevatorSubsystem, oi));
         // oi.getButton(1, Constants.Buttons.A_BUTTON).onTrue(new OpenClawCommand(clawSubsystem));
         // oi.getButton(1, Constants.Buttons.B_BUTTON).onTrue(new CloseClawCommand(clawSubsystem));
     }
