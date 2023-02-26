@@ -24,16 +24,21 @@ public class WristCommand extends CommandBase{
         // wrist.setMotorPos(-1);//change
 
         if(oi.getButton(1, Constants.Buttons.X_BUTTON).getAsBoolean()){
-                pos = -1;
-        }
-        
-        if(oi.getButton(1, Constants.Buttons.Y_BUTTON).getAsBoolean()){
-                pos = -2;
-        }
-        if(oi.getButton(1, Constants.Buttons.A_BUTTON).getAsBoolean()){
-                pos = -3;
-        }
-        wrist.setMotorPos(pos);
+            pos = Constants.SetPoints.MWrist;
+    }
+    
+    if(oi.getButton(1, Constants.Buttons.Y_BUTTON).getAsBoolean()){
+            pos = Constants.SetPoints.TCOWrist;
+    }
+    if(oi.getButton(1, Constants.Buttons.B_BUTTON).getAsBoolean()){
+            pos = Constants.SetPoints.GSWrist;
+    }
+    if(oi.getButton(1, Constants.Buttons.A_BUTTON).getAsBoolean()){
+        // pos=;
+        pos = Constants.SetPoints.MCOWrist;
+    }
+    
+    wrist.setMotorPos(pos);
         // double speed = oi.getAxis(1, Constants.Axes.RIGHT_STICK_Y) * .2;
         // wrist.setSpeed(speed);
     }

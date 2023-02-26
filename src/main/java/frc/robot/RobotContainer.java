@@ -73,9 +73,9 @@ public class RobotContainer {
     
         swerveDriveSubsystem.setDefaultCommand(new DriveCommand(swerveDriveSubsystem, oi, navx));
         elevatorSubsystem.setDefaultCommand(new ElevatorCommand(elevatorSubsystem, oi));
-        // wristSubsystem.setDefaultCommand(new WristCommand(wristSubsystem, oi));
+        wristSubsystem.setDefaultCommand(new WristCommand(wristSubsystem, oi));
         // telescopeSubsystem.setDefaultCommand(new TelescopeCommand(telescopeSubsystem, oi));
-        // armPivotSubsystem.setDefaultCommand(new ArmCommand(armPivotSubsystem, oi));
+        armPivotSubsystem.setDefaultCommand(new ArmCommand(armPivotSubsystem, oi));
 
         clawObstructedTrigger = new Trigger(() ->
             clawObstructionSensor.isObstructed()
