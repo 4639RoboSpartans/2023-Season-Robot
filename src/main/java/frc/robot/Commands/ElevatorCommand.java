@@ -11,20 +11,38 @@ public class ElevatorCommand extends CommandBase {
     private boolean pressedUp;
     private boolean pressedDown;
     private boolean endDown;
-    
+    private double pos;
     public ElevatorCommand(ElevatorSubsystem elevator, OI oi) {
         pressedUp = false;
         pressedDown = false;
         endDown = false;
         this.elevator = elevator;
         this.oi = oi;
+        pos = 0;
         addRequirements(elevator);
     }
 
     @Override
     public void execute() {
 
-        elevator.setMotorPos(50);//change
+        // elevator.setMotorPos(50);//change
+
+         if(oi.getButton(1, Constants.Buttons.X_BUTTON).getAsBoolean()){
+                pos = Constants.SetPoints.MElevator;
+        }
+        
+        if(oi.getButton(1, Constants.Buttons.Y_BUTTON).getAsBoolean()){
+                pos = Constants.SetPoints.TCOElevator;;
+        }
+        if(oi.getButton(1, Constants.Buttons.B_BUTTON).getAsBoolean()){
+                pos = Constants.SetPoints.GSElevator;
+        }
+        if(oi.getButton(1, Constants.Buttons.A_BUTTON).getAsBoolean()){
+            // pos=;
+            pos = Constants.SetPoints.MCOElevator;
+    }
+        elevator.setMotorPos(pos);
+
         // double position = oi.getAxis(1, Constants.Axes.RIGHT_STICK_Y)*0.175;
 
         // elevator.setSpeed(position);

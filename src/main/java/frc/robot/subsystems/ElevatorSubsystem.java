@@ -29,7 +29,6 @@ public class ElevatorSubsystem  extends SubsystemBase{
     private double set ;
     public static final List<WPI_TalonFX> motors = new ArrayList<>();
 
-    private final double soft;
     public ElevatorSubsystem() {
         motorLeft = new WPI_TalonFX(Constants.IDs.ELEVATOR_MOTOR_LEFT);
         motorRight = new WPI_TalonFX(Constants.IDs.ELEVATOR_MOTOR_RIGHT);
@@ -42,8 +41,8 @@ public class ElevatorSubsystem  extends SubsystemBase{
         //stator controls acceleration, current controls overall limit
         //fine if stator is above current
 
-        StatorCurrentLimit = new StatorCurrentLimitConfiguration(true, 11, 10, 0.01);
-        SupplyCurrentLimit = new SupplyCurrentLimitConfiguration(true, 11, 10, 0.01);
+        StatorCurrentLimit = new StatorCurrentLimitConfiguration(true, 35, 37, 0.01);
+        SupplyCurrentLimit = new SupplyCurrentLimitConfiguration(true, 35, 37, 0.01);
 
         motorLeft.configStatorCurrentLimit(StatorCurrentLimit);
         motorLeft.configSupplyCurrentLimit(SupplyCurrentLimit);
@@ -51,10 +50,9 @@ public class ElevatorSubsystem  extends SubsystemBase{
         motorRight.configSupplyCurrentLimit(SupplyCurrentLimit);
 
 
-        soft = 0;
         motorLeft.configForwardSoftLimitEnable(true, 0);
         motorLeft.configReverseSoftLimitEnable(true, 0);
-        motorLeft.configForwardSoftLimitThreshold(soft, 0);
+        motorLeft.configForwardSoftLimitThreshold(85455, 0);
         motorLeft.configReverseSoftLimitThreshold(0, 0);
 
 
@@ -78,11 +76,6 @@ public class ElevatorSubsystem  extends SubsystemBase{
         motors.add(motorRight);
     }
 
-    public void softLimit(){
-        if(getEncoderPos()>soft||getEncoderPos()<0){
-            stop();
-        }
-    }
 
     public double getVoltage(){
         return  PID.calculate(getEncoderPos(), set);

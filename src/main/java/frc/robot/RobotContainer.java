@@ -51,7 +51,7 @@ import frc.robot.network.vision.LimeLight;
  */
 
 public class RobotContainer {
-    private final OI oi = new OI();
+    public final OI oi = new OI();
     private final NavX navx = new NavX();
 
     private final SwerveDriveSubsystem swerveDriveSubsystem = new SwerveDriveSubsystem(navx);
@@ -72,7 +72,7 @@ public class RobotContainer {
         enableCompressor();
     
         swerveDriveSubsystem.setDefaultCommand(new DriveCommand(swerveDriveSubsystem, oi, navx));
-        // elevatorSubsystem.setDefaultCommand(new ElevatorCommand(elevatorSubsystem, oi));
+        elevatorSubsystem.setDefaultCommand(new ElevatorCommand(elevatorSubsystem, oi));
         // wristSubsystem.setDefaultCommand(new WristCommand(wristSubsystem, oi));
         // telescopeSubsystem.setDefaultCommand(new TelescopeCommand(telescopeSubsystem, oi));
         // armPivotSubsystem.setDefaultCommand(new ArmCommand(armPivotSubsystem, oi));
@@ -83,13 +83,10 @@ public class RobotContainer {
         );
 
         configureButtonBindings();
-        configureClaw();
+        // configureClaw();
     }
 
-    public void softLimits(){
-        elevatorSubsystem.softLimit();;
-    }
-
+  
     public void enableCompressor() {
         Compressor pcmCompressor = new Compressor(Constants.IDs.PNEUMATIC_HUB, PneumaticsModuleType.REVPH);
         // Compressor compressor = new Compressor(1, PneumaticsModuleType.REVPH);
@@ -116,11 +113,11 @@ public class RobotContainer {
         oi.getPovButton(0, 90).whileTrue(new RunCommand(() -> elevatorSubsystem.setSpeed(elevatorSubsystem.getEncoderPos() + .03), elevatorSubsystem));
         oi.getPovButton(0, 270).whileTrue(new RunCommand(() -> elevatorSubsystem.setSpeed(elevatorSubsystem.getEncoderPos() - .03), elevatorSubsystem));
 
-        oi.getButton(0, Constants.Buttons.X_BUTTON).whileTrue(new AutoBalanceCommand(swerveDriveSubsystem, navx));
+        // oi.getButton(0, Constants.Buttons.X_BUTTON).whileTrue(new AutoBalanceCommand(swerveDriveSubsystem, navx));
 
-        oi.getButton(1, Constants.Buttons.X_BUTTON).whileTrue(new ElevatorCommand(elevatorSubsystem, oi));
-        // oi.getButton(1, Constants.Buttons.A_BUTTON).onTrue(new OpenClawCommand(clawSubsystem));
-        // oi.getButton(1, Constants.Buttons.B_BUTTON).onTrue(new CloseClawCommand(clawSubsystem));
+        // oi.getButton(1, Constants.Buttons.B_BUTTON).whileTrue(new ArmCommand(armPivotSubsystem, oi));
+        // oi.getButton(0, Constants.Buttons.A_BUTTON).onTrue(new OpenClawCommand(clawSubsystem));
+        // oi.getButton(0, Constants.Buttons.B_BUTTON).onTrue(new CloseClawCommand(clawSubsystem));
     }
 
     private void configureClaw() {

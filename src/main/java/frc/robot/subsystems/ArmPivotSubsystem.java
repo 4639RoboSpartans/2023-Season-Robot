@@ -23,7 +23,7 @@ public class ArmPivotSubsystem extends SubsystemBase {
     private final double kp;
     private final double ki;
     private final double kd;
-    private final float soft;
+    private  double pos;
     public ArmPivotSubsystem(){
         // pid = new PIDController(0, 0, 0);
         armPivotMotorL = new CANSparkMax(Constants.IDs.ARM_PIVOT_L, MotorType.kBrushless);
@@ -32,26 +32,32 @@ public class ArmPivotSubsystem extends SubsystemBase {
         armPivotMotorR.clearFaults();
         armPivotMotorR.follow(armPivotMotorL, true);
         
-        soft = 0;
-        armPivotMotorL.setSmartCurrentLimit(0);
-        armPivotMotorL.enableSoftLimit(SoftLimitDirection.kForward , true);
+        armPivotMotorL.setSmartCurrentLimit(5);
+        
+        // armPivotMotorL.enableSoftLimit(SoftLimitDirection.kForward , true);
         armPivotMotorL.enableSoftLimit(SoftLimitDirection.kReverse, true);
-        armPivotMotorL.setSoftLimit(SoftLimitDirection.kForward, soft);
-        armPivotMotorL.setSoftLimit(SoftLimitDirection.kReverse, 0);
+        // armPivotMotorL.setSoftLimit(SoftLimitDirection.kForward, 0);
+        armPivotMotorL.setSoftLimit(SoftLimitDirection.kReverse, -36);
+        pos = 0;
 
-
-        encoder = armPivotMotorL.getEncoder();
+        encoder = armPivotMotorR.getEncoder();
+        
         encoder.setPosition(0);
         armPivotMotorL.burnFlash();
         armPivotMotorR.burnFlash();
         encoderRatio = 10000;
-        kp =0;
+        kp =0.02;
         ki = 0;
         kd = 0;
         PID = new PIDController(kp, ki, kd);
 
     }
+    public double getVoltage(){
+        // return pos;
+        return PID.calculate(getEncoderPos(), pos);
+    }
     public void setMotorPos(double setpoint){
+        pos=  setpoint;
         setVoltage(PID.calculate(getEncoderPos(), setpoint));
     }
 
@@ -73,6 +79,7 @@ public class ArmPivotSubsystem extends SubsystemBase {
     }
 
     public void setVoltage(double volt){
+        // pos = volt;
         armPivotMotorL.set(volt);
         armPivotMotorR.set(-volt);
     }

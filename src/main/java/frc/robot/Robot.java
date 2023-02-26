@@ -60,12 +60,14 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("TelescopeEncoderValue", robotContainer.telescopeSubsystem.getEncoderPos());
     SmartDashboard.putNumber("ElevatorEncoderValue", robotContainer.elevatorSubsystem.getEncoderPos());
     SmartDashboard.putNumber("WristCPR", robotContainer.wristSubsystem.getCPR());
-    SmartDashboard.putNumber("ElevatorVoltage", robotContainer.elevatorSubsystem.getVoltage());
+    SmartDashboard.putNumber("ArmVoltage", robotContainer.armPivotSubsystem.getVoltage());
 
     SmartDashboard.putNumber("WristRawEncoder", robotContainer.wristSubsystem.getRawEncoderPos());
     SmartDashboard.putNumber("TelescopeRawEncoder", robotContainer.telescopeSubsystem.getRawEncoderPos());
     SmartDashboard.putNumber("ElevatorRawEncoder", robotContainer.elevatorSubsystem.getRawEncoderPos());
     SmartDashboard.putNumber("ArmPivotRawEncoder", robotContainer.armPivotSubsystem.getRawEncoderPos());
+
+    SmartDashboard.putBoolean("Controller y activated", robotContainer.oi.getButton(1, Constants.Buttons.Y_BUTTON).getAsBoolean());
     // robotContainer.softLimits();
     CommandScheduler.getInstance().run();
   }

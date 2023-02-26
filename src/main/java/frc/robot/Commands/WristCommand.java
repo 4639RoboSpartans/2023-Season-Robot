@@ -8,9 +8,11 @@ import frc.robot.OI;
 public class WristCommand extends CommandBase{
     private final WristSubsystem wrist;
     private final OI oi;
+    private double pos;
     public WristCommand(WristSubsystem wrist, OI oi){
         this.wrist = wrist;
         this.oi = oi;
+        pos = 0;
         addRequirements(wrist);
     }
     @Override
@@ -19,9 +21,19 @@ public class WristCommand extends CommandBase{
     }
     @Override
     public void execute(){
-        wrist.setMotorPos(-1);//change
+        // wrist.setMotorPos(-1);//change
 
+        if(oi.getButton(1, Constants.Buttons.X_BUTTON).getAsBoolean()){
+                pos = -1;
+        }
         
+        if(oi.getButton(1, Constants.Buttons.Y_BUTTON).getAsBoolean()){
+                pos = -2;
+        }
+        if(oi.getButton(1, Constants.Buttons.A_BUTTON).getAsBoolean()){
+                pos = -3;
+        }
+        wrist.setMotorPos(pos);
         // double speed = oi.getAxis(1, Constants.Axes.RIGHT_STICK_Y) * .2;
         // wrist.setSpeed(speed);
     }

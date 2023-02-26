@@ -21,18 +21,17 @@ public class WristSubsystem extends SubsystemBase{
     private final double kp;
     private final double ki;
     private final double kd;
-  private final float soft;
     private double set;
     public WristSubsystem(){
        neo = new CANSparkMax(Constants.IDs.WRIST_MOTOR, MotorType.kBrushless);
        neo.clearFaults();
        
-       soft = 0;
+      
 
-       neo.setSmartCurrentLimit(0);// changes
-       neo.setSoftLimit(SoftLimitDirection.kForward, soft); //change
+       neo.setSmartCurrentLimit(25);// changes
+       neo.setSoftLimit(SoftLimitDirection.kForward, 0); //change
        neo.enableSoftLimit(SoftLimitDirection.kForward, true);
-       neo.setSoftLimit(SoftLimitDirection.kReverse, 0); //change
+       neo.setSoftLimit(SoftLimitDirection.kReverse, -36); //change
        neo.enableSoftLimit(SoftLimitDirection.kReverse, true);
 
       neo.burnFlash();
@@ -41,7 +40,7 @@ public class WristSubsystem extends SubsystemBase{
       encoderRatio = 0.5;
       encoder.setPosition(0);
       kp = 1.3;
-      ki=1;
+      ki=2;
       kd=0;
       PID = new PIDController(kp, ki, kd);
       PID.setTolerance(0.1);
