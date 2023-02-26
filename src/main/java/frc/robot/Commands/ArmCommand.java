@@ -23,9 +23,8 @@ public class ArmCommand extends CommandBase {
 
     @Override
     public void execute() {
-        // double speed = oi.getAxis(0, Constants.Axes.LEFT_STICK_Y);
-        // pivot.set(speed);
-        // pivot.setAngle(speed);
+        double speed = oi.getAxis(1, Constants.Axes.LEFT_STICK_Y)*.2;
+        pivot.setSpeed(speed);
     }
     
     @Override

@@ -33,12 +33,59 @@ public final class Constants {
 		public static final int ELEVATOR_MOTOR_RIGHT = 16; // Falcon
 		public static final int TELESCOPE_MOTOR = 17; //talon to 775 pro
 		public static final int WRIST_MOTOR = 18;	//spark max
+		public static final int PNEUMATIC_HUB = 19;
 		// public static final int TELESCOPE_ENCODER = 15;
 		// public static final int ENCODER_3 = 15;
 		public static final int CLAW_SOLENOID_CHANNEL = 0;	//pneumatics
+	}
 
-		
+	public static final class SetPoints{
+		//Intake:
+		//Floor intake
+		public final double FIWrist = -2.06;
+		public final double FITelescope = 0;
+		public final double FIArmPivot = -90.74;
+		public final double FIElevator = 28.89;
+		//Platform intake
+		public final double PIWrist = -12.13;
+		public final double PITelescope = 0;
+		public final double PIArmPivot = -22.03;
+		public final double PIElevator = 0;
 
+		//Movement:
+		//Movement pos
+		public final double MWrist = -7.1;
+		public final double MTelescope = 0;
+		public final double MArmPivot = 0;
+		public final double MElevator = 0;
+
+
+		//Scoring:
+		//Ground
+		public final double GSWrist = -0.8;
+		public final double GSTelescope = 0;
+		public final double GSArmPivot = -96.14;
+		public final double GSElevator = 65.91;
+		//middle row cone
+		public final double MCOWrist = -10.95;
+		public final double MCOTelescope = 0;
+		public final double MCOArmPivot = -27.73;
+		public final double MCOElevator = 0;
+		//middle row cube is same as cone middle cube
+		public final double MCUWrist = 0;
+		public final double MCUTelescope = 0;
+		public final double MCUArmPivot = 0;
+		public final double MCUElevator = 0;
+		//top row cone
+		public final double TCOWrist = -7.34;
+		public final double TCOTelescope = 22.96;
+		public final double TCOArmPivot = -42.84;
+		public final double TCOElevator = 65.82;
+		//top row cube is 
+		public final double TCUWrist = 0;
+		public final double TCUTelescope = 0;
+		public final double TCUArmPivot = 0;
+		public final double TCUElevator = 0;
 	}
 
 	public static final class RobotInfo {

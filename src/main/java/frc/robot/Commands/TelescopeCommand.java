@@ -15,13 +15,13 @@ public class TelescopeCommand extends CommandBase {
     }
     @Override
     public void initialize() {
-        telescope.extend(0);
+        telescope.setSpeed(0);
     }
     @Override
     public void execute() {
-        double position = oi.getAxis(0, Constants.Axes.RIGHT_STICK_Y);
+        double position = oi.getAxis(1, Constants.Axes.RIGHT_STICK_Y)*0.2;
 
-        telescope.extend(position);
+        telescope.setSpeed(position);
         // telescope.setPosition(Position);
     }
 }

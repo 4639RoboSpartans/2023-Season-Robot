@@ -12,28 +12,39 @@ public class TelescopeSubsystem  extends SubsystemBase{
 
     public WPI_TalonSRX motor;
     // private final CANCoder encoder;
-    private final PIDController pid;
     private final double encoderRatio;
+    private final PIDController PID;
+    private final double kp;
+    private final double ki;
+    private final double kd;
     public TelescopeSubsystem() {
         motor = new WPI_TalonSRX(Constants.IDs.TELESCOPE_MOTOR);
         motor.configFactoryDefault();
         motor.setNeutralMode(NeutralMode.Brake);
-        pid = new PIDController(0.0000000001, 0, 0);
-        encoderRatio = 1;
+        encoderRatio = 30/4.315;
+        
+        kp =0;
+        ki = 0;
+        kd = 0;
+        PID = new PIDController(kp, ki, kd);
+        PID.setTolerance(0.1);
     }
 
-    // public void setPosition(double position) {
-    //     pid.setSetpoint(position);
-    // }
+    public void setMotorPos(double setpoint) {
+        setVoltage(PID.calculate(getEncoderPos(),setpoint));
+    }
 
     public double getEncoderPos(){
         return (motor.getSelectedSensorPosition()/4096)*encoderRatio;
     }
 
-    public void extend(double speed) {
+    public void setSpeed(double speed) {
         motor.set(speed);
     }
 
+    public void setVoltage(double volt){
+        motor.setVoltage(volt);
+    }
     // @Override
     // public void periodic() {
     //     double voltage = pid.calculate(encoder.getPosition());

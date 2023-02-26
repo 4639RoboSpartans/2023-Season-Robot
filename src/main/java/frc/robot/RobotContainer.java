@@ -7,6 +7,7 @@ package frc.robot;
 
 import java.util.List;
 
+import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -55,7 +56,7 @@ public class RobotContainer {
 
     private final SwerveDriveSubsystem swerveDriveSubsystem = new SwerveDriveSubsystem(navx);
     private final ClawSubsystem clawSubsystem = new ClawSubsystem();
-    public final ObstructionSensor clawObstructionSensor = new ObstructionSensor(5);
+    public final ObstructionSensor clawObstructionSensor = new ObstructionSensor(1);
     public final ArmPivotSubsystem armPivotSubsystem = new ArmPivotSubsystem();
     public final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
     public final TelescopeSubsystem telescopeSubsystem = new TelescopeSubsystem();
@@ -69,9 +70,12 @@ public class RobotContainer {
      */
     public RobotContainer() {
         enableCompressor();
-
+    
         swerveDriveSubsystem.setDefaultCommand(new DriveCommand(swerveDriveSubsystem, oi, navx));
-        elevatorSubsystem.setDefaultCommand(new ElevatorCommand(elevatorSubsystem, oi));
+        // elevatorSubsystem.setDefaultCommand(new ElevatorCommand(elevatorSubsystem, oi));
+        // wristSubsystem.setDefaultCommand(new WristCommand(wristSubsystem, oi));
+        // telescopeSubsystem.setDefaultCommand(new TelescopeCommand(telescopeSubsystem, oi));
+        // armPivotSubsystem.setDefaultCommand(new ArmCommand(armPivotSubsystem, oi));
 
         clawObstructedTrigger = new Trigger(() ->
             clawObstructionSensor.isObstructed()
@@ -83,10 +87,12 @@ public class RobotContainer {
     }
 
     public void enableCompressor() {
-        Compressor pcmCompressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
-        Compressor compressor = new Compressor(1, PneumaticsModuleType.REVPH);
+        Compressor pcmCompressor = new Compressor(Constants.IDs.PNEUMATIC_HUB, PneumaticsModuleType.REVPH);
+        // Compressor compressor = new Compressor(1, PneumaticsModuleType.REVPH);
+
         pcmCompressor.enableDigital();
-        pcmCompressor.disable();
+        // pcmCompressor.disable();
+
     }
 
     /*
@@ -98,15 +104,19 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        configureClaw();
+        // configureClaw();
 
         oi.getButton(0, Constants.Buttons.Y_BUTTON)
-                .onTrue(new RunCommand(() -> elevatorSubsystem.setPosition(0), elevatorSubsystem));
+                .onTrue(new RunCommand(() -> elevatorSubsystem.setSpeed(0), elevatorSubsystem));
 
-        oi.getPovButton(0, 90).whileTrue(new RunCommand(() -> elevatorSubsystem.setPosition(elevatorSubsystem.getEncoderPos() + .03), elevatorSubsystem));
-        oi.getPovButton(0, 270).whileTrue(new RunCommand(() -> elevatorSubsystem.setPosition(elevatorSubsystem.getEncoderPos() - .03), elevatorSubsystem));
+        oi.getPovButton(0, 90).whileTrue(new RunCommand(() -> elevatorSubsystem.setSpeed(elevatorSubsystem.getEncoderPos() + .03), elevatorSubsystem));
+        oi.getPovButton(0, 270).whileTrue(new RunCommand(() -> elevatorSubsystem.setSpeed(elevatorSubsystem.getEncoderPos() - .03), elevatorSubsystem));
 
         oi.getButton(0, Constants.Buttons.X_BUTTON).whileTrue(new AutoBalanceCommand(swerveDriveSubsystem, navx));
+
+        oi.getButton(1, Constants.Buttons.X_BUTTON).whileTrue(new WristCommand(wristSubsystem, oi));
+        // oi.getButton(1, Constants.Buttons.A_BUTTON).onTrue(new OpenClawCommand(clawSubsystem));
+        // oi.getButton(1, Constants.Buttons.B_BUTTON).onTrue(new CloseClawCommand(clawSubsystem));
     }
 
     private void configureClaw() {

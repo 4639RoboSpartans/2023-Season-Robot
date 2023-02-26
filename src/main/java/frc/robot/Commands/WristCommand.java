@@ -19,8 +19,9 @@ public class WristCommand extends CommandBase{
     }
     @Override
     public void execute(){
-        double speed = oi.getAxis(0, Constants.Axes.RIGHT_STICK_Y) * .05;
-        wrist.setSpeed(speed);
+        wrist.setMotorPos(-1);
+        // double speed = oi.getAxis(1, Constants.Axes.RIGHT_STICK_Y) * .2;
+        // wrist.setSpeed(speed);
     }
     @Override
     public void end(boolean interrupted){

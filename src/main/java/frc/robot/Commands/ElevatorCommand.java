@@ -23,6 +23,11 @@ public class ElevatorCommand extends CommandBase {
 
     @Override
     public void execute() {
+
+        double position = oi.getAxis(1, Constants.Axes.RIGHT_STICK_Y)*0.175;
+
+        elevator.setSpeed(position);
+        // telescope.setPosition(Position);
         //pressedUp = oi.getButton(0, Constants.Buttons.Y_BUTTON).getAsBoolean();
         //pressedDown = oi.getButton(0, Constants.Buttons.A_BUTTON).getAsBoolean();
         // if(pressedUp) 

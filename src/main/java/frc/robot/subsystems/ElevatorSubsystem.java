@@ -14,9 +14,11 @@ public class ElevatorSubsystem  extends SubsystemBase{
     private final WPI_TalonFX motorLeft;
     private final WPI_TalonFX motorRight;
 
-    private final PIDController pid;
+    private final PIDController PID;
+    private final double kp;
+    private final double ki;
+    private final double kd;
 
-    private final double encoderOffset;
     private final double encoderRatio;
 
     public static final List<WPI_TalonFX> motors = new ArrayList<>();
@@ -30,12 +32,20 @@ public class ElevatorSubsystem  extends SubsystemBase{
         motorRight.setNeutralMode(NeutralMode.Brake);
         
         getEncoderMotor().configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-        encoderOffset = getEncoderMotor().getSelectedSensorPosition();
-        encoderRatio = 1;
-        pid = new PIDController(3.0, 1.0, 0);
+        encoderRatio = 66/4.6;
+
+        kp =0;
+        ki =0;
+        kd=0;
+        PID = new PIDController(kp, ki,kd);
+
 
         motors.add(motorLeft);
         motors.add(motorRight);
+    }
+
+    public void setMotorPos(double setpoint){
+        setVoltage(PID.calculate(getEncoderPos(), setpoint));
     }
 
     private WPI_TalonFX getEncoderMotor(){
@@ -43,32 +53,32 @@ public class ElevatorSubsystem  extends SubsystemBase{
     }
 
     public double getEncoderPos() {
-        return ((getEncoderMotor().getSelectedSensorPosition()-encoderOffset)/4096)*encoderRatio;
+        return ((getEncoderMotor().getSelectedSensorPosition())/2048)/9*encoderRatio;
     }
 
-    public void setPosition(double position) {
-        pid.setSetpoint(position);
-    }
-
-    private void setSpeed(double speed) {
+    public void setSpeed(double speed) {
          motorLeft.set(speed);
          motorRight.set(-speed);
     }
 
-    @Override
-    public void periodic() {
-        double rawVoltage = pid.calculate(getEncoderPos());
-        // Artificially cap the voltage
-        double voltage = Math.signum(rawVoltage) * Math.min(Math.abs(rawVoltage), 0.15);
-        SmartDashboard.putNumber("elevator position", getEncoderPos());
-        // setSpeed(voltage);
-       stop();
-        SmartDashboard.putNumber("elevator voltage", voltage);
-        SmartDashboard.putNumber("elevator setpoint", pid.getSetpoint());
+    public void setVoltage(double volt){
+        motorLeft.setVoltage(volt);
+        motorRight.setVoltage(-volt);
     }
+    // @Override
+    // public void periodic() {
+    //     double rawVoltage = pid.calculate(getEncoderPos());
+    //     // Artificially cap the voltage
+    //     double voltage = Math.signum(rawVoltage) * Math.min(Math.abs(rawVoltage), 0.15);
+    //     SmartDashboard.putNumber("elevator position", getEncoderPos());
+    //     // setSpeed(voltage);
+    //    stop();
+    //     SmartDashboard.putNumber("elevator voltage", voltage);
+    //     SmartDashboard.putNumber("elevator setpoint", pid.getSetpoint());
+    // }
 
     public void stop(){
-        motorLeft.set(0);
-        motorRight.set(0);
+        motorLeft.setVoltage(0);
+        motorRight.setVoltage(0);
     }
 }

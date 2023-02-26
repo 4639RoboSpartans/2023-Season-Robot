@@ -17,13 +17,28 @@ public class ArmPivotSubsystem extends SubsystemBase {
     private final CANSparkMax armPivotMotorR;
     private final RelativeEncoder encoder;
     private final double encoderRatio;
+
+    private final PIDController PID;
+    private final double kp;
+    private final double ki;
+    private final double kd;
     public ArmPivotSubsystem(){
         // pid = new PIDController(0, 0, 0);
         armPivotMotorL = new CANSparkMax(Constants.IDs.ARM_PIVOT_L, MotorType.kBrushless);
         armPivotMotorR = new CANSparkMax(Constants.IDs.ARM_PIVOT_R, MotorType.kBrushless);
         encoder = armPivotMotorL.getEncoder();
-        encoderRatio = 1;
+        encoder.setPosition(0);
+        encoderRatio = 10000;
+        kp =0;
+        ki = 0;
+        kd = 0;
+        PID = new PIDController(kp, ki, kd);
+
     }
+    public void setMotorPos(double setpoint){
+        setVoltage(PID.calculate(getEncoderPos(), setpoint));
+    }
+
     public double getEncoderPos(){
         return (encoder.getPosition()/encoder.getCountsPerRevolution())*encoderRatio;
     }
@@ -32,19 +47,13 @@ public class ArmPivotSubsystem extends SubsystemBase {
         armPivotMotorR.stopMotor();
     }
 
-    public void set(double speed){
+    public void setSpeed(double speed){
         armPivotMotorL.set(speed);
         armPivotMotorR.set(-speed);
     }
 
-    // public void setAngle(double angle){
-    //     pid.setSetpoint(angle);
-    //     pid.setSetpoint(angle);
-    // }
-
-    @Override
-    public void periodic( ) {
-    //    double speed =  pid.calculate(canCoder.getPosition());
-    //    set(speed);
+    public void setVoltage(double volt){
+        armPivotMotorL.set(volt);
+        armPivotMotorR.set(-volt);
     }
 }

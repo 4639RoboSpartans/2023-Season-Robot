@@ -11,29 +11,27 @@ public class ClawSubsystem extends SubsystemBase {
     private boolean isOpen;
 
     public ClawSubsystem() {
-        m_solenoid = new Solenoid(
-            PneumaticsModuleType.CTREPCM, 
-            Constants.IDs.CLAW_SOLENOID_CHANNEL
-        );
+       m_solenoid = new Solenoid(Constants.IDs.PNEUMATIC_HUB, PneumaticsModuleType.REVPH, 0);
         m_solenoid.set(true);
     }
 
     public void open() {
-        isOpen = true;
-        m_solenoid.set(false);
+        isOpen = false;
+        m_solenoid.set(true);
+      
     }
 
     public void close() {
-        isOpen = false;
-        m_solenoid.set(true);
+        isOpen = true;
+        m_solenoid.set(false);
     }
 
     public boolean isOpen() {
         return isOpen;
     }
 
-    @Override
-    public void periodic() {
-        SmartDashboard.putBoolean("Claw Open", isOpen);
-    }
+    // @Override
+    // public void periodic() {
+    //     SmartDashboard.putBoolean("Claw Open", isOpen);
+    // }
 }
