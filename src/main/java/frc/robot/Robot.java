@@ -61,6 +61,12 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("ElevatorEncoderValue", robotContainer.elevatorSubsystem.getEncoderPos());
     SmartDashboard.putNumber("WristCPR", robotContainer.wristSubsystem.getCPR());
     SmartDashboard.putNumber("ElevatorVoltage", robotContainer.elevatorSubsystem.getVoltage());
+
+    SmartDashboard.putNumber("WristRawEncoder", robotContainer.wristSubsystem.getRawEncoderPos());
+    SmartDashboard.putNumber("TelescopeRawEncoder", robotContainer.telescopeSubsystem.getRawEncoderPos());
+    SmartDashboard.putNumber("ElevatorRawEncoder", robotContainer.elevatorSubsystem.getRawEncoderPos());
+    SmartDashboard.putNumber("ArmPivotRawEncoder", robotContainer.armPivotSubsystem.getRawEncoderPos());
+    // robotContainer.softLimits();
     CommandScheduler.getInstance().run();
   }
 

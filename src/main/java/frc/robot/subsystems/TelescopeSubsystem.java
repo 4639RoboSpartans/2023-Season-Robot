@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.sensors.CANCoder;
@@ -17,12 +19,23 @@ public class TelescopeSubsystem  extends SubsystemBase{
     private final double kp;
     private final double ki;
     private final double kd;
+    private final SupplyCurrentLimitConfiguration SupplyCurrentLimit;
+    private final double softLimit;
     public TelescopeSubsystem() {
         motor = new WPI_TalonSRX(Constants.IDs.TELESCOPE_MOTOR);
         motor.configFactoryDefault();
         motor.setNeutralMode(NeutralMode.Brake);
         encoderRatio = 30/4.315;
+
+        SupplyCurrentLimit = new SupplyCurrentLimitConfiguration(false, 11, 10, 0.01);
+        motor.configSupplyCurrentLimit(SupplyCurrentLimit);
         
+        motor.configForwardSoftLimitEnable(true);
+        motor.configReverseSoftLimitEnable(true);
+        softLimit = 0;
+        motor.configForwardSoftLimitThreshold(softLimit, 0);
+        motor.configReverseSoftLimitThreshold(0, 0);
+
         kp =0;
         ki = 0;
         kd = 0;
@@ -38,6 +51,9 @@ public class TelescopeSubsystem  extends SubsystemBase{
         return (motor.getSelectedSensorPosition()/4096)*encoderRatio;
     }
 
+    public double getRawEncoderPos(){
+        return motor.getSelectedSensorPosition();
+    }
     public void setSpeed(double speed) {
         motor.set(speed);
     }

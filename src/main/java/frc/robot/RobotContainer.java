@@ -86,6 +86,10 @@ public class RobotContainer {
         configureClaw();
     }
 
+    public void softLimits(){
+        elevatorSubsystem.softLimit();;
+    }
+
     public void enableCompressor() {
         Compressor pcmCompressor = new Compressor(Constants.IDs.PNEUMATIC_HUB, PneumaticsModuleType.REVPH);
         // Compressor compressor = new Compressor(1, PneumaticsModuleType.REVPH);

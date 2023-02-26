@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.Constants;
@@ -22,12 +23,27 @@ public class ArmPivotSubsystem extends SubsystemBase {
     private final double kp;
     private final double ki;
     private final double kd;
+    private final float soft;
     public ArmPivotSubsystem(){
         // pid = new PIDController(0, 0, 0);
         armPivotMotorL = new CANSparkMax(Constants.IDs.ARM_PIVOT_L, MotorType.kBrushless);
         armPivotMotorR = new CANSparkMax(Constants.IDs.ARM_PIVOT_R, MotorType.kBrushless);
+        armPivotMotorL.clearFaults();
+        armPivotMotorR.clearFaults();
+        armPivotMotorR.follow(armPivotMotorL, true);
+        
+        soft = 0;
+        armPivotMotorL.setSmartCurrentLimit(0);
+        armPivotMotorL.enableSoftLimit(SoftLimitDirection.kForward , true);
+        armPivotMotorL.enableSoftLimit(SoftLimitDirection.kReverse, true);
+        armPivotMotorL.setSoftLimit(SoftLimitDirection.kForward, soft);
+        armPivotMotorL.setSoftLimit(SoftLimitDirection.kReverse, 0);
+
+
         encoder = armPivotMotorL.getEncoder();
         encoder.setPosition(0);
+        armPivotMotorL.burnFlash();
+        armPivotMotorR.burnFlash();
         encoderRatio = 10000;
         kp =0;
         ki = 0;
@@ -41,6 +57,10 @@ public class ArmPivotSubsystem extends SubsystemBase {
 
     public double getEncoderPos(){
         return (encoder.getPosition()/encoder.getCountsPerRevolution())*encoderRatio;
+    }
+
+    public double getRawEncoderPos(){
+        return encoder.getPosition();
     }
     public void stop(){
         armPivotMotorL.stopMotor();

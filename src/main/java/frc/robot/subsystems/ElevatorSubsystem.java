@@ -1,6 +1,9 @@
 package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.FollowerType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,6 +17,9 @@ public class ElevatorSubsystem  extends SubsystemBase{
     private final WPI_TalonFX motorLeft;
     private final WPI_TalonFX motorRight;
 
+    private final StatorCurrentLimitConfiguration StatorCurrentLimit;
+    private final SupplyCurrentLimitConfiguration SupplyCurrentLimit;
+
     private final PIDController PID;
     private final double kp;
     private final double ki;
@@ -23,16 +29,41 @@ public class ElevatorSubsystem  extends SubsystemBase{
     private double set ;
     public static final List<WPI_TalonFX> motors = new ArrayList<>();
 
+    private final double soft;
     public ElevatorSubsystem() {
         motorLeft = new WPI_TalonFX(Constants.IDs.ELEVATOR_MOTOR_LEFT);
         motorRight = new WPI_TalonFX(Constants.IDs.ELEVATOR_MOTOR_RIGHT);
-        // motorLeft.configFactoryDefault();
-        // motorRight.configFactoryDefault();
-        //set max limit to 11, soft limit to 10
+
+        motorLeft.configFactoryDefault();
+        motorRight.configFactoryDefault();
+
+        motorRight.follow(motorLeft);
+        motorRight.setInverted(true);
+        //stator controls acceleration, current controls overall limit
+        //fine if stator is above current
+
+        StatorCurrentLimit = new StatorCurrentLimitConfiguration(true, 11, 10, 0.01);
+        SupplyCurrentLimit = new SupplyCurrentLimitConfiguration(true, 11, 10, 0.01);
+
+        motorLeft.configStatorCurrentLimit(StatorCurrentLimit);
+        motorLeft.configSupplyCurrentLimit(SupplyCurrentLimit);
+        motorRight.configStatorCurrentLimit(StatorCurrentLimit);
+        motorRight.configSupplyCurrentLimit(SupplyCurrentLimit);
+
+
+        soft = 0;
+        motorLeft.configForwardSoftLimitEnable(true, 0);
+        motorLeft.configReverseSoftLimitEnable(true, 0);
+        motorLeft.configForwardSoftLimitThreshold(soft, 0);
+        motorLeft.configReverseSoftLimitThreshold(0, 0);
+
+
+                //set max limit to 11, soft limit to 10
         motorLeft.setNeutralMode(NeutralMode.Brake);
         motorRight.setNeutralMode(NeutralMode.Brake);
         
-    
+
+        
 
         getEncoderMotor().configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
         encoderRatio = 66/4.6;
@@ -46,6 +77,13 @@ public class ElevatorSubsystem  extends SubsystemBase{
         motors.add(motorLeft);
         motors.add(motorRight);
     }
+
+    public void softLimit(){
+        if(getEncoderPos()>soft||getEncoderPos()<0){
+            stop();
+        }
+    }
+
     public double getVoltage(){
         return  PID.calculate(getEncoderPos(), set);
        }
@@ -61,15 +99,17 @@ public class ElevatorSubsystem  extends SubsystemBase{
     public double getEncoderPos() {
         return ((getEncoderMotor().getSelectedSensorPosition())/2048)/9*encoderRatio;
     }
-
+    public double getRawEncoderPos(){
+        return getEncoderMotor().getSelectedSensorPosition();
+    }
     public void setSpeed(double speed) {
          motorLeft.set(speed);
-         motorRight.set(-speed);
+        //  motorRight.set(-speed);
     }
 
     public void setVoltage(double volt){
         motorLeft.setVoltage(volt);
-        motorRight.setVoltage(-volt);
+        // motorRight.setVoltage(-volt);
     }
     // @Override
     // public void periodic() {

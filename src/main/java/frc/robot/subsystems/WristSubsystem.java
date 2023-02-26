@@ -1,8 +1,12 @@
 package frc.robot.subsystems;
 
 
+import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -17,9 +21,22 @@ public class WristSubsystem extends SubsystemBase{
     private final double kp;
     private final double ki;
     private final double kd;
+  private final float soft;
     private double set;
     public WristSubsystem(){
        neo = new CANSparkMax(Constants.IDs.WRIST_MOTOR, MotorType.kBrushless);
+       neo.clearFaults();
+       
+       soft = 0;
+
+       neo.setSmartCurrentLimit(0);// changes
+       neo.setSoftLimit(SoftLimitDirection.kForward, soft); //change
+       neo.enableSoftLimit(SoftLimitDirection.kForward, true);
+       neo.setSoftLimit(SoftLimitDirection.kReverse, 0); //change
+       neo.enableSoftLimit(SoftLimitDirection.kReverse, true);
+
+      neo.burnFlash();
+
       encoder = neo.getEncoder();
       encoderRatio = 0.5;
       encoder.setPosition(0);
@@ -29,6 +46,9 @@ public class WristSubsystem extends SubsystemBase{
       PID = new PIDController(kp, ki, kd);
       PID.setTolerance(0.1);
       set=0;
+
+      
+      
     }
     public double getVoltage(){
      return  PID.calculate(getEncoderPos(), set);
@@ -42,6 +62,10 @@ public class WristSubsystem extends SubsystemBase{
     //neo has 42 countes per rev
     public double getEncoderPos(){
       return ((encoder.getPosition()/encoder.getCountsPerRevolution())/encoderRatio)*360;
+    }
+    
+    public double getRawEncoderPos(){
+      return encoder.getPosition();
     }
     public double getCPR(){
       return encoder.getCountsPerRevolution();
