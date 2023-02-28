@@ -42,6 +42,26 @@ public class WristCommand extends CommandBase{
         // double speed = oi.getAxis(1, Constants.Axes.RIGHT_STICK_Y) * .2;
         // wrist.setSpeed(speed);
     }
+
+    public void FloorPickup(){
+        pos = Constants.SetPoints.FIWrist;
+    }
+    public void PlatformPickup(){
+        pos = Constants.SetPoints.PIWrist;
+    }
+    public void Moving(){
+        pos = Constants.SetPoints.MWrist;
+    }
+    public void LowPlace(){
+
+    }
+    public void MidPlace(){
+
+    }
+    public void HighPlace(){
+
+    }
+
     @Override
     public void end(boolean interrupted){
         wrist.stop();
