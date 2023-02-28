@@ -1,11 +1,13 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -18,7 +20,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         moduleFrontRight,
         moduleBackLeft,
         moduleBackRight;
-
+   
     private final SwerveDriveKinematics kinematics;
     private final SwerveDriveOdometry odometry;
     private final NavX navx;
@@ -26,12 +28,22 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     private Pose2d pose;
     
+    private PIDController PID;
+    private double kp;
+    private double ki;
+    private double kd;
+
     public SwerveDriveSubsystem(NavX navx){
         moduleFrontLeft  = new SwerveModule(Constants.IDs.MODULE_FRONT_LEFT);
         moduleFrontRight = new SwerveModule(Constants.IDs.MODULE_FRONT_RIGHT);
         moduleBackLeft   = new SwerveModule(Constants.IDs.MODULE_BACK_LEFT);
         moduleBackRight  = new SwerveModule(Constants.IDs.MODULE_BACK_RIGHT);
 
+        kp =0;
+        ki =0;
+        kd = 0;
+        PID = new PIDController(kp, ki, kd);
+        
         this.navx = navx;
         pose = new Pose2d();
 
@@ -46,6 +58,47 @@ public class SwerveDriveSubsystem extends SubsystemBase {
             navx.getGyroRotation2d(),
             getSwerveModulePositions(),
             new Pose2d(5.0, 13.5, new Rotation2d())
+        );
+    }
+
+    public void setMovement(double horizontalOffset, double angle){
+        double voltage = PID.calculate(horizontalOffset, 0);
+        double speed = voltage/12.5;
+        
+        double speedFrontLeft  = speed;
+        double speedFrontRight = speed;
+        double speedBackLeft   = speed;
+        double speedBackRight  = speed;
+
+        double angleFrontLeft  = angle;
+        double angleFrontRight = angle;
+        double angleBackLeft   = angle;
+        double angleBackRight  = angle;
+
+        double max = math.max(
+            speedFrontLeft, 
+            speedFrontRight, 
+            speedBackLeft, 
+            speedBackRight
+        );
+
+        if (max > 1) {
+            speedFrontLeft  /= max;
+            speedFrontRight /= max;
+            speedBackLeft   /= max;
+            speedBackRight  /= max;
+        }
+
+        SmartDashboard.putNumber("angle 1", angleFrontLeft);
+        SmartDashboard.putNumber("angle 2", angleFrontRight);
+        SmartDashboard.putNumber("angle 3", angleBackLeft);
+        SmartDashboard.putNumber("angle 4", angleBackRight);
+
+        setModules(
+            new SwerveModuleState(speedFrontLeft, Rotation2d.fromDegrees(angleFrontLeft)),
+            new SwerveModuleState(speedFrontRight, Rotation2d.fromDegrees(angleFrontRight)),
+            new SwerveModuleState(speedBackLeft, Rotation2d.fromDegrees(angleBackLeft)),
+            new SwerveModuleState(speedBackRight, Rotation2d.fromDegrees(angleBackRight))
         );
     }
 
@@ -168,5 +221,13 @@ public class SwerveDriveSubsystem extends SubsystemBase {
           getSwerveModulePositions(),
           getPose()
         );
+    }
+
+
+    public double getXoffset(){
+        return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+    }
+    public double getAprilXOffset(){
+        return NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(new double[1])[1];
     }
 }

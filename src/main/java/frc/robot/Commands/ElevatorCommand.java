@@ -28,46 +28,40 @@ public class ElevatorCommand extends CommandBase {
         // elevator.setMotorPos(50);//change
 
          if(oi.getButton(1, Constants.Buttons.X_BUTTON).getAsBoolean()){
-                pos = Constants.SetPoints.MElevator;
+                Moving();
         }
         
         if(oi.getButton(1, Constants.Buttons.Y_BUTTON).getAsBoolean()){
-                pos = Constants.SetPoints.TCOElevator;;
+                HighPlace();
         }
         if(oi.getButton(1, Constants.Buttons.B_BUTTON).getAsBoolean()){
-                pos = Constants.SetPoints.GSElevator;
+                MidPlace();
         }
         if(oi.getButton(1, Constants.Buttons.A_BUTTON).getAsBoolean()){
             // pos=;
-            pos = Constants.SetPoints.MCOElevator;
+           LowPlace();
     }
         elevator.setMotorPos(pos);
 
-        // double position = oi.getAxis(1, Constants.Axes.RIGHT_STICK_Y)*0.175;
+    }
 
-        // elevator.setSpeed(position);
-        // telescope.setPosition(Position);
-        //pressedUp = oi.getButton(0, Constants.Buttons.Y_BUTTON).getAsBoolean();
-        //pressedDown = oi.getButton(0, Constants.Buttons.A_BUTTON).getAsBoolean();
-        // if(pressedUp) 
-        //     elevator.move(0.5);
-        // if(pressedDown) 
-        //     elevator.move(-0.5);
-        // if(endDown)
-        //     elevator.move(0);
-
-        //double speed = pressedUp ? 1 : pressedDown ? -1 : 0;
-        //elevator.move(speed * .125);
-        // if(speed == 1) {
-        //         elevator.setPosition(0.001);
-        //         elevator.move();
-        // }
-        // if(speed == -1) {
-        //         elevator.setPosition(0.0001);
-        //         elevato//r.move();
-        //}
-        // elevator.setPosition(0);
-
+    public void FloorPickup(){
+        pos = Constants.SetPoints.FIElevator;
+    }
+    public void PlatformPickup(){
+        pos = Constants.SetPoints.PIElevator;
+    }
+    public void Moving(){
+        pos = Constants.SetPoints.MElevator;
+    }
+    public void LowPlace(){
+        pos = Constants.SetPoints.GSElevator;
+    }
+    public void MidPlace(){
+        pos = Constants.SetPoints.MCOElevator;
+    }
+    public void HighPlace(){
+        pos = Constants.SetPoints.TCOElevator;
     }
 
     @Override

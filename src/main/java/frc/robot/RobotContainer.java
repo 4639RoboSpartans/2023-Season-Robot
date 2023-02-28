@@ -17,6 +17,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -54,7 +55,7 @@ public class RobotContainer {
     public final OI oi = new OI();
     private final NavX navx = new NavX();
 
-    private final SwerveDriveSubsystem swerveDriveSubsystem = new SwerveDriveSubsystem(navx);
+    public final SwerveDriveSubsystem swerveDriveSubsystem = new SwerveDriveSubsystem(navx);
     private final ClawSubsystem clawSubsystem = new ClawSubsystem();
     public final ObstructionSensor clawObstructionSensor = new ObstructionSensor(1);
     public final ArmPivotSubsystem armPivotSubsystem = new ArmPivotSubsystem();
@@ -65,10 +66,12 @@ public class RobotContainer {
     private final Trigger clawObstructedTrigger;
     private double lastClawOpenTime = Double.NEGATIVE_INFINITY;
 
+    public AnalogPotentiometer distanceSensor;
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
+        distanceSensor = new AnalogPotentiometer(0, 2);
         enableCompressor();
     
         swerveDriveSubsystem.setDefaultCommand(new DriveCommand(swerveDriveSubsystem, oi, navx));
@@ -107,11 +110,11 @@ public class RobotContainer {
     private void configureButtonBindings() {
         // configureClaw();
 
-        oi.getButton(0, Constants.Buttons.Y_BUTTON)
-                .onTrue(new RunCommand(() -> elevatorSubsystem.setSpeed(0), elevatorSubsystem));
+        // oi.getButton(0, Constants.Buttons.Y_BUTTON)
+        //         .onTrue(new RunCommand(() -> elevatorSubsystem.setSpeed(0), elevatorSubsystem));
 
-        oi.getPovButton(0, 90).whileTrue(new RunCommand(() -> elevatorSubsystem.setSpeed(elevatorSubsystem.getEncoderPos() + .03), elevatorSubsystem));
-        oi.getPovButton(0, 270).whileTrue(new RunCommand(() -> elevatorSubsystem.setSpeed(elevatorSubsystem.getEncoderPos() - .03), elevatorSubsystem));
+        // oi.getPovButton(0, 90).whileTrue(new RunCommand(() -> elevatorSubsystem.setSpeed(elevatorSubsystem.getEncoderPos() + .03), elevatorSubsystem));
+        // oi.getPovButton(0, 270).whileTrue(new RunCommand(() -> elevatorSubsystem.setSpeed(elevatorSubsystem.getEncoderPos() - .03), elevatorSubsystem));
 
         // oi.getButton(0, Constants.Buttons.X_BUTTON).whileTrue(new AutoBalanceCommand(swerveDriveSubsystem, navx));
 

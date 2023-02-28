@@ -32,7 +32,7 @@ public class ArmPivotSubsystem extends SubsystemBase {
         armPivotMotorR.clearFaults();
         armPivotMotorR.follow(armPivotMotorL, true);
         
-        armPivotMotorL.setSmartCurrentLimit(5);
+        armPivotMotorL.setSmartCurrentLimit(10);
         
         // armPivotMotorL.enableSoftLimit(SoftLimitDirection.kForward , true);
         armPivotMotorL.enableSoftLimit(SoftLimitDirection.kReverse, true);

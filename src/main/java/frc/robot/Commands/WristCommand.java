@@ -24,18 +24,18 @@ public class WristCommand extends CommandBase{
         // wrist.setMotorPos(-1);//change
 
         if(oi.getButton(1, Constants.Buttons.X_BUTTON).getAsBoolean()){
-            pos = Constants.SetPoints.MWrist;
+            Moving();
     }
     
     if(oi.getButton(1, Constants.Buttons.Y_BUTTON).getAsBoolean()){
-            pos = Constants.SetPoints.TCOWrist;
+           HighPlace();
     }
     if(oi.getButton(1, Constants.Buttons.B_BUTTON).getAsBoolean()){
-            pos = Constants.SetPoints.GSWrist;
+          MidPlace();
     }
     if(oi.getButton(1, Constants.Buttons.A_BUTTON).getAsBoolean()){
         // pos=;
-        pos = Constants.SetPoints.MCOWrist;
+        LowPlace();
     }
     
     wrist.setMotorPos(pos);
@@ -53,13 +53,13 @@ public class WristCommand extends CommandBase{
         pos = Constants.SetPoints.MWrist;
     }
     public void LowPlace(){
-
+        pos = Constants.SetPoints.GSWrist;
     }
     public void MidPlace(){
-
+        pos = Constants.SetPoints.MCOWrist;
     }
     public void HighPlace(){
-
+        pos = Constants.SetPoints.TCOWrist;
     }
 
     @Override

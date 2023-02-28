@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.math.math;
@@ -13,7 +14,7 @@ import frc.robot.math.math;
 public class NavX extends SubsystemBase{
     private final AHRS ahrs;
     public NavX(){
-        ahrs = new AHRS();
+        ahrs = new AHRS(Port.kMXP);
     }
     
     public double getRoll(){

@@ -68,6 +68,11 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("ArmPivotRawEncoder", robotContainer.armPivotSubsystem.getRawEncoderPos());
 
     SmartDashboard.putBoolean("Controller y activated", robotContainer.oi.getButton(1, Constants.Buttons.Y_BUTTON).getAsBoolean());
+
+    SmartDashboard.putNumber("DistanceSensor", robotContainer.distanceSensor.get());
+
+    SmartDashboard.putNumber("X LL Distance", robotContainer.swerveDriveSubsystem.getXoffset());
+    SmartDashboard.putNumber("X April Offset", robotContainer.swerveDriveSubsystem.getAprilXOffset());
     // robotContainer.softLimits();
     CommandScheduler.getInstance().run();
   }

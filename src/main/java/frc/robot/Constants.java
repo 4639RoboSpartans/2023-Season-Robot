@@ -65,7 +65,7 @@ public final class Constants {
 		public static final double GSWrist = -0.8;
 		public static final double GSTelescope = 0;
 		public static final double GSArmPivot = -96.14;
-		public static final double GSElevator = 28.89;
+		public static final double GSElevator = 35;
 		//middle row cone
 		public static final double MCOWrist = -10.95;
 		public static final double MCOTelescope = 0;
