@@ -27,17 +27,21 @@ public class ArmCommand extends CommandBase {
         // pivot.setVoltage(6*oi.getAxis(1, Constants.Axes.RIGHT_STICK_Y));
         if(oi.getButton(1, Constants.Buttons.X_BUTTON).getAsBoolean()){
             Moving();
+            // pos = -10;
     }
     
     if(oi.getButton(1, Constants.Buttons.Y_BUTTON).getAsBoolean()){
            HighPlace();
+        // pos = -30;
     }
     if(oi.getButton(1, Constants.Buttons.B_BUTTON).getAsBoolean()){
             MidPlace();
+            // pos = -50;
     }
     if(oi.getButton(1, Constants.Buttons.A_BUTTON).getAsBoolean()){
         // pos=;
         LowPlace();
+        // pos = -70;
     }
     
     pivot.setMotorPos(pos);

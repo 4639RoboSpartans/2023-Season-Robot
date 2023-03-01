@@ -41,8 +41,8 @@ public class ElevatorSubsystem  extends SubsystemBase{
         //stator controls acceleration, current controls overall limit
         //fine if stator is above current
 
-        StatorCurrentLimit = new StatorCurrentLimitConfiguration(true, 30, 25, 0.01);
-        SupplyCurrentLimit = new SupplyCurrentLimitConfiguration(true, 30, 25, 0.01);
+        StatorCurrentLimit = new StatorCurrentLimitConfiguration(true, 10, 8, 0.01);
+        SupplyCurrentLimit = new SupplyCurrentLimitConfiguration(true, 10, 8, 0.01);
 
         motorLeft.configStatorCurrentLimit(StatorCurrentLimit);
         motorLeft.configSupplyCurrentLimit(SupplyCurrentLimit);

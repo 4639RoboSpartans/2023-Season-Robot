@@ -37,7 +37,7 @@ public class WristCommand extends CommandBase{
         // pos=;
         LowPlace();
     }
-    
+    // pos = 0;
     wrist.setMotorPos(pos);
         // double speed = oi.getAxis(1, Constants.Axes.RIGHT_STICK_Y) * .2;
         // wrist.setSpeed(speed);

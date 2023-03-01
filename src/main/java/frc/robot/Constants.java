@@ -54,7 +54,7 @@ public final class Constants {
 
 		//Movement:
 		//Movement pos
-		public static final double MWrist = -7.1;
+		public static final double MWrist = -4.1;
 		public static final double MTelescope = 0;
 		public static final double MArmPivot = 0;
 		public static final double MElevator = 0;
@@ -67,13 +67,13 @@ public final class Constants {
 		public static final double GSArmPivot = -96.14;
 		public static final double GSElevator = 35;
 		//middle row cone
-		public static final double MCOWrist = -10.95;
+		public static final double MCOWrist = -6;
 		public static final double MCOTelescope = 0;
 		public static final double MCOArmPivot = -27.73;
 		public static final double MCOElevator = 0;
 		//middle row cube is same as cone middle cube
 		//top row cone
-		public static final double TCOWrist = -7.34;
+		public static final double TCOWrist = -4;
 		public static final double TCOTelescope = 22.96;
 		public static final double TCOArmPivot = -42.84;
 		public static final double TCOElevator = 60;
@@ -83,8 +83,8 @@ public final class Constants {
 	public static final class RobotInfo {
 		public static final double robotBaseLength = 0.44;
 
-		public static final double SWERVE_KP = 0.1;
-		public static final double SWERVE_KI = 0.1;
+		public static final double SWERVE_KP = 0.2;
+		public static final double SWERVE_KI = 0;
 
 		public static final double MOVEMENT_SPEED = 0.3; // 0 - 1
 		public static final double MAX_VELOCITY = 4;

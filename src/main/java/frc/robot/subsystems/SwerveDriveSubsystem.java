@@ -224,10 +224,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     }
 
 
-    public double getXoffset(){
-        return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
-    }
-    public double getAprilXOffset(){
-        return NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(new double[1])[1];
-    }
+    // public double getXoffset(){
+    //     return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+    // }
+    // public double getAprilXOffset(){
+    //     return NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(new double[1])[1];
+    // }
 }
