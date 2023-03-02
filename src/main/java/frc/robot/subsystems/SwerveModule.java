@@ -46,18 +46,20 @@ public class SwerveModule {
             Constants.RobotInfo.ROTATOR_MOTOR_KI,
             0
         );
+        rotationPID.setTolerance(0.1);
         rotationPID.enableContinuousInput(-180, 180);
     }
 
     public void periodic() {
         double rotate = rotationPID.calculate(getRotationInDegrees());
-        rotator.set(-rotationPID.calculate(getRotationInDegrees()));
+        rotator.setVoltage(-rotationPID.calculate(getRotationInDegrees()));
         driver.set(speed * Constants.RobotInfo.MOVEMENT_SPEED);
 
-        SmartDashboard.putNumber("Module Speed " + driver.getDeviceID(), speed);
-        SmartDashboard.putNumber("Module Rotation Encoder " + driver.getDeviceID(), getRotationInDegrees());
-        SmartDashboard.putNumber("Module Rotation Setpoint " + driver.getDeviceID(), rotationPID.getSetpoint());
-        SmartDashboard.putNumber("Module Rotation Value " + driver.getDeviceID(), rotate);
+        // SmartDashboard.putNumber("Module Speed " + driver.getDeviceID(), speed);
+        // SmartDashboard.putNumber("Module Rotation Encoder " + driver.getDeviceID(), getRotationInDegrees());
+        // SmartDashboard.putNumber("Module Rotation Setpoint " + driver.getDeviceID(), rotationPID.getSetpoint());
+        // SmartDashboard.putNumber("Module Rotation Voltage"+rotator.getDeviceID(),    -rotationPID.calculate(getRotationInDegrees()));
+        // SmartDashboard.putNumber("Module Rotation Value " + driver.getDeviceID(), rotate);
     }
 
     public double getRotationInDegrees(){

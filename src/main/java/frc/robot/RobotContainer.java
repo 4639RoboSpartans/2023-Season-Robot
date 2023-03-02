@@ -53,7 +53,7 @@ import frc.robot.network.vision.LimeLight;
 
 public class RobotContainer {
     public final OI oi = new OI();
-    private final NavX navx = new NavX();
+    public final NavX navx = new NavX();
 
     public final SwerveDriveSubsystem swerveDriveSubsystem = new SwerveDriveSubsystem(navx);
     private final ClawSubsystem clawSubsystem = new ClawSubsystem();
@@ -119,8 +119,8 @@ public class RobotContainer {
         // oi.getButton(0, Constants.Buttons.X_BUTTON).whileTrue(new AutoBalanceCommand(swerveDriveSubsystem, navx));
 
         // oi.getButton(1, Constants.Buttons.B_BUTTON).whileTrue(new ArmCommand(armPivotSubsystem, oi));
-        // oi.getButton(0, Constants.Buttons.A_BUTTON).onTrue(new OpenClawCommand(clawSubsystem));
-        // oi.getButton(0, Constants.Buttons.B_BUTTON).onTrue(new CloseClawCommand(clawSubsystem));
+        oi.getButton(0, Constants.Buttons.A_BUTTON).onTrue(new OpenClawCommand(clawSubsystem));
+        oi.getButton(0, Constants.Buttons.B_BUTTON).onTrue(new CloseClawCommand(clawSubsystem));
     }
 
     private void configureClaw() {

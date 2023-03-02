@@ -24,6 +24,7 @@ public class Robot extends TimedRobot {
   private Command autonCommand;
 
   private RobotContainer robotContainer;
+  
 
   // public DigitalInput IR = new DigitalInput(5);
   ///private AprilTagReader aprilTagReader;
@@ -54,7 +55,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putBoolean("IRSensor", robotContainer.clawObstructionSensor.isObstructed());
+    // SmartDashboard.putBoolean("IRSensor", robotContainer.clawObstructionSensor.isObstructed());
     SmartDashboard.putNumber("WristEncoderValue", robotContainer.wristSubsystem.getEncoderPos());
     SmartDashboard.putNumber("ArmEncoderValue", robotContainer.armPivotSubsystem.getEncoderPos());
     SmartDashboard.putNumber("TelescopeEncoderValue", robotContainer.telescopeSubsystem.getEncoderPos());
@@ -67,9 +68,14 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("ElevatorRawEncoder", robotContainer.elevatorSubsystem.getRawEncoderPos());
     SmartDashboard.putNumber("ArmPivotRawEncoder", robotContainer.armPivotSubsystem.getRawEncoderPos());
 
-    SmartDashboard.putBoolean("Controller y activated", robotContainer.oi.getButton(1, Constants.Buttons.Y_BUTTON).getAsBoolean());
-
+    // SmartDashboard.putBoolean("Controller y activated", robotContainer.oi.getButton(1, Constants.Buttons.Y_BUTTON).getAsBoolean());
+    // NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
+    // SmartDashboard.putBoolean("Table set", table);
+    // table.getEntry("pipeline").setNumber(1);
+    // SmartDashboard.putNumber("XOFfset", robotContainer.swerveDriveSubsystem.getAprilXOffset());
     SmartDashboard.putNumber("DistanceSensor", robotContainer.distanceSensor.get());
+
+    // SmartDashboard.putNumber("Yaw", robotContainer.navx.getHeading());
 
     // SmartDashboard.putNumber("X LL Distance", robotContainer.swerveDriveSubsystem.getXoffset());
     // SmartDashboard.putNumber("X April Offset", robotContainer.swerveDriveSubsystem.getAprilXOffset());

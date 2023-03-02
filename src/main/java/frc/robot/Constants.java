@@ -83,10 +83,10 @@ public final class Constants {
 	public static final class RobotInfo {
 		public static final double robotBaseLength = 0.44;
 
-		public static final double SWERVE_KP = 0.2;
-		public static final double SWERVE_KI = 0;
+		public static final double SWERVE_KP = 0.1;
+		public static final double SWERVE_KI = 0.1;
 
-		public static final double MOVEMENT_SPEED = 0.3; // 0 - 1
+		public static final double MOVEMENT_SPEED = 0.6; // 0 - 1
 		public static final double MAX_VELOCITY = 4;
 		public static final double MAX_ACCELERATION = 3;
 
@@ -104,8 +104,8 @@ public final class Constants {
             /* back left -front left- back right- front right */
         );
 		}
-		public static final double ROTATOR_MOTOR_KP = 0.005;
-		public static final double ROTATOR_MOTOR_KI = 0;
+		public static final double ROTATOR_MOTOR_KP = 0.05;
+		public static final double ROTATOR_MOTOR_KI = 0.06;
 
 		public static class Auton {
 			public static final double POSITION_KP = 5.0;

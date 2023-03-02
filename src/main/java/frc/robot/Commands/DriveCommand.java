@@ -1,9 +1,11 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.OI;
+import frc.robot.Constants.Buttons;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 import frc.robot.subsystems.NavX;
 import frc.robot.swerve.SwerveMovement;
@@ -19,7 +21,6 @@ public class DriveCommand extends CommandBase {
         this.oi = oi;
         this.swerveDriveSubsystem = swerveDriveSubsystem;
         this.navX = navX;
-
         addRequirements(swerveDriveSubsystem);
     }
 
@@ -34,36 +35,45 @@ public class DriveCommand extends CommandBase {
 
             //4 different vision aligments: Reflective tape, april tag placement, april tag intake left, april tag intake right
 
-        // double tx=swerveDriveSubsystem.getXoffset();
+        
         // double aprilHor = swerveDriveSubsystem.getAprilXOffset();
-        // double leftOffset=0;
-        // double rightOffset=0;
-        // if(oi.getPovButton(0, 0).getAsBoolean()){
-        //     swerveDriveSubsystem.setMovement(tx, 90);
-        // }
-        // if(oi.getPovButton(0, 90).getAsBoolean()){
-        //     swerveDriveSubsystem.setMovement(aprilHor, 90);
-        // }
+        double leftOffset=0;
+        double rightOffset=0;
+        if(oi.getButton(0, Buttons.X_BUTTON).getAsBoolean()){
+            double tx=swerveDriveSubsystem.getRetroXoffset();
+            if(tx<0)
+            swerveDriveSubsystem.setMovement(tx, 90);
+            else
+            swerveDriveSubsystem.setMovement(-tx, 270);
+        }
+       else if(oi.getButton(0, Buttons.Y_BUTTON).getAsBoolean()){
+            double aprilHor = swerveDriveSubsystem.getAprilXOffset();
+            if(aprilHor<0)
+            swerveDriveSubsystem.setMovement(aprilHor, 90);
+            else
+            swerveDriveSubsystem.setMovement(-aprilHor, 270);
+            // swerveDriveSubsystem.setMovement(aprilHor, 90);
+        }
         // if(oi.getPovButton(0, 180).getAsBoolean()){
         //     swerveDriveSubsystem.setMovement(aprilHor+leftOffset, 90);
         // }
         // if(oi.getPovButton(0, 270).getAsBoolean()){
         //     swerveDriveSubsystem.setMovement(aprilHor+rightOffset, 90);
         // }
-        // else{
+        else{
         var rawMovement = getRawMovement();
         swerveMovement = SwerveUtil.toRobotCentric(rawMovement, navX.getHeading());
         SmartDashboard.putString("swerve movement", swerveMovement.toString());
         swerveDriveSubsystem.setMovement(swerveMovement);
-        // }
+        }
     }
 
     public SwerveMovement getRawMovement(){
         double rawX = oi.getAxis(0, Constants.Axes.LEFT_STICK_X);
-        double rawY = oi.getAxis(0, Constants.Axes.LEFT_STICK_Y);
-        double rawRot = oi.getAxis(0, Constants.Axes.RIGHT_STICK_X);
+        double rawY =oi.getAxis(0, Constants.Axes.LEFT_STICK_Y);
+        double rawRot = -oi.getAxis(0, Constants.Axes.RIGHT_STICK_X);
         
-        return new SwerveMovement(rawY * .6, -rawX * .6, rawRot * .5);
+        return new SwerveMovement(rawY * .7, -rawX * .7, rawRot * .5);
     }
 
     // Called once the command ends or is interrupted.

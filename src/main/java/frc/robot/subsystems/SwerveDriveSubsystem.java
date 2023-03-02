@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.ArrayList;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -7,6 +9,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -39,8 +42,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         moduleBackLeft   = new SwerveModule(Constants.IDs.MODULE_BACK_LEFT);
         moduleBackRight  = new SwerveModule(Constants.IDs.MODULE_BACK_RIGHT);
 
-        kp =0;
-        ki =0;
+        kp =0.4;
+        ki =0.15;
         kd = 0;
         PID = new PIDController(kp, ki, kd);
         
@@ -224,10 +227,15 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     }
 
 
-    // public double getXoffset(){
-    //     return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
-    // }
-    // public double getAprilXOffset(){
-    //     return NetworkTableInstance.getDefault().getTable("limelight").getEntry("botpose").getDoubleArray(new double[1])[1];
-    // }
+    public double getRetroXoffset(){
+        var table =NetworkTableInstance.getDefault().getTable("limelight-slhs");
+        table.getEntry("pipeline").setNumber(1);
+        return table.getEntry("tx").getDouble(0);
+
+    }
+    public double getAprilXOffset(){
+        var table =NetworkTableInstance.getDefault().getTable("limelight-slhs");
+        table.getEntry("pipeline").setNumber(0);
+        return table.getEntry("tx").getDouble(0);
+    }
 }
