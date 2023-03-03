@@ -27,24 +27,25 @@ public class ArmCommand extends CommandBase {
         // pivot.setVoltage(6*oi.getAxis(1, Constants.Axes.RIGHT_STICK_Y));
         if(oi.getButton(1, Constants.Buttons.X_BUTTON).getAsBoolean()){
             Moving();
-            // pos = -10;
+            // pos = -5;
     }
     
     if(oi.getButton(1, Constants.Buttons.Y_BUTTON).getAsBoolean()){
            HighPlace();
-        // pos = -30;
+        // pos = -20;
     }
     if(oi.getButton(1, Constants.Buttons.B_BUTTON).getAsBoolean()){
             MidPlace();
-            // pos = -50;
+            // pos = -30;
     }
     if(oi.getButton(1, Constants.Buttons.A_BUTTON).getAsBoolean()){
         // pos=;
         LowPlace();
-        // pos = -70;
+        // pos = -60;
     }
     
     pivot.setMotorPos(pos);
+    // pivot.setVoltage(1);
 }
     
 public void FloorPickup(){

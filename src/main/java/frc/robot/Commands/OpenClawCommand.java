@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.ClawSubsystem;
 
 public class OpenClawCommand extends CommandBase {
@@ -8,6 +9,7 @@ public class OpenClawCommand extends CommandBase {
 
     public OpenClawCommand(ClawSubsystem clawSubsystem) {
         this.clawSubsystem = clawSubsystem;
+        Constants.objectIn = false;
         addRequirements(clawSubsystem);
     }
 

@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.Constants;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -19,11 +20,20 @@ public class ArmPivotSubsystem extends SubsystemBase {
     private final RelativeEncoder encoder;
     private final double encoderRatio;
 
-    private final PIDController PID;
+    private final PIDController DownEmptyPID;
+    private final PIDController DownFilledPID;
+    // private final PIDController UpFilledPID;
     private final double kp;
     private final double ki;
     private final double kd;
     private  double pos;
+    private final TrapezoidProfile.Constraints m_constraints =
+    new TrapezoidProfile.Constraints(7, 9.5);
+
+    private final TrapezoidProfile.Constraints mF_constraints =
+    new TrapezoidProfile.Constraints(4, 4);
+private TrapezoidProfile.State m_goal = new TrapezoidProfile.State();
+private TrapezoidProfile.State m_setpoint = new TrapezoidProfile.State();
     public ArmPivotSubsystem(){
         // pid = new PIDController(0, 0, 0);
         armPivotMotorL = new CANSparkMax(Constants.IDs.ARM_PIVOT_L, MotorType.kBrushless);
@@ -32,7 +42,7 @@ public class ArmPivotSubsystem extends SubsystemBase {
         armPivotMotorR.clearFaults();
         armPivotMotorR.follow(armPivotMotorL, true);
         
-        armPivotMotorL.setSmartCurrentLimit(4);
+        armPivotMotorL.setSmartCurrentLimit(35);
         
         // armPivotMotorL.enableSoftLimit(SoftLimitDirection.kForward , true);
         armPivotMotorL.enableSoftLimit(SoftLimitDirection.kReverse, true);
@@ -46,19 +56,66 @@ public class ArmPivotSubsystem extends SubsystemBase {
         armPivotMotorL.burnFlash();
         armPivotMotorR.burnFlash();
         encoderRatio = 10000;
-        kp =0.02;
-        ki = 0;
+        kp =0.017;
+        ki = 0.0;
         kd = 0;
-        PID = new PIDController(kp, ki, kd);
+        DownEmptyPID = new PIDController(kp, ki, kd);
+        DownEmptyPID.setTolerance(0.1);
+
+        DownFilledPID = new PIDController(0.022, ki, kd);
+        DownFilledPID.setTolerance(0.1);
+        // UpFilledPID = new PIDController(0.02, ki, kd);
+        // UpFilledPID.setTolerance(0.1);
+
+        
 
     }
     public double getVoltage(){
         // return pos;
-        return PID.calculate(getEncoderPos(), pos);
+        // if(pos<getEncoderPos()){
+        if(Constants.objectIn){
+            m_setpoint = new TrapezoidProfile.State(getEncoderPos(), 0);
+            m_goal = new TrapezoidProfile.State(pos,0);
+            var profile = new TrapezoidProfile(mF_constraints, m_goal, m_setpoint);
+            m_setpoint = profile.calculate(2.5);
+            return DownFilledPID.calculate(getEncoderPos(), m_setpoint.position);
+        }else{
+            m_setpoint = new TrapezoidProfile.State(getEncoderPos(), 0);
+            m_goal = new TrapezoidProfile.State(pos,0);
+            var profile = new TrapezoidProfile(m_constraints, m_goal, m_setpoint);
+            m_setpoint = profile.calculate(2.5);
+            return DownEmptyPID.calculate(getEncoderPos(), m_setpoint.position);
+        }
+        
+        // return UpEmptyPID.calculate(getEncoderPos(), pos);
+        // }else{
+        //     return UpEmptyPID.calculate(getEncoderPos(), pos);
+        // }
     }
     public void setMotorPos(double setpoint){
+        // if(setpoint<getEncoderPos()){
+        if(Constants.objectIn){
         pos=  setpoint;
-        setVoltage(PID.calculate(getEncoderPos(), setpoint));
+        m_setpoint = new TrapezoidProfile.State(getEncoderPos(), 0);
+        m_goal = new TrapezoidProfile.State(setpoint,0);
+        var profile = new TrapezoidProfile(mF_constraints, m_goal, m_setpoint);
+        m_setpoint = profile.calculate(2.5);
+
+        setVoltage(DownFilledPID.calculate(getEncoderPos(), m_setpoint.position));
+        }
+        else{
+            pos=  setpoint;
+            m_setpoint = new TrapezoidProfile.State(getEncoderPos(), 0);
+            m_goal = new TrapezoidProfile.State(setpoint,0);
+            var profile = new TrapezoidProfile(m_constraints, m_goal, m_setpoint);
+            m_setpoint = profile.calculate(2.5);
+    
+            setVoltage(DownEmptyPID.calculate(getEncoderPos(), m_setpoint.position));
+        }
+        // }else{
+        //     setVoltage(UpEmptyPID.calculate(getEncoderPos(), setpoint));
+        // }
+        
     }
 
     public double getEncoderPos(){
