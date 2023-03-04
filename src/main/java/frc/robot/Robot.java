@@ -5,6 +5,8 @@
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -68,6 +70,10 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("ElevatorRawEncoder", robotContainer.elevatorSubsystem.getRawEncoderPos());
     SmartDashboard.putNumber("ArmPivotRawEncoder", robotContainer.armPivotSubsystem.getRawEncoderPos());
 
+    SmartDashboard.putBoolean("ArmClosing", Constants.objectIn);
+
+    // SmartDashboard.putNumber("3dpos", robotContainer.swerveDriveSubsystem.d3test()[0]);
+  
     // SmartDashboard.putBoolean("Controller y activated", robotContainer.oi.getButton(1, Constants.Buttons.Y_BUTTON).getAsBoolean());
     // NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
     // SmartDashboard.putBoolean("Table set", table);
@@ -123,6 +129,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
       // robotContainer.retract.initialize();
+      // robotContainer.enableCompressor();
   }
 
   @Override

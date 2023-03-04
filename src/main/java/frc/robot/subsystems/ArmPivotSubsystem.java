@@ -57,12 +57,12 @@ private TrapezoidProfile.State m_setpoint = new TrapezoidProfile.State();
         armPivotMotorR.burnFlash();
         encoderRatio = 10000;
         kp =0.017;
-        ki = 0.0;
+        ki = 0.01;
         kd = 0;
         DownEmptyPID = new PIDController(kp, ki, kd);
         DownEmptyPID.setTolerance(0.1);
 
-        DownFilledPID = new PIDController(0.022, ki, kd);
+        DownFilledPID = new PIDController(0.024, ki, kd);
         DownFilledPID.setTolerance(0.1);
         // UpFilledPID = new PIDController(0.02, ki, kd);
         // UpFilledPID.setTolerance(0.1);
@@ -92,9 +92,9 @@ private TrapezoidProfile.State m_setpoint = new TrapezoidProfile.State();
         //     return UpEmptyPID.calculate(getEncoderPos(), pos);
         // }
     }
-    public void setMotorPos(double setpoint){
+    public void setMotorPos(double setpoint, boolean coneIn){
         // if(setpoint<getEncoderPos()){
-        if(Constants.objectIn){
+        if(coneIn){
         pos=  setpoint;
         m_setpoint = new TrapezoidProfile.State(getEncoderPos(), 0);
         m_goal = new TrapezoidProfile.State(setpoint,0);

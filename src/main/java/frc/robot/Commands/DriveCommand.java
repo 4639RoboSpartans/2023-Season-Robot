@@ -72,8 +72,8 @@ public class DriveCommand extends CommandBase {
         double rawX = oi.getAxis(0, Constants.Axes.LEFT_STICK_X);
         double rawY =oi.getAxis(0, Constants.Axes.LEFT_STICK_Y);
         double rawRot = -oi.getAxis(0, Constants.Axes.RIGHT_STICK_X);
-        
-        return new SwerveMovement(rawY * .7, -rawX * .7, rawRot * .5);
+        // SmartDashboard.putNumber("RawRot", rawRot);
+        return new SwerveMovement(rawY*0.6 , -rawX *0.6, rawRot*0.4);
     }
 
     // Called once the command ends or is interrupted.

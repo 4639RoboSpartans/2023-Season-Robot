@@ -27,19 +27,38 @@ public class ElevatorCommand extends CommandBase {
 
         // elevator.setMotorPos(50);//change
 
-         if(oi.getButton(1, Constants.Buttons.X_BUTTON).getAsBoolean()){
-                Moving();
-        }
-        
-        if(oi.getButton(1, Constants.Buttons.Y_BUTTON).getAsBoolean()){
-                HighPlace();
-        }
-        if(oi.getButton(1, Constants.Buttons.B_BUTTON).getAsBoolean()){
-                MidPlace();
-        }
-        if(oi.getButton(1, Constants.Buttons.A_BUTTON).getAsBoolean()){
-            // pos=;
-           LowPlace();
+    //       if(oi.getButton(1, Constants.Buttons.LEFT_BUMPER).getAsBoolean()){
+    //     MidPlace();
+    // }
+    // if(oi.getButton(1, Constants.Buttons.RIGHT_BUMPER).getAsBoolean()){
+    //     HighPlace();
+    // }
+    // if(oi.getButton(1, Constants.Buttons.B_BUTTON).getAsBoolean()){
+    //     LowPlace();
+    // }
+    // if(oi.getAxis(1, Constants.Axes.RIGHT_TRIGGER)>0.2){
+    //     PlatformPickup();
+    // }
+    // if(oi.getAxis(1, Constants.Axes.LEFT_TRIGGER)>0.2){
+    //     FloorPickup();
+    // }
+    if(oi.getButton(1, Constants.Buttons.LEFT_BUMPER).getAsBoolean()){
+        MidPlace();
+    }
+    if(oi.getButton(1, Constants.Buttons.RIGHT_BUMPER).getAsBoolean()){
+        HighPlace();
+    }
+    if(oi.getButton(1, Constants.Buttons.B_BUTTON).getAsBoolean()){
+        LowPlace();
+    }
+    if(oi.getAxis(1, Constants.Axes.RIGHT_TRIGGER)>0.2){
+        PlatformPickup();
+    }
+    if(oi.getAxis(1, Constants.Axes.LEFT_TRIGGER)>0.2){
+        FloorPickup();
+    }
+    if(oi.getButton(1, Constants.Buttons.Y_BUTTON).getAsBoolean()){
+        Moving();
     }
         elevator.setMotorPos(pos);
 

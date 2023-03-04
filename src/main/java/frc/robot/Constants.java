@@ -43,19 +43,19 @@ public final class Constants {
 	public static final class SetPoints{
 		//Intake:
 		//Floor intake
-		public static final double FIWrist = -2.06;
+		public static final double FIWrist = -0.75;
 		public static final double FITelescope = 0;
-		public static final double FIArmPivot = -90.74;
-		public static final double FIElevator = 28.89;
+		public static final double FIArmPivot = -80.74;
+		public static final double FIElevator = 30;
 		//Platform intake
-		public static final double PIWrist = -12.13;
+		public static final double PIWrist = -4;
 		public static final double PITelescope = 0;
-		public static final double PIArmPivot = -22.03;
+		public static final double PIArmPivot = -30.03;
 		public static final double PIElevator = 0;
 
 		//Movement:
 		//Movement pos
-		public static final double MWrist = -2;
+		public static final double MWrist = -1;
 		public static final double MTelescope = 0;
 		public static final double MArmPivot = 0;
 		public static final double MElevator = 0;
@@ -63,21 +63,21 @@ public final class Constants {
 
 		//Scoring:
 		//Ground
-		public static final double GSWrist = 0;
+		public static final double GSWrist = -1;
 		public static final double GSTelescope = 0;
 		public static final double GSArmPivot = -93.14;
-		public static final double GSElevator = 55;
+		public static final double GSElevator = 50;
 		//middle row cone
-		public static final double MCOWrist = -2;
+		public static final double MCOWrist = -3;
 		public static final double MCOTelescope = 0;
 		public static final double MCOArmPivot = -27.73;
 		public static final double MCOElevator = 10;
 		//middle row cube is same as cone middle cube
 		//top row cone
-		public static final double TCOWrist = -2;
+		public static final double TCOWrist = -3;
 		public static final double TCOTelescope = 22.96;
 		public static final double TCOArmPivot = -42.84;
-		public static final double TCOElevator = 60;
+		public static final double TCOElevator = 50;
 		//top row cube is 
 	}
 
@@ -106,7 +106,7 @@ public final class Constants {
         );
 		}
 		public static final double ROTATOR_MOTOR_KP = 0.05;
-		public static final double ROTATOR_MOTOR_KI = 0.06;
+		public static final double ROTATOR_MOTOR_KI = 0.07;
 
 		public static class Auton {
 			public static final double POSITION_KP = 5.0;

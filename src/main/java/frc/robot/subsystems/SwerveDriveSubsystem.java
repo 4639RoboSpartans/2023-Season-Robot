@@ -238,4 +238,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         table.getEntry("pipeline").setNumber(0);
         return table.getEntry("tx").getDouble(0);
     }
+
+    public double[] d3test(){
+        var table =NetworkTableInstance.getDefault().getTable("limelight-slhs");
+        table.getEntry("pipeline").setNumber(0);
+        return table.getEntry("botpose").getDoubleArray(new double[6]);
+    }
 }
