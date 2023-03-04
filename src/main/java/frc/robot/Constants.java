@@ -83,7 +83,7 @@ public final class Constants {
 
 	public static final class RobotInfo {
 		public static final double robotBaseLength = 0.44;
-
+		public static final double fullRobotBaseLength = 0.84;
 		public static final double SWERVE_KP = 0.1;
 		public static final double SWERVE_KI = 0.1;
 
