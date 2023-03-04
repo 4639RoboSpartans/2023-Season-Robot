@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.auton;
 //if angle is not flat go "uphill"
 //if angle is flat for 3 seconds, isFinisehd returns true
 

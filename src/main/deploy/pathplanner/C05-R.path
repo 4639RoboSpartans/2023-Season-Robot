@@ -2,13 +2,13 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 1.9690168226490317,
-        "y": 0.4817461558000048
+        "x": 1.9347427682197138,
+        "y": 3.909493429746353
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.113540669389033,
-        "y": 0.9923970809480085
+        "x": 2.46782754008546,
+        "y": 3.5297584503396853
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
@@ -16,52 +16,48 @@
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [
-          "TestPathBegin"
-        ],
-        "executionBehavior": "sequential",
+        "names": [],
+        "executionBehavior": "parallel",
         "waitBehavior": "none",
         "waitTime": 0
       }
     },
     {
       "anchorPoint": {
-        "x": 2.2291597467810336,
-        "y": 1.8980798538520156
+        "x": 2.423090293965398,
+        "y": 3.50849394578536
       },
       "prevControl": {
-        "x": 2.1325805900175823,
-        "y": 1.7744963659038389
+        "x": 2.424042917276613,
+        "y": 3.50826400222748
       },
       "nextControl": {
-        "x": 2.350592337301914,
-        "y": 2.053466001236896
+        "x": 2.424042917276613,
+        "y": 3.50826400222748
       },
       "holonomicAngle": 0.0,
-      "isReversal": false,
+      "isReversal": true,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [
-          "TestPathEnd"
-        ],
-        "executionBehavior": "sequential",
+        "names": [],
+        "executionBehavior": "parallel",
         "waitBehavior": "none",
         "waitTime": 0
       }
     },
     {
       "anchorPoint": {
-        "x": 3.8595760837355013,
-        "y": 2.0118923831597666
+        "x": 3.840961947548895,
+        "y": 3.5140125818446077
       },
       "prevControl": {
-        "x": 3.320020389239497,
-        "y": 2.0022574600437646
+        "x": 2.632292567620185,
+        "y": 3.5070659181442307
       },
       "nextControl": null,
-      "holonomicAngle": 0.0,
+      "holonomicAngle": 0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -74,21 +70,5 @@
       }
     }
   ],
-  "maxVelocity": null,
-  "maxAcceleration": null,
-  "isReversed": false,
-  "markers": [
-    {
-      "position": 1.0,
-      "names": [
-        "TestPathEvent1"
-      ]
-    },
-    {
-      "position": 2.0,
-      "names": [
-        "TestPathEvent2"
-      ]
-    }
-  ]
+  "markers": []
 }
