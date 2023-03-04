@@ -37,6 +37,20 @@ public class WristCommand extends CommandBase{
         // pos=;
         LowPlace();
     }
+
+
+    if(oi.getButton(1, Constants.Buttons.LEFT_BUMPER).getAsBoolean()){
+        MidPlace();
+    }
+    if(oi.getButton(1, Constants.Buttons.RIGHT_BUMPER).getAsBoolean()){
+        HighPlace();
+    }
+    if(oi.getAxis(1, Constants.Axes.RIGHT_TRIGGER)>0.2){
+        PlatformPickup();
+    }
+    if(oi.getAxis(1, Constants.Axes.LEFT_TRIGGER)>0.2){
+        FloorPickup();
+    }
     // pos = 0;
     wrist.setMotorPos(pos);
         // double speed = oi.getAxis(1, Constants.Axes.RIGHT_STICK_Y) * .2;
