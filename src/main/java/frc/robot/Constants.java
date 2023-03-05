@@ -80,6 +80,17 @@ public final class Constants {
 		public static final double TCOElevator = 50;
 		//top row cube is 
 	}
+	public static class LEDInfo{
+		public static boolean isCone = true;
+		
+		public static final int PurpleR = 252;
+		public static final int PurpleG = 6;
+		public static final int PurpleB = 244;
+
+		public static final int YellowR = 231;
+		public static final int YellowG = 255;
+		public static final int YellowB = 1;
+	}
 
 	public static final class RobotInfo {
 		public static final double robotBaseLength = 0.44;
@@ -92,6 +103,8 @@ public final class Constants {
 		public static final double MAX_ACCELERATION = 3;
 
 		//https://github.com/SeanSun6814/FRC0ToAutonomous/blob/master/%236%20Swerve%20Drive%20Auto/src/main/java/frc/robot/Constants.java#L57
+
+		
 		public static class DriveConstants {
 			public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
         	public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
