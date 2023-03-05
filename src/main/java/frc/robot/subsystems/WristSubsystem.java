@@ -39,8 +39,8 @@ public class WristSubsystem extends SubsystemBase{
       encoder = neo.getEncoder();
       encoderRatio = 0.5;
       encoder.setPosition(0);
-      kp = 1.4;
-      ki=2.1;
+      kp = 1.5;
+      ki=2.2;
       kd=0;
       PID = new PIDController(kp, ki, kd);
       PID.setTolerance(0.1);

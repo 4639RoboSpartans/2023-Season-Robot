@@ -42,24 +42,28 @@ public class Robot extends TimedRobot {
    private AddressableLEDBuffer m_ledBuffer1;
 
    private AddressableLED m_led2;
-   private AddressableLEDBuffer m_ledBuffer2;
+  //  private AddressableLEDBuffer m_ledBuffer2;
   @Override
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
-     m_led1 = new AddressableLED(9);
+     m_led1 = new AddressableLED(1);
+    //  m_led2 = new AddressableLED(1);
     m_ledBuffer1 = new AddressableLEDBuffer(60);
     m_led1.setLength(m_ledBuffer1.getLength());
+    // m_led2.setLength(m_ledBuffer1.getLength());
     // Set the data
     m_led1.setData(m_ledBuffer1);
     m_led1.start();
+    // m_led2.setData(m_ledBuffer1);
+    // m_led2.start();
     
-    m_led2 = new AddressableLED(8);
-    m_ledBuffer2 = new AddressableLEDBuffer(60);
-    m_led2.setLength(m_ledBuffer2.getLength());
-    m_led2.setData(m_ledBuffer2);
-    m_led2.start();
+    
+    // m_ledBuffer2 = new AddressableLEDBuffer(60);
+    // m_led2.setLength(m_ledBuffer2.getLength());
+    // m_led2.setData(m_ledBuffer2);
+    // m_led2.start();
   //   for (var i = 0; i < m_ledBuffer.getLength(); i++) {
   //     // Sets the specified LED to the RGB values for red
   //     m_ledBuffer.setRGB(i, 255, 0, 0);
@@ -87,7 +91,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("TelescopeEncoderValue", robotContainer.telescopeSubsystem.getEncoderPos());
     SmartDashboard.putNumber("ElevatorEncoderValue", robotContainer.elevatorSubsystem.getEncoderPos());
     SmartDashboard.putNumber("WristCPR", robotContainer.wristSubsystem.getCPR());
-    SmartDashboard.putNumber("ArmVoltage", robotContainer.armPivotSubsystem.getVoltage());
+    SmartDashboard.putNumber("TelescopeVoltage", robotContainer.telescopeSubsystem.getVoltage());
 
     SmartDashboard.putNumber("WristRawEncoder", robotContainer.wristSubsystem.getRawEncoderPos());
     SmartDashboard.putNumber("TelescopeRawEncoder", robotContainer.telescopeSubsystem.getRawEncoderPos());
@@ -108,27 +112,28 @@ public class Robot extends TimedRobot {
 
     for (var i = 0; i < m_ledBuffer1.getLength(); i++) {
       // Sets the specified LED to the RGB values for red
-      if(Constants.LEDInfo.isCone){
+      // if(Constants.LEDInfo.isCone){
         m_ledBuffer1.setRGB(i, Constants.LEDInfo.YellowR, Constants.LEDInfo.YellowG,Constants.LEDInfo.YellowB);
-      }
-      else{
-        m_ledBuffer1.setRGB(i, Constants.LEDInfo.PurpleR, Constants.LEDInfo.PurpleG,Constants.LEDInfo.PurpleB);
-      }
+      // }
+      // else{
+      //   m_ledBuffer1.setRGB(i, Constants.LEDInfo.PurpleR, Constants.LEDInfo.PurpleG,Constants.LEDInfo.PurpleB);
+      // }
    }
    
    m_led1.setData(m_ledBuffer1);
+  //  m_led2.setData(m_ledBuffer1);
 
-   for (var i = 0; i < m_ledBuffer2.getLength(); i++) {
-    // Sets the specified LED to the RGB values for red
-    if(Constants.LEDInfo.isCone){
-      m_ledBuffer2.setRGB(i, Constants.LEDInfo.YellowR, Constants.LEDInfo.YellowG,Constants.LEDInfo.YellowB);
-    }
-    else{
-      m_ledBuffer2.setRGB(i, Constants.LEDInfo.PurpleR, Constants.LEDInfo.PurpleG,Constants.LEDInfo.PurpleB);
-    }
- }
+//    for (var i = 0; i < m_ledBuffer2.getLength(); i++) {
+//     // Sets the specified LED to the RGB values for red
+//     // if(Constants.LEDInfo.isCone){
+//       m_ledBuffer2.setRGB(i, Constants.LEDInfo.YellowR, Constants.LEDInfo.YellowG,Constants.LEDInfo.YellowB);
+//     // }
+//     // else{
+//     //   m_ledBuffer2.setRGB(i, Constants.LEDInfo.PurpleR, Constants.LEDInfo.PurpleG,Constants.LEDInfo.PurpleB);
+//     // }
+//  }
  
- m_led2.setData(m_ledBuffer2);
+//  m_led2.setData(m_ledBuffer2);
     // SmartDashboard.putNumber("Yaw", robotContainer.navx.getHeading());
 
     // SmartDashboard.putNumber("X LL Distance", robotContainer.swerveDriveSubsystem.getXoffset());

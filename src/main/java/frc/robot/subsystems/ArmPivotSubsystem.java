@@ -56,7 +56,7 @@ private TrapezoidProfile.State m_setpoint = new TrapezoidProfile.State();
         armPivotMotorL.burnFlash();
         armPivotMotorR.burnFlash();
         encoderRatio = 10000;
-        kp =0.017;
+        kp =0.014;
         ki = 0.01;
         kd = 0;
         DownEmptyPID = new PIDController(kp, ki, kd);

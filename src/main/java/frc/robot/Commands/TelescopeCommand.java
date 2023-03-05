@@ -21,9 +21,10 @@ public class TelescopeCommand extends CommandBase {
     }
     @Override
     public void execute() {
-        double position = oi.getAxis(1, Constants.Axes.RIGHT_STICK_Y)*0.2;
-
-        telescope.setSpeed(position);
+        if(oi.getButton(1, Constants.Buttons.Y_BUTTON).getAsBoolean()){
+            pos = -25;
+        }
+        telescope.setMotorPos(pos);
         // telescope.setPosition(Position);
     }
     public void FloorPickup(){
