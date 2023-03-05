@@ -37,26 +37,35 @@ public class Robot extends TimedRobot {
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
+
+   private AddressableLED m_led1;
+   private AddressableLEDBuffer m_ledBuffer1;
+
+   private AddressableLED m_led2;
+   private AddressableLEDBuffer m_ledBuffer2;
   @Override
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
-    AddressableLEDBuffer m_ledBuffer;
-    AddressableLED m_led = new AddressableLED(0);
-    m_ledBuffer = new AddressableLEDBuffer(60);
-    m_led.setLength(m_ledBuffer.getLength());
-
+     m_led1 = new AddressableLED(9);
+    m_ledBuffer1 = new AddressableLEDBuffer(60);
+    m_led1.setLength(m_ledBuffer1.getLength());
     // Set the data
-    m_led.setData(m_ledBuffer);
-    m_led.start();
+    m_led1.setData(m_ledBuffer1);
+    m_led1.start();
     
-    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-      // Sets the specified LED to the RGB values for red
-      m_ledBuffer.setRGB(i, 255, 0, 0);
-   }
+    m_led2 = new AddressableLED(8);
+    m_ledBuffer2 = new AddressableLEDBuffer(60);
+    m_led2.setLength(m_ledBuffer2.getLength());
+    m_led2.setData(m_ledBuffer2);
+    m_led2.start();
+  //   for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+  //     // Sets the specified LED to the RGB values for red
+  //     m_ledBuffer.setRGB(i, 255, 0, 0);
+  //  }
    
-   m_led.setData(m_ledBuffer);
+  //  m_led.setData(m_ledBuffer);
 
     // Start Vision thread
     // aprilTagReader = new AprilTagReader(640, 480);
@@ -69,6 +78,7 @@ public class Robot extends TimedRobot {
    * <p>This runs after the mode specific periodic functions, but before LiveWindow and
    * SmartDashboard integrated updating.
    */
+
   @Override
   public void robotPeriodic() {
     // SmartDashboard.putBoolean("IRSensor", robotContainer.clawObstructionSensor.isObstructed());
@@ -93,8 +103,32 @@ public class Robot extends TimedRobot {
     // SmartDashboard.putBoolean("Table set", table);
     // table.getEntry("pipeline").setNumber(1);
     // SmartDashboard.putNumber("XOFfset", robotContainer.swerveDriveSubsystem.getAprilXOffset());
+
     SmartDashboard.putNumber("DistanceSensor", robotContainer.distanceSensor.get());
 
+    for (var i = 0; i < m_ledBuffer1.getLength(); i++) {
+      // Sets the specified LED to the RGB values for red
+      if(Constants.LEDInfo.isCone){
+        m_ledBuffer1.setRGB(i, Constants.LEDInfo.YellowR, Constants.LEDInfo.YellowG,Constants.LEDInfo.YellowB);
+      }
+      else{
+        m_ledBuffer1.setRGB(i, Constants.LEDInfo.PurpleR, Constants.LEDInfo.PurpleG,Constants.LEDInfo.PurpleB);
+      }
+   }
+   
+   m_led1.setData(m_ledBuffer1);
+
+   for (var i = 0; i < m_ledBuffer2.getLength(); i++) {
+    // Sets the specified LED to the RGB values for red
+    if(Constants.LEDInfo.isCone){
+      m_ledBuffer2.setRGB(i, Constants.LEDInfo.YellowR, Constants.LEDInfo.YellowG,Constants.LEDInfo.YellowB);
+    }
+    else{
+      m_ledBuffer2.setRGB(i, Constants.LEDInfo.PurpleR, Constants.LEDInfo.PurpleG,Constants.LEDInfo.PurpleB);
+    }
+ }
+ 
+ m_led2.setData(m_ledBuffer2);
     // SmartDashboard.putNumber("Yaw", robotContainer.navx.getHeading());
 
     // SmartDashboard.putNumber("X LL Distance", robotContainer.swerveDriveSubsystem.getXoffset());
