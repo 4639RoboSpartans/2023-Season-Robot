@@ -3,23 +3,28 @@ import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class ObstructionSensor{
-    public DigitalInput sensor;
+    // public DigitalInput sensor;
+    public AnalogPotentiometer distanceSensor;
+    public double ObstructionDistance;
     // public AnalogPotentiometer sensor;
 
     public ObstructionSensor(int channel) {
-        sensor = new DigitalInput(channel); 
+        // sensor = new DigitalInput(channel); 
+        distanceSensor = new AnalogPotentiometer(channel, 10);
+        ObstructionDistance = 0; //subject to change
         // sensor = new AnalogPotentiometer(channel); 
     }
 
     public boolean isObstructed() {
-        return !sensor.get();
-        // if(sensor.get()<0){
-        //     return true;
-        // }
-        // return false;
+        if(distanceSensor.get()<ObstructionDistance){
+            return true;
+        }
+        return false;
+        // return !sensor.get();
     }
 
-    public boolean getRaw(){
-        return sensor.get();
+    public double getRaw(){
+        return distanceSensor.get();
+        // return sensor.get();
     }
 }

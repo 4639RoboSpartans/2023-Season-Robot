@@ -57,7 +57,7 @@ public class RobotContainer {
 
     public final SwerveDriveSubsystem swerveDriveSubsystem = new SwerveDriveSubsystem(navx);
     private final ClawSubsystem clawSubsystem = new ClawSubsystem();
-    public final ObstructionSensor clawObstructionSensor = new ObstructionSensor(1);
+    public final ObstructionSensor clawObstructionSensor = new ObstructionSensor(1); //subject to change port to analog
     public final ArmPivotSubsystem armPivotSubsystem = new ArmPivotSubsystem();
     public final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
     public final TelescopeSubsystem telescopeSubsystem = new TelescopeSubsystem();
@@ -66,12 +66,11 @@ public class RobotContainer {
     private final Trigger clawObstructedTrigger;
     private double lastClawOpenTime = Double.NEGATIVE_INFINITY;
 
-    public AnalogPotentiometer distanceSensor;
+    
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
-        distanceSensor = new AnalogPotentiometer(0, 2);
         enableCompressor();
     
         swerveDriveSubsystem.setDefaultCommand(new DriveCommand(swerveDriveSubsystem, oi, navx));

@@ -85,7 +85,8 @@ public class Robot extends TimedRobot {
     // table.getEntry("pipeline").setNumber(1);
     // SmartDashboard.putNumber("XOFfset", robotContainer.swerveDriveSubsystem.getAprilXOffset());
 
-    SmartDashboard.putNumber("DistanceSensor", robotContainer.distanceSensor.get());
+    SmartDashboard.putNumber("DistanceSensorRaw", robotContainer.clawObstructionSensor.getRaw());
+    SmartDashboard.putBoolean("DistanceSensorObstruction", robotContainer.clawObstructionSensor.isObstructed());
     if(Constants.LEDInfo.LEDStatus!=0){
     for (var i = 0; i < m_ledBuffer1.getLength(); i++) {
       if(Constants.LEDInfo.LEDStatus==1){
