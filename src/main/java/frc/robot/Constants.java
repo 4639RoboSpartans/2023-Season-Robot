@@ -81,8 +81,20 @@ public final class Constants {
 		//top row cube is 
 	}
 	public static class LEDInfo{
-		public static boolean isCone = true;
-		
+		public static int LEDStatus = 0;
+		// 0 = Blue and orange stirps, disabled status
+		// 1 = Green, has object
+		// 2 = Purple, need Cube
+		// 3 = Yellow, need Cone
+		// 4 = Red, does not have object
+		public static final int BlueR = 3;
+		public static final int BlueG = 23;
+		public static final int BlueB = 252;
+
+		public static final int OrangeR = 252;
+		public static final int OrangeG = 61;
+		public static final int OrangeB = 3;
+
 		public static final int PurpleR = 252;
 		public static final int PurpleG = 6;
 		public static final int PurpleB = 244;
@@ -90,6 +102,14 @@ public final class Constants {
 		public static final int YellowR = 231;
 		public static final int YellowG = 255;
 		public static final int YellowB = 1;
+
+		public static final int GreenR = 19;
+		public static final int GreenG = 252;
+		public static final int GreenB = 3;
+
+		public static final int RedR = 252;
+		public static final int RedG = 3;
+		public static final int RedB = 3;
 	}
 
 	public static final class RobotInfo {

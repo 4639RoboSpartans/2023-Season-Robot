@@ -15,6 +15,7 @@ public class CloseClawCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        Constants.LEDInfo.LEDStatus = 1;
         clawSubsystem.close();
     }
 

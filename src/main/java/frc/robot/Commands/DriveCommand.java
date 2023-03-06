@@ -66,12 +66,13 @@ public class DriveCommand extends CommandBase {
         SmartDashboard.putString("swerve movement", swerveMovement.toString());
         swerveDriveSubsystem.setMovement(swerveMovement);
         }
-
+        //set to Cube
         if(oi.getButton(0, Buttons.A_BUTTON).getAsBoolean()){
-            Constants.LEDInfo.isCone = true;
+            Constants.LEDInfo.LEDStatus = 2;
         }
+        //set to Cone
         else if(oi.getButton(0, Buttons.B_BUTTON).getAsBoolean()){
-            Constants.LEDInfo.isCone = false;
+            Constants.LEDInfo.LEDStatus = 3;
         }
     }
 

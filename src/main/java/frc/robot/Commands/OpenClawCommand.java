@@ -15,6 +15,7 @@ public class OpenClawCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        Constants.LEDInfo.LEDStatus = 4;
         clawSubsystem.open();
     }
 
