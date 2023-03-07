@@ -122,6 +122,9 @@ private TrapezoidProfile.State m_setpoint = new TrapezoidProfile.State();
         return (encoder.getPosition()/encoder.getCountsPerRevolution())*encoderRatio;
     }
 
+    public void resetEncoder(){
+        encoder.setPosition(0);
+    }
     public double getRawEncoderPos(){
         return encoder.getPosition();
     }

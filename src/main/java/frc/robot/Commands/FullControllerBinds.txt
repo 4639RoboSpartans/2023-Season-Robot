@@ -6,7 +6,7 @@ Y Button - Align with april tag on node
 UP D-pad - Set lights to purple for cube
 DOWN D-pad - Set lights to yellow for cone
 A Button - 
-B Button - 
+B Button - Reset arm encoder
 LEFT D-pad - Align with left platform
 RIGHT D-pad - Align with right platform
 Left Bumper - 

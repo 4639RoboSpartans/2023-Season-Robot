@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import java.util.ArrayList;
 
+import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -11,6 +12,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -18,6 +20,8 @@ import frc.robot.math.math;
 import frc.robot.swerve.SwerveMovement;
 
 public class SwerveDriveSubsystem extends SubsystemBase {
+    public Field2d m_field;
+    
     private final SwerveModule
         moduleFrontLeft,
         moduleFrontRight,
@@ -37,6 +41,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     private double kd;
 
     public SwerveDriveSubsystem(NavX navx){
+        m_field = new Field2d();
+
         moduleFrontLeft  = new SwerveModule(Constants.IDs.MODULE_FRONT_LEFT);
         moduleFrontRight = new SwerveModule(Constants.IDs.MODULE_FRONT_RIGHT);
         moduleBackLeft   = new SwerveModule(Constants.IDs.MODULE_BACK_LEFT);
@@ -56,12 +62,26 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         // Creating my odometry object from the kinematics object and the initial wheel positions.
         // Here, our starting pose is 5 meters along the long end of the field and in the
         // center of the field along the short end, facing the opposing alliance wall.
+        if(AprilTagDetected()){
+            double Xoffset = 0;//subject to change
+            double Yoffset = 0;//subject to change
+            double tempx = FieldD3Coords()[0];
+            double tempy = FieldD3Coords()[1];
+            double tempRot = FieldD3Coords()[2];
+            odometry = new SwerveDriveOdometry(
+                kinematics,
+                navx.getGyroRotation2d(),
+                getSwerveModulePositions(),
+                new Pose2d(tempx+Xoffset, tempy+Yoffset, new Rotation2d(Math.PI))
+            );
+        }else{
         odometry = new SwerveDriveOdometry(
             kinematics,
             navx.getGyroRotation2d(),
             getSwerveModulePositions(),
-            new Pose2d(0, 0, new Rotation2d())
+            new Pose2d(0, 0, new Rotation2d(Math.PI))
         );
+        }
     }
 
     public void setMovement(double horizontalOffset, double angle){
@@ -103,6 +123,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
             new SwerveModuleState(speedBackLeft, Rotation2d.fromDegrees(angleBackLeft)),
             new SwerveModuleState(speedBackRight, Rotation2d.fromDegrees(angleBackRight))
         );
+    }
+
+    public Pose2d getFieldPos(){
+        return odometry.getPoseMeters();
     }
 
     public void setMovement(SwerveMovement swerveMovement){
@@ -215,7 +239,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Gyro angle", navx.getHeading());
 
         // Update the pose
-        pose = odometry.update(gyroAngle, getSwerveModulePositions());
+        odometry.update(gyroAngle, getSwerveModulePositions());
+        m_field.setRobotPose(getFieldPos());
     }
 
     public SwerveDriveKinematics getKinematics() {
