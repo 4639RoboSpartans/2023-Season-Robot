@@ -54,7 +54,6 @@ import frc.robot.network.vision.LimeLight;
 public class RobotContainer {
     public final OI oi = new OI();
     public final NavX navx = new NavX();
-
     public final SwerveDriveSubsystem swerveDriveSubsystem = new SwerveDriveSubsystem(navx);
     private final ClawSubsystem clawSubsystem = new ClawSubsystem();
     public final ObstructionSensor clawObstructionSensor = new ObstructionSensor(1); //subject to change port to analog

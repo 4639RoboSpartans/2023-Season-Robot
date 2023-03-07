@@ -114,6 +114,7 @@ public final class Constants {
 
 	public static final class RobotInfo {
 		public static final double robotBaseLength = 0.44;
+		public static final double centerToWheel = 0.245;
 		public static final double fullRobotBaseLength = 0.84;
 		public static final double SWERVE_KP = 0.1;
 		public static final double SWERVE_KI = 0.1;
@@ -130,10 +131,10 @@ public final class Constants {
         	public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
 			public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-            new Translation2d( robotBaseLength,  robotBaseLength),//front left
-            new Translation2d(  robotBaseLength, - robotBaseLength), //front right
-            new Translation2d(- robotBaseLength,  robotBaseLength), //back left
-            new Translation2d(-robotBaseLength,  -robotBaseLength) //back right
+            new Translation2d( centerToWheel,  centerToWheel),//front left
+            new Translation2d(  centerToWheel, - centerToWheel), //front right
+            new Translation2d(- centerToWheel,  centerToWheel), //back left
+            new Translation2d(-centerToWheel,  -centerToWheel) //back right
             //originally
             /* back left -front left- back right- front right */
         );

@@ -1,11 +1,13 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
@@ -34,6 +36,7 @@ public class SwerveModule {
         rotator.configFactoryDefault();
 
         driver.setNeutralMode(NeutralMode.Brake);
+        driver.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
         rotator.setNeutralMode(NeutralMode.Brake);
 
         rotationEncoder = new CANCoder(swerveModuleData.encoderID());
@@ -79,6 +82,16 @@ public class SwerveModule {
     public double getVelocity(){
         return driver.getSelectedSensorVelocity();
     }
+
+    // public double getDriveDistance(){
+    //     return ((driver.getSelectedSensorPosition()/4096)/6.55)*(0.1*Math.PI);
+    // }
+    // public double getRadRotation(){
+    //     return Math.toRadians(rotationEncoder.getPosition());
+    // }
+    // public SwerveModulePosition getPosition(){
+    //     return new SwerveModulePosition(getDriveDistance(), new Rotation2d(getRadRotation()));
+    // }
 
     public double getTurningVelocity(){
         return rotationEncoder.getVelocity();

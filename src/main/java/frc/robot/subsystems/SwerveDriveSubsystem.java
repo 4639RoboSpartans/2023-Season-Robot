@@ -60,7 +60,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
             kinematics,
             navx.getGyroRotation2d(),
             getSwerveModulePositions(),
-            new Pose2d(5.0, 13.5, new Rotation2d())
+            new Pose2d(0, 0, new Rotation2d())
         );
     }
 
@@ -177,7 +177,15 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         odometry.resetPosition(
             navx.getGyroRotation2d(),
             getSwerveModulePositions(),
-            new Pose2d(5.0, 13.5, new Rotation2d())
+            new Pose2d(0, 0, new Rotation2d())
+        );
+    }
+
+    public void setPose(double x, double y){
+        odometry.resetPosition(
+            navx.getGyroRotation2d(),
+            getSwerveModulePositions(),
+            new Pose2d(x, y, new Rotation2d())
         );
     }
 

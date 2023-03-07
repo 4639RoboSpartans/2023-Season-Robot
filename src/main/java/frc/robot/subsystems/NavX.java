@@ -29,6 +29,9 @@ public class NavX extends SubsystemBase{
         return getGyroRotation2d().getDegrees();
     }
 
+    public Rotation2d getRotation(){
+        return ahrs.getRotation2d();
+    }
     public Rotation2d getGyroRotation2d() {
         double angle = math.mod(-ahrs.getYaw(), -180, 180);
         return Rotation2d.fromDegrees(angle);
