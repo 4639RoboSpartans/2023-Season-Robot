@@ -7,8 +7,8 @@ UP D-pad - Set lights to purple for cube
 DOWN D-pad - Set lights to yellow for cone
 A Button - 
 B Button - 
-LEFT D-pad - 
-RIGHT D-pad - 
+LEFT D-pad - Align with left platform
+RIGHT D-pad - Align with right platform
 Left Bumper - 
 Right Bumper - 
 Left Trigger -

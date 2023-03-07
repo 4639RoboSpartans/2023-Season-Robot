@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -17,7 +18,12 @@ public class DriveCommand extends CommandBase {
     private final SwerveDriveSubsystem swerveDriveSubsystem;
     private final NavX navX;
 
+    private double XYRest;
+    private double RotRest;
+
     public DriveCommand(SwerveDriveSubsystem swerveDriveSubsystem, OI oi, NavX navX) {
+        XYRest = 0.6;
+        RotRest = 0.4;
         this.oi = oi;
         this.swerveDriveSubsystem = swerveDriveSubsystem;
         this.navX = navX;
@@ -39,21 +45,51 @@ public class DriveCommand extends CommandBase {
         // double aprilHor = swerveDriveSubsystem.getAprilXOffset();
         double leftOffset=0;
         double rightOffset=0;
+        //when X or Y button is pressed
+        //robot rotation should be set to 180
+        //it should align horizontally
+        //it should align vertically
+
+        //placing on reflective nodes
         if(oi.getButton(0, Buttons.X_BUTTON).getAsBoolean()){
             double tx=swerveDriveSubsystem.getRetroXoffset();
+            double rotation = swerveDriveSubsystem.getRotation().getDegrees();
             if(tx<0)
             swerveDriveSubsystem.setMovement(tx, 90);
             else
             swerveDriveSubsystem.setMovement(-tx, 270);
         }
+        //placing on april tag nodes
        else if(oi.getButton(0, Buttons.Y_BUTTON).getAsBoolean()){
-            double aprilHor = swerveDriveSubsystem.getAprilXOffset();
-            if(aprilHor<0)
-            swerveDriveSubsystem.setMovement(aprilHor, 90);
-            else
-            swerveDriveSubsystem.setMovement(-aprilHor, 270);
+            if(swerveDriveSubsystem.AprilTagDetected()){
+                double locationx = 0;//subject to change
+                double locationy =0; //subject to change
+                double offsets[] = swerveDriveSubsystem.TagD3Coords();
+                PIDController xyPID = new PIDController(0.01, 0, 0);
+                PIDController rotPID = new PIDController(0.01, 0, 0);
+                double xoff = offsets[0];
+                double yoff = offsets[1];
+                double angleOff = offsets[2]; //angle in degrees
+                //scale xoff to xval, which is betweene -1 and 1;
+                double xval = Math.min(12, xyPID.calculate(xoff, locationx))/12;
+                double yval = Math.min(12, xyPID.calculate(yoff, locationy))/12;
+                double rotval = Math.min(12, rotPID.calculate(angleOff, 0))/12;
+                SwerveMovement rawMovement = new SwerveMovement(xval*XYRest, yval*XYRest, rotval*RotRest);
+                swerveMovement = SwerveUtil.toRobotCentric(rawMovement, navX.getHeading());
+                SmartDashboard.putString("swerve movement", swerveMovement.toString());
+                swerveDriveSubsystem.setMovement(swerveMovement);
+            }
             // swerveDriveSubsystem.setMovement(aprilHor, 90);
         }
+        //taking off platform april tag LEFT
+        else if (oi.getPovButton(0, 270).getAsBoolean()){
+                //same as above but change location x to new offset
+        }
+        else if (oi.getPovButton(0, 90).getAsBoolean()){
+                //same as above but change location x to new offset
+        }
+        //taking off platform april tag RIGHT
+
         // if(oi.getPovButton(0, 180).getAsBoolean()){
         //     swerveDriveSubsystem.setMovement(aprilHor+leftOffset, 90);
         // }
@@ -81,7 +117,7 @@ public class DriveCommand extends CommandBase {
         double rawY =oi.getAxis(0, Constants.Axes.LEFT_STICK_Y);
         double rawRot = -oi.getAxis(0, Constants.Axes.RIGHT_STICK_X);
         // SmartDashboard.putNumber("RawRot", rawRot);
-        return new SwerveMovement(rawY*0.6 , -rawX *0.6, rawRot*0.4);
+        return new SwerveMovement(rawY*XYRest , -rawX *XYRest, rawRot*RotRest);
     }
 
     // Called once the command ends or is interrupted.

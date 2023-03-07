@@ -77,11 +77,11 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putBoolean("ArmClosing", Constants.objectIn);
 
-    // if(robotContainer.swerveDriveSubsystem.d3test()!=null){
-    // SmartDashboard.putNumber("3dposX", robotContainer.swerveDriveSubsystem.d3test()[0]);
-    // SmartDashboard.putNumber("3dposY", robotContainer.swerveDriveSubsystem.d3test()[1]); 
-    // SmartDashboard.putNumber("3dposYaw", robotContainer.swerveDriveSubsystem.d3test()[5]);
-  // }
+    if(robotContainer.swerveDriveSubsystem.AprilTagDetected()){
+    SmartDashboard.putNumber("3dposX", robotContainer.swerveDriveSubsystem.FieldD3Coords()[0]);
+    SmartDashboard.putNumber("3dposY", robotContainer.swerveDriveSubsystem.FieldD3Coords()[1]); 
+    SmartDashboard.putNumber("3dposYaw", robotContainer.swerveDriveSubsystem.FieldD3Coords()[5]);
+  }
   
     // SmartDashboard.putBoolean("Controller y activated", robotContainer.oi.getButton(1, Constants.Buttons.Y_BUTTON).getAsBoolean());
     // NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);

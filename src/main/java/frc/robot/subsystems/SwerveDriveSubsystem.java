@@ -241,16 +241,35 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         return table.getEntry("tx").getDouble(0);
 
     }
-    public double getAprilXOffset(){
-        var table =NetworkTableInstance.getDefault().getTable("limelight-slhs");
-        table.getEntry("pipeline").setNumber(0);
-        return table.getEntry("tx").getDouble(0);
-    }
+    // public double getAprilXOffset(){
+    //     var table =NetworkTableInstance.getDefault().getTable("limelight-slhs");
+    //     table.getEntry("pipeline").setNumber(0);
+    //     return table.getEntry("tx").getDouble(0);
+    // }
 
-    public double[] d3test(){
+    public double[] FieldD3Coords(){
         var table =NetworkTableInstance.getDefault().getTable("limelight-slhs");
         table.getEntry("pipeline").setNumber(0);
         
-        return table.getEntry("botpose").getDoubleArray(new double[6]);
+        double vals[] = {table.getEntry("botpose").getDoubleArray(new double[21])[0],table.getEntry("botpose").getDoubleArray(new double[21])[1],table.getEntry("botpose").getDoubleArray(new double[21])[5]};
+        return vals;
+
+        // return table.getEntry("botpose").getDoubleArray(new double[21]);
+    }
+    public double[] TagD3Coords(){
+        var table =NetworkTableInstance.getDefault().getTable("limelight-slhs");
+        table.getEntry("pipeline").setNumber(0);
+        
+        double vals[] = {table.getEntry("camerapose_targetspace").getDoubleArray(new double[21])[0],table.getEntry("botpose").getDoubleArray(new double[21])[1],table.getEntry("botpose").getDoubleArray(new double[21])[5]};
+        return vals;
+
+        // return table.getEntry("botpose").getDoubleArray(new double[21]);
+    }
+
+    public boolean AprilTagDetected(){
+        var table =NetworkTableInstance.getDefault().getTable("limelight-slhs");
+        table.getEntry("pipeline").setNumber(0);
+        
+        return table.getEntry("botpose").getDoubleArray(new double[21]).length==6;
     }
 }
