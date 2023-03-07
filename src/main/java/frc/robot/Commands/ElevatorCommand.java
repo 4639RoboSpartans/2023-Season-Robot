@@ -60,6 +60,12 @@ public class ElevatorCommand extends CommandBase {
     if(oi.getButton(1, Constants.Buttons.Y_BUTTON).getAsBoolean()){
         Moving();
     }
+    if(oi.getPovButton(1, 0).getAsBoolean()){
+        pos+=5;
+    }
+    if(oi.getPovButton(1, 180).getAsBoolean()){
+        pos-=5;
+    }
         elevator.setMotorPos(pos);
 
     }

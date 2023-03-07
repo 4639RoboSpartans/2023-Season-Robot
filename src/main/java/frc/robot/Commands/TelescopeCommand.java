@@ -42,6 +42,12 @@ public class TelescopeCommand extends CommandBase {
         if(oi.getButton(1, Constants.Buttons.Y_BUTTON).getAsBoolean()){
             Moving();
         }
+        if(oi.getPovButton(1, 90).getAsBoolean()){
+            pos+=2;
+        }
+        if(oi.getPovButton(1, 270).getAsBoolean()){
+            pos-=2;
+        }
         telescope.setMotorPos(pos);
         // telescope.setPosition(Position);
     }

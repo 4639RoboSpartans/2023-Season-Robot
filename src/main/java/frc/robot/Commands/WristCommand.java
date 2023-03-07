@@ -57,6 +57,9 @@ public class WristCommand extends CommandBase{
     if(oi.getButton(1, Constants.Buttons.Y_BUTTON).getAsBoolean()){
         Moving();
     }
+    if(Math.abs(oi.getAxis(1, Constants.Axes.LEFT_STICK_Y))>0.1){
+        pos = pos+(oi.getAxis(1, Constants.Axes.LEFT_STICK_Y)*0.5);
+    }
     // pos = 0;
     wrist.setMotorPos(pos);
         // double speed = oi.getAxis(1, Constants.Axes.RIGHT_STICK_Y) * .2;

@@ -1,0 +1,33 @@
+Driver:
+Left stick - Robot translation
+Right stick - Robot rotation
+X Button - Align with reflective tape on node
+Y Button - Align with april tag on node
+UP D-pad - Set lights to purple for cube
+DOWN D-pad - Set lights to yellow for cone
+A Button - 
+B Button - 
+LEFT D-pad - 
+RIGHT D-pad - 
+Left Bumper - 
+Right Bumper - 
+Left Trigger -
+Right Trigger - 
+
+Operator:
+Left Bumper - Mid node
+Right Bumper - High node
+B Button - Low node
+Right Trigger - Platform pickup
+Left Trigger - Floor pickup
+Y Button - Moving setpoint
+A Button - Close Claw
+X Button - Open Claw
+UP D-Pad - Manual Elevator
+DOWN D-Pad - Manual Elevator
+LEFT D-Pad - Manual Telescope
+RIGHT D-Pad - Manual Telescope
+Left stick Y - Manual Wrist
+Left stick X - 
+Right stick Y - Manual Arm
+Right stick X - 

@@ -67,11 +67,11 @@ public class DriveCommand extends CommandBase {
         swerveDriveSubsystem.setMovement(swerveMovement);
         }
         //set to Cube
-        if(oi.getButton(0, Buttons.A_BUTTON).getAsBoolean()){
+        if(oi.getPovButton(0, 0).getAsBoolean()){
             Constants.LEDInfo.LEDStatus = 2;
         }
         //set to Cone
-        else if(oi.getButton(0, Buttons.B_BUTTON).getAsBoolean()){
+        else if(oi.getPovButton(0, 180).getAsBoolean()){
             Constants.LEDInfo.LEDStatus = 3;
         }
     }
