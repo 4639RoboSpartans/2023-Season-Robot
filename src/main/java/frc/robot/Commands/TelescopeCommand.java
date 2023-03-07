@@ -21,8 +21,26 @@ public class TelescopeCommand extends CommandBase {
     }
     @Override
     public void execute() {
+        // if(oi.getButton(1, Constants.Buttons.Y_BUTTON).getAsBoolean()){
+        //     pos = -25;
+        // }
+        if(oi.getButton(1, Constants.Buttons.LEFT_BUMPER).getAsBoolean()){
+            MidPlace();
+        }
+        if(oi.getButton(1, Constants.Buttons.RIGHT_BUMPER).getAsBoolean()){
+            HighPlace();
+        }
+        if(oi.getButton(1, Constants.Buttons.B_BUTTON).getAsBoolean()){
+            LowPlace();
+        }
+        if(oi.getAxis(1, Constants.Axes.RIGHT_TRIGGER)>0.2){
+            PlatformPickup();
+        }
+        if(oi.getAxis(1, Constants.Axes.LEFT_TRIGGER)>0.2){
+            FloorPickup();
+        }
         if(oi.getButton(1, Constants.Buttons.Y_BUTTON).getAsBoolean()){
-            pos = -25;
+            Moving();
         }
         telescope.setMotorPos(pos);
         // telescope.setPosition(Position);

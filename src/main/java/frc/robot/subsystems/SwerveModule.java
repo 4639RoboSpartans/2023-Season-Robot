@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 
@@ -28,6 +29,7 @@ public class SwerveModule {
 
     private double speed = 0;
 
+    private StatorCurrentLimitConfiguration StatorCurrentLimit;
     public SwerveModule(SwerveModuleConfig swerveModuleData){
         driver = new WPI_TalonFX(swerveModuleData.driveMotorID());
         rotator = new WPI_TalonFX(swerveModuleData.rotaterMotorID());
@@ -38,6 +40,8 @@ public class SwerveModule {
         driver.setNeutralMode(NeutralMode.Brake);
         driver.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
         rotator.setNeutralMode(NeutralMode.Brake);
+        StatorCurrentLimit = new StatorCurrentLimitConfiguration(true, 35, 34, 0.01);
+        driver.configStatorCurrentLimit(StatorCurrentLimit);
 
         rotationEncoder = new CANCoder(swerveModuleData.encoderID());
         rotationEncoder.configFactoryDefault();

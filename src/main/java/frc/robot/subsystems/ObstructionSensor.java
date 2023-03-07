@@ -13,14 +13,15 @@ public class ObstructionSensor{
 
     public ObstructionSensor(int channel) {
         // sensor = new DigitalInput(channel); 
-        distanceSensor = new AnalogPotentiometer(channel, 10);
-        m_Debouncer = new Debouncer(0.1, DebounceType.kBoth);
-        ObstructionDistance = 0; //subject to change
+        distanceSensor = new AnalogPotentiometer(channel, 100000);
+        // m_Debouncer = new Debouncer(0.05, DebounceType.kBoth);
+        ObstructionDistance = 3980; //subject to change
         // sensor = new AnalogPotentiometer(channel); 
     }
 
     public boolean isObstructed() {
         //m_debounce.calculate;
+        // m_Debouncer.calculate(
         if(distanceSensor.get()<ObstructionDistance){
             return true;
         }

@@ -54,25 +54,30 @@ public class ArmCommand extends CommandBase {
         MidPlace();
         objectIn = true;
     }
-    if(oi.getButton(1, Constants.Buttons.RIGHT_BUMPER).getAsBoolean()){
+    else if(oi.getButton(1, Constants.Buttons.RIGHT_BUMPER).getAsBoolean()){
         HighPlace();
         objectIn = true;
     }
-    if(oi.getButton(1, Constants.Buttons.B_BUTTON).getAsBoolean()){
+    else if(oi.getButton(1, Constants.Buttons.B_BUTTON).getAsBoolean()){
         LowPlace();
         objectIn = true;
     }
-    if(oi.getAxis(1, Constants.Axes.RIGHT_TRIGGER)>0.2){
+    else if(oi.getAxis(1, Constants.Axes.RIGHT_TRIGGER)>0.2){
         PlatformPickup();
-        objectIn = false;
+        objectIn = true;
     }
-    if(oi.getAxis(1, Constants.Axes.LEFT_TRIGGER)>0.2){
+    else if(oi.getAxis(1, Constants.Axes.LEFT_TRIGGER)>0.2){
         FloorPickup();
         objectIn = false;
     }
-    if(oi.getButton(1, Constants.Buttons.Y_BUTTON).getAsBoolean()){
+    else if(oi.getButton(1, Constants.Buttons.Y_BUTTON).getAsBoolean()){
         Moving();
         objectIn = true;
+    }
+    else if(oi.getPovButton(1, 0).getAsBoolean()){
+        objectIn = false;
+        pos = -27;
+        
     }
     pivot.setMotorPos(pos, objectIn);
     // pivot.setVoltage(1);

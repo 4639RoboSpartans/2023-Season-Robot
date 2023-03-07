@@ -65,19 +65,23 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     SmartDashboard.putNumber("WristEncoderValue", robotContainer.wristSubsystem.getEncoderPos());
-    SmartDashboard.putNumber("ArmEncoderValue", robotContainer.armPivotSubsystem.getEncoderPos());
-    SmartDashboard.putNumber("TelescopeEncoderValue", robotContainer.telescopeSubsystem.getEncoderPos());
-    SmartDashboard.putNumber("ElevatorEncoderValue", robotContainer.elevatorSubsystem.getEncoderPos());
-    SmartDashboard.putNumber("WristCPR", robotContainer.wristSubsystem.getCPR());
-    SmartDashboard.putNumber("TelescopeVoltage", robotContainer.telescopeSubsystem.getVoltage());
-    SmartDashboard.putNumber("WristRawEncoder", robotContainer.wristSubsystem.getRawEncoderPos());
-    SmartDashboard.putNumber("TelescopeRawEncoder", robotContainer.telescopeSubsystem.getRawEncoderPos());
-    SmartDashboard.putNumber("ElevatorRawEncoder", robotContainer.elevatorSubsystem.getRawEncoderPos());
+    // SmartDashboard.putNumber("ArmEncoderValue", robotContainer.armPivotSubsystem.getEncoderPos());
+    // SmartDashboard.putNumber("TelescopeEncoderValue", robotContainer.telescopeSubsystem.getEncoderPos());
+    // SmartDashboard.putNumber("ElevatorEncoderValue", robotContainer.elevatorSubsystem.getEncoderPos());
+    // SmartDashboard.putNumber("WristCPR", robotContainer.wristSubsystem.getCPR());
+    // SmartDashboard.putNumber("TelescopeVoltage", robotContainer.telescopeSubsystem.getVoltage());
+    // SmartDashboard.putNumber("WristRawEncoder", robotContainer.wristSubsystem.getRawEncoderPos());
+    // SmartDashboard.putNumber("TelescopeRawEncoder", robotContainer.telescopeSubsystem.getRawEncoderPos());
+    // SmartDashboard.putNumber("ElevatorRawEncoder", robotContainer.elevatorSubsystem.getRawEncoderPos());
     SmartDashboard.putNumber("ArmPivotRawEncoder", robotContainer.armPivotSubsystem.getRawEncoderPos());
 
     SmartDashboard.putBoolean("ArmClosing", Constants.objectIn);
 
-    // SmartDashboard.putNumber("3dpos", robotContainer.swerveDriveSubsystem.d3test()[0]);
+    // if(robotContainer.swerveDriveSubsystem.d3test()!=null){
+    // SmartDashboard.putNumber("3dposX", robotContainer.swerveDriveSubsystem.d3test()[0]);
+    // SmartDashboard.putNumber("3dposY", robotContainer.swerveDriveSubsystem.d3test()[1]); 
+    // SmartDashboard.putNumber("3dposYaw", robotContainer.swerveDriveSubsystem.d3test()[5]);
+  // }
   
     // SmartDashboard.putBoolean("Controller y activated", robotContainer.oi.getButton(1, Constants.Buttons.Y_BUTTON).getAsBoolean());
     // NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
@@ -108,9 +112,9 @@ public class Robot extends TimedRobot {
       if(i%7==0){
         blue = !blue;
       }if(blue){
-        m_ledBuffer1.setRGB(starterLED+i%61, Constants.LEDInfo.BlueR, Constants.LEDInfo.BlueG,Constants.LEDInfo.BlueB);
+        m_ledBuffer1.setRGB((starterLED+i)%60, Constants.LEDInfo.BlueR, Constants.LEDInfo.BlueG,Constants.LEDInfo.BlueB);
       }else{
-        m_ledBuffer1.setRGB(starterLED+i%61, Constants.LEDInfo.OrangeR, Constants.LEDInfo.OrangeG,Constants.LEDInfo.OrangeB);
+        m_ledBuffer1.setRGB((starterLED+i)%60, Constants.LEDInfo.OrangeR, Constants.LEDInfo.OrangeG,Constants.LEDInfo.OrangeB);
       }
     }
     starterLED++;

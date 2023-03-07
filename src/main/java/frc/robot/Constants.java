@@ -43,9 +43,9 @@ public final class Constants {
 	public static final class SetPoints{
 		//Intake:
 		//Floor intake
-		public static final double FIWrist = -0.75;
+		public static final double FIWrist = -0.85;
 		public static final double FITelescope = 0;
-		public static final double FIArmPivot = -80.74;
+		public static final double FIArmPivot = -85;
 		public static final double FIElevator = 30;
 		//Platform intake
 		public static final double PIWrist = -4;
@@ -75,7 +75,7 @@ public final class Constants {
 		//middle row cube is same as cone middle cube
 		//top row cone
 		public static final double TCOWrist = -3;
-		public static final double TCOTelescope = 22.96;
+		public static final double TCOTelescope = -10;
 		public static final double TCOArmPivot = -42.84;
 		public static final double TCOElevator = 50;
 		//top row cube is 
@@ -99,9 +99,9 @@ public final class Constants {
 		public static final int PurpleG = 6;
 		public static final int PurpleB = 244;
 
-		public static final int YellowR = 231;
+		public static final int YellowR = 255;
 		public static final int YellowG = 255;
-		public static final int YellowB = 1;
+		public static final int YellowB = 0;
 
 		public static final int GreenR = 19;
 		public static final int GreenG = 252;

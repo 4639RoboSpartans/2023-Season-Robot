@@ -56,14 +56,14 @@ private TrapezoidProfile.State m_setpoint = new TrapezoidProfile.State();
         armPivotMotorL.burnFlash();
         armPivotMotorR.burnFlash();
         encoderRatio = 10000;
-        kp =0.014;
-        ki = 0.01;
+        kp =0.017;
+        ki = 0.002;
         kd = 0;
         DownEmptyPID = new PIDController(kp, ki, kd);
-        DownEmptyPID.setTolerance(0.1);
+        DownEmptyPID.setTolerance(5);
 
-        DownFilledPID = new PIDController(0.024, ki, kd);
-        DownFilledPID.setTolerance(0.1);
+        DownFilledPID = new PIDController(0.022, ki, kd);
+        DownFilledPID.setTolerance(1);
         // UpFilledPID = new PIDController(0.02, ki, kd);
         // UpFilledPID.setTolerance(0.1);
 

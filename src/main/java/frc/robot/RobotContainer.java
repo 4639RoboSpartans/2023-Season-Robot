@@ -73,10 +73,10 @@ public class RobotContainer {
         enableCompressor();
     
         swerveDriveSubsystem.setDefaultCommand(new DriveCommand(swerveDriveSubsystem, oi, navx));
-        // elevatorSubsystem.setDefaultCommand(new ElevatorCommand(elevatorSubsystem, oi));
-        // wristSubsystem.setDefaultCommand(new WristCommand(wristSubsystem, oi));
+        elevatorSubsystem.setDefaultCommand(new ElevatorCommand(elevatorSubsystem, oi));
+        wristSubsystem.setDefaultCommand(new WristCommand(wristSubsystem, oi));
         telescopeSubsystem.setDefaultCommand(new TelescopeCommand(telescopeSubsystem, oi));
-        // armPivotSubsystem.setDefaultCommand(new ArmCommand(armPivotSubsystem, oi));
+        armPivotSubsystem.setDefaultCommand(new ArmCommand(armPivotSubsystem, oi));
 
         clawObstructedTrigger = new Trigger(() ->
             clawObstructionSensor.isObstructed()
@@ -84,7 +84,7 @@ public class RobotContainer {
         );
 
         configureButtonBindings();
-        // configureClaw();
+        configureClaw();
     }
 
   
@@ -117,15 +117,15 @@ public class RobotContainer {
         // oi.getButton(0, Constants.Buttons.X_BUTTON).whileTrue(new AutoBalanceCommand(swerveDriveSubsystem, navx));
 
         // oi.getButton(1, Constants.Buttons.B_BUTTON).whileTrue(new ArmCommand(armPivotSubsystem, oi));
-        oi.getButton(1, Constants.Buttons.A_BUTTON).onTrue(new OpenClawCommand(clawSubsystem));
-        oi.getButton(1, Constants.Buttons.X_BUTTON).onTrue(new CloseClawCommand(clawSubsystem));
+        // oi.getButton(1, Constants.Buttons.A_BUTTON).onTrue(new OpenClawCommand(clawSubsystem));
+        // oi.getButton(1, Constants.Buttons.X_BUTTON).onTrue(new CloseClawCommand(clawSubsystem));
     }
 
     private void configureClaw() {
         clawObstructedTrigger.onTrue(new CloseClawCommand(clawSubsystem).andThen(() -> {
             lastClawOpenTime = Double.POSITIVE_INFINITY;
         }, clawSubsystem));
-        oi.getButton(0, Constants.Buttons.B_BUTTON).onTrue(
+        oi.getButton(1, Constants.Buttons.A_BUTTON).onTrue(
             new OpenClawCommand(clawSubsystem)
             .andThen(() -> lastClawOpenTime = Timer.getFPGATimestamp(), clawSubsystem)
         );

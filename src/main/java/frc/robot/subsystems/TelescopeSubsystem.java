@@ -37,7 +37,7 @@ public class TelescopeSubsystem  extends SubsystemBase{
         motor.configForwardSoftLimitThreshold(0, 0);
         motor.configReverseSoftLimitThreshold(softLimit, 0);
 
-        kp =0.4;
+        kp =0.37;
         ki = 0.1;
         kd = 0;
         PID = new PIDController(kp, ki, kd);
