@@ -29,7 +29,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         moduleBackRight;
    
     private final SwerveDriveKinematics kinematics;
-    private final SwerveDriveOdometry odometry;
+    private SwerveDriveOdometry odometry;
     private final NavX navx;
     private final double wheelRadius;
 
@@ -239,7 +239,21 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Gyro angle", navx.getHeading());
 
         // Update the pose
+        if(AprilTagDetected()){
+            double Xoffset = 0;//subject to change
+            double Yoffset = 0;//subject to change
+            double tempx = FieldD3Coords()[0];
+            double tempy = FieldD3Coords()[1];
+            double tempRot = FieldD3Coords()[2];
+            odometry = new SwerveDriveOdometry(
+                kinematics,
+                navx.getGyroRotation2d(),
+                getSwerveModulePositions(),
+                new Pose2d(tempx+Xoffset, tempy+Yoffset, new Rotation2d(Math.PI))
+            );
+        }else{
         odometry.update(gyroAngle, getSwerveModulePositions());
+        }
         m_field.setRobotPose(getFieldPos());
     }
 
