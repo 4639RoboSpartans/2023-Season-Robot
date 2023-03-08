@@ -39,7 +39,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     private double kp;
     private double ki;
     private double kd;
-
+   //blue side bottom node is 0,0 on the field
     public SwerveDriveSubsystem(NavX navx){
         m_field = new Field2d();
         SmartDashboard.putData(m_field);
@@ -216,11 +216,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     // 8.1 meters by 16.48 meters
     public SwerveModulePosition[] getSwerveModulePositions() {
         return new SwerveModulePosition[] {
-            new SwerveModulePosition(-moduleFrontLeft.getDriveDistance(), new Rotation2d(-Math.toRadians(moduleFrontLeft.getRotationInDegrees()))),
-            new SwerveModulePosition(-moduleBackLeft.getDriveDistance(), new Rotation2d(-Math.toRadians(moduleBackLeft.getRotationInDegrees()))),
-            new SwerveModulePosition(-moduleFrontRight.getDriveDistance(), new Rotation2d(-Math.toRadians(moduleFrontRight.getRotationInDegrees()))),
+            new SwerveModulePosition(-moduleFrontLeft.getDriveDistance(), new Rotation2d(Math.toRadians(moduleFrontLeft.getRotationInDegrees()))),
+            new SwerveModulePosition(-moduleBackLeft.getDriveDistance(), new Rotation2d(Math.toRadians(moduleBackLeft.getRotationInDegrees()))),
+            new SwerveModulePosition(-moduleFrontRight.getDriveDistance(), new Rotation2d(Math.toRadians(moduleFrontRight.getRotationInDegrees()))),
             
-            new SwerveModulePosition(-moduleBackRight.getDriveDistance(), new Rotation2d(-Math.toRadians(moduleBackRight.getRotationInDegrees())))
+            new SwerveModulePosition(-moduleBackRight.getDriveDistance(), new Rotation2d(Math.toRadians(moduleBackRight.getRotationInDegrees())))
         };
     }
 
@@ -262,8 +262,21 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         m_field.setRobotPose(getFieldPos());
     }
     public void uppdateOdom(){
+        if(AprilTagDetected()){
+            var gyroAngle = navx.getGyroRotation2d();
+           double x = FieldD3Coords()[0];
+           x+=8.24;
+            double y = FieldD3Coords()[0];
+            y+=4.05;
+            odometry.resetPosition(
+            navx.getGyroRotation2d(),
+            getSwerveModulePositions(),
+            new Pose2d(x, y, gyroAngle)
+        );
+        }else{
         var gyroAngle = navx.getGyroRotation2d();
         odometry.update(gyroAngle, getSwerveModulePositions());
+        }
     }
 
     public SwerveDriveKinematics getKinematics() {
@@ -303,18 +316,18 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         return -1;
     }
 
-    // public double[] FieldD3Coords(){
-    //     if(AprilTagDetected()){
-    //     var table =NetworkTableInstance.getDefault().getTable("limelight-slhs");
-    //     table.getEntry("pipeline").setNumber(0);
+    public double[] FieldD3Coords(){
+        if(AprilTagDetected()){
+        var table =NetworkTableInstance.getDefault().getTable("limelight-slhs");
+        table.getEntry("pipeline").setNumber(0);
         
-    //     double vals[] = {table.getEntry("botpose").getDoubleArray(new double[21])[0],table.getEntry("botpose").getDoubleArray(new double[21])[1],table.getEntry("tid").getDouble(-1)};
-    //     return vals;
-    //     }
-    //     return null;
+        double vals[] = {table.getEntry("botpose").getDoubleArray(new double[21])[0],table.getEntry("botpose").getDoubleArray(new double[21])[1],table.getEntry("tid").getDouble(-1)};
+        return vals;
+        }
+        return null;
 
-    //     // return table.getEntry("botpose").getDoubleArray(new double[21]);
-    // }
+        // return table.getEntry("botpose").getDoubleArray(new double[21]);
+    }
     
 
     public boolean AprilTagDetected(){

@@ -6,12 +6,14 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy;
+import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -29,7 +31,8 @@ public class Robot extends TimedRobot {
 
   private RobotContainer robotContainer;
   
-
+  private final I2C.Port i2cPort = I2C.Port.kOnboard;
+  private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
   // public DigitalInput IR = new DigitalInput(5);
   ///private AprilTagReader aprilTagReader;
 
@@ -64,6 +67,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
+    double IR = m_colorSensor.getIR();
+    double prox = m_colorSensor.getProximity();
+    SmartDashboard.putNumber("IR", IR);
+    SmartDashboard.putNumber("Prox", prox);
+
     SmartDashboard.putNumber("WristEncoderValue", robotContainer.wristSubsystem.getEncoderPos());
     SmartDashboard.putNumber("ArmEncoderValue", robotContainer.armPivotSubsystem.getEncoderPos());
     // SmartDashboard.putNumber("TelescopeEncoderValue", robotContainer.telescopeSubsystem.getEncoderPos());
