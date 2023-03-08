@@ -42,11 +42,11 @@ private TrapezoidProfile.State m_setpoint = new TrapezoidProfile.State();
         armPivotMotorR.clearFaults();
         armPivotMotorR.follow(armPivotMotorL, true);
         
-        armPivotMotorL.setSmartCurrentLimit(35);
+        armPivotMotorL.setSmartCurrentLimit(36);
         
-        // armPivotMotorL.enableSoftLimit(SoftLimitDirection.kForward , true);
+        armPivotMotorL.enableSoftLimit(SoftLimitDirection.kForward , true);
         armPivotMotorL.enableSoftLimit(SoftLimitDirection.kReverse, true);
-        // armPivotMotorL.setSoftLimit(SoftLimitDirection.kForward, 0);
+        armPivotMotorL.setSoftLimit(SoftLimitDirection.kForward, 20);
         armPivotMotorL.setSoftLimit(SoftLimitDirection.kReverse, -36);
         pos = 0;
 
@@ -61,9 +61,9 @@ private TrapezoidProfile.State m_setpoint = new TrapezoidProfile.State();
         kd = 0;
         DownEmptyPID = new PIDController(kp, ki, kd);
         DownEmptyPID.setTolerance(5);
-
-        DownFilledPID = new PIDController(0.022, ki, kd);
-        DownFilledPID.setTolerance(1);
+        
+        DownFilledPID = new PIDController(0.022, 0.006, kd);
+        DownFilledPID.setTolerance(5);
         // UpFilledPID = new PIDController(0.02, ki, kd);
         // UpFilledPID.setTolerance(0.1);
 

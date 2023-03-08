@@ -65,11 +65,11 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     SmartDashboard.putNumber("WristEncoderValue", robotContainer.wristSubsystem.getEncoderPos());
-    // SmartDashboard.putNumber("ArmEncoderValue", robotContainer.armPivotSubsystem.getEncoderPos());
+    SmartDashboard.putNumber("ArmEncoderValue", robotContainer.armPivotSubsystem.getEncoderPos());
     // SmartDashboard.putNumber("TelescopeEncoderValue", robotContainer.telescopeSubsystem.getEncoderPos());
     // SmartDashboard.putNumber("ElevatorEncoderValue", robotContainer.elevatorSubsystem.getEncoderPos());
     // SmartDashboard.putNumber("WristCPR", robotContainer.wristSubsystem.getCPR());
-    // SmartDashboard.putNumber("TelescopeVoltage", robotContainer.telescopeSubsystem.getVoltage());
+    SmartDashboard.putNumber("ArmVoltage", robotContainer.armPivotSubsystem.getVoltage());
     // SmartDashboard.putNumber("WristRawEncoder", robotContainer.wristSubsystem.getRawEncoderPos());
     // SmartDashboard.putNumber("TelescopeRawEncoder", robotContainer.telescopeSubsystem.getRawEncoderPos());
     // SmartDashboard.putNumber("ElevatorRawEncoder", robotContainer.elevatorSubsystem.getRawEncoderPos());
@@ -77,11 +77,12 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putBoolean("ArmClosing", Constants.objectIn);
 
-    if(robotContainer.swerveDriveSubsystem.AprilTagDetected()){
-    SmartDashboard.putNumber("3dposX", robotContainer.swerveDriveSubsystem.FieldD3Coords()[0]);
-    SmartDashboard.putNumber("3dposY", robotContainer.swerveDriveSubsystem.FieldD3Coords()[1]); 
-    SmartDashboard.putNumber("3dposYaw", robotContainer.swerveDriveSubsystem.FieldD3Coords()[5]);
-  }
+  //   if(robotContainer.swerveDriveSubsystem.AprilTagDetected()){
+  //   SmartDashboard.putNumber("3dposX", robotContainer.swerveDriveSubsystem.FieldD3Coords()[0]);
+  //   SmartDashboard.putNumber("3dposY", robotContainer.swerveDriveSubsystem.FieldD3Coords()[1]); 
+  //   SmartDashboard.putNumber("3dposYaw", robotContainer.swerveDriveSubsystem.FieldD3Coords()[2]);
+
+  // }
   
     // SmartDashboard.putBoolean("Controller y activated", robotContainer.oi.getButton(1, Constants.Buttons.Y_BUTTON).getAsBoolean());
     // NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
@@ -152,6 +153,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     Constants.LEDInfo.LEDStatus = 4;
     ElevatorSubsystem.motors.forEach(motor -> motor.setNeutralMode(NeutralMode.Brake));
+    robotContainer.wristSubsystem.resetEncoder();
     // m_robotContainer.m_shroud.resetEncoder();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to

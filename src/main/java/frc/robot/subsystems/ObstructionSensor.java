@@ -15,7 +15,7 @@ public class ObstructionSensor{
         // sensor = new DigitalInput(channel); 
         distanceSensor = new AnalogPotentiometer(channel, 100000);
         // m_Debouncer = new Debouncer(0.05, DebounceType.kBoth);
-        ObstructionDistance = 3980; //subject to change
+        ObstructionDistance = 4110; //subject to change
         // sensor = new AnalogPotentiometer(channel); 
     }
 

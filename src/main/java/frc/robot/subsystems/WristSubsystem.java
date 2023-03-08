@@ -70,7 +70,9 @@ public class WristSubsystem extends SubsystemBase{
       return encoder.getCountsPerRevolution();
     }
 
-
+    public void resetEncoder(){
+      encoder.setPosition(0);
+    }
     public void setSpeed(double speed){
       neo.set(speed);
     }

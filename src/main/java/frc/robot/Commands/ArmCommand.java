@@ -75,10 +75,16 @@ public class ArmCommand extends CommandBase {
         objectIn = true;
     }
     if(Math.abs(oi.getAxis(1, Constants.Axes.RIGHT_STICK_Y))>0.1){
-        pos = pos+(oi.getAxis(1, Constants.Axes.RIGHT_STICK_Y)*2);
+        pos = pos+(oi.getAxis(1, Constants.Axes.RIGHT_STICK_Y)*0.65);
     }
     if(oi.getButton(0, Constants.Buttons.B_BUTTON).getAsBoolean()){
+        pos = 10;
+        objectIn = true;
+    }
+    
+    if(oi.getButton(0, Constants.Buttons.A_BUTTON).getAsBoolean()){
         pivot.resetEncoder();
+        pos = 0;
     }
     pivot.setMotorPos(pos, objectIn);
     // pivot.setVoltage(1);

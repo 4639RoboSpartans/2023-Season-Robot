@@ -22,8 +22,8 @@ public class DriveCommand extends CommandBase {
     private double RotRest;
 
     public DriveCommand(SwerveDriveSubsystem swerveDriveSubsystem, OI oi, NavX navX) {
-        XYRest = 0.6;
-        RotRest = 0.4;
+        XYRest = 0.75;
+        RotRest = 0.3;
         this.oi = oi;
         this.swerveDriveSubsystem = swerveDriveSubsystem;
         this.navX = navX;
@@ -34,6 +34,8 @@ public class DriveCommand extends CommandBase {
     @Override
     public void execute() {
         SwerveMovement swerveMovement;
+        swerveDriveSubsystem.uppdateOdom();
+        swerveDriveSubsystem.fieldSetPos();
         // if(LimeLight.getZDistance() != -1) {
         //     swerveMovement = SwerveUtil.toRobotCentric(new SwerveMovement(LimeLight.getZDistance(), LimeLight.getXDistance(), LimeLight.getXRotation()), navX.getHeading());
         // }
@@ -61,28 +63,60 @@ public class DriveCommand extends CommandBase {
         }
         //placing on april tag nodes
        else if(oi.getButton(0, Buttons.Y_BUTTON).getAsBoolean()){
-            if(swerveDriveSubsystem.AprilTagDetected()){
-                double locationx = 0;//subject to change
-                double locationy =0; //subject to change
-                double offsets[] = swerveDriveSubsystem.TagD3Coords();
-                PIDController xyPID = new PIDController(0.01, 0, 0);
-                PIDController rotPID = new PIDController(0.01, 0, 0);
-                double xoff = offsets[0];
-                double yoff = offsets[1];
-                double angleOff = offsets[2]; //angle in degrees
-                //scale xoff to xval, which is betweene -1 and 1;
-                double xval = Math.min(12, xyPID.calculate(xoff, locationx))/12;
-                double yval = Math.min(12, xyPID.calculate(yoff, locationy))/12;
-                double rotval = Math.min(12, rotPID.calculate(angleOff, 0))/12;
-                SwerveMovement rawMovement = new SwerveMovement(xval*XYRest, yval*XYRest, rotval*RotRest);
-                swerveMovement = SwerveUtil.toRobotCentric(rawMovement, navX.getHeading());
-                SmartDashboard.putString("swerve movement", swerveMovement.toString());
-                swerveDriveSubsystem.setMovement(swerveMovement);
-            }
+            // if(swerveDriveSubsystem.AprilTagDetected()){
+            //     double locationx =0;//subject to change
+            //     double locationy =0; //subject to change
+            //     double offsets[] = swerveDriveSubsystem.FieldD3Coords();
+            //     PIDController xyPID = new PIDController(3, 0.1, 0);
+            //     PIDController rotPID = new PIDController(0.5, 0.1, 0);
+            //     double xoff = offsets[0];
+            //     double yoff = offsets[1];
+            //     double tag = offsets[2]; //angle in degrees
+            //     if(tag ==4){
+            //         locationx = 7.4;
+            //         locationy = 2.4;
+            //     }else if(tag ==5){
+
+            //     }else{
+            //         locationx = 0;
+            //         locationy = 0;
+            //     }
+            //     //scale xoff to xval, which is betweene -1 and 1;
+            //     double xval = Math.min(12, xyPID.calculate(xoff, locationx))/12;
+            //     double yval = Math.min(12, xyPID.calculate(yoff, locationy))/12;
+            //     double rotval = Math.min(12, rotPID.calculate(navX.getGyroRotation2d().getDegrees(), 0))/12;//change from 180 to 0
+            //     SmartDashboard.putNumber("GyroRot", navX.getGyroRotation2d().getDegrees());
+            //     SmartDashboard.putNumber("RotValueAutoAlign", rotPID.calculate(navX.getHeading(),20)/12);
+            //     SmartDashboard.putNumber("XValueAutoAlign", xyPID.calculate(xoff, locationx)/12);
+            //     // SwerveMovement rawMovement = new SwerveMovement(xval*XYRest, yval*XYRest, rotval*RotRest);
+            //     SwerveMovement rawMovement = new SwerveMovement(0, yval, 0);
+            //     swerveMovement = SwerveUtil.toRobotCentric(rawMovement, navX.getHeading());
+            //     SmartDashboard.putString("swerve movement", swerveMovement.toString());
+            //     swerveDriveSubsystem.setMovement(swerveMovement);
+            // }
+            double aprilHor=swerveDriveSubsystem.getAprilXOffset();
+
+            if(aprilHor<0)
+            swerveDriveSubsystem.setMovement(aprilHor, 90);
+            else
+            swerveDriveSubsystem.setMovement(-aprilHor, 270);
             // swerveDriveSubsystem.setMovement(aprilHor, 90);
         }
         //taking off platform april tag LEFT
         else if (oi.getPovButton(0, 270).getAsBoolean()){
+            double ID = swerveDriveSubsystem.getAprilID();
+            double xOffset = 0;
+            double aprilHor=swerveDriveSubsystem.getAprilXOffset();
+
+            if(ID ==4){
+
+            }else{
+                
+            }
+            if(aprilHor<0)
+            swerveDriveSubsystem.setMovement(aprilHor, 90);
+            else
+            swerveDriveSubsystem.setMovement(-aprilHor, 270);
                 //same as above but change location x to new offset
         }
         else if (oi.getPovButton(0, 90).getAsBoolean()){

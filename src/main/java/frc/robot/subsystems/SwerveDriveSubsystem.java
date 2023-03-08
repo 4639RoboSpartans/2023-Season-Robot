@@ -42,14 +42,14 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     public SwerveDriveSubsystem(NavX navx){
         m_field = new Field2d();
-
+        SmartDashboard.putData(m_field);
         moduleFrontLeft  = new SwerveModule(Constants.IDs.MODULE_FRONT_LEFT);
         moduleFrontRight = new SwerveModule(Constants.IDs.MODULE_FRONT_RIGHT);
         moduleBackLeft   = new SwerveModule(Constants.IDs.MODULE_BACK_LEFT);
         moduleBackRight  = new SwerveModule(Constants.IDs.MODULE_BACK_RIGHT);
 
-        kp =0.4;
-        ki =0.15;
+        kp =0.1;
+        ki =0.1;
         kd = 0;
         PID = new PIDController(kp, ki, kd);
         
@@ -62,27 +62,27 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         // Creating my odometry object from the kinematics object and the initial wheel positions.
         // Here, our starting pose is 5 meters along the long end of the field and in the
         // center of the field along the short end, facing the opposing alliance wall.
-        if(AprilTagDetected()){
-            double Xoffset = 0;//subject to change
-            double Yoffset = 0;//subject to change
-            double tempx = FieldD3Coords()[0];
-            double tempy = FieldD3Coords()[1];
-            double tempRot = FieldD3Coords()[2];
-            odometry = new SwerveDriveOdometry(
-                kinematics,
-                navx.getGyroRotation2d(),
-                getSwerveModulePositions(),
-                new Pose2d(tempx+Xoffset, tempy+Yoffset, new Rotation2d(Math.PI))
-            );
-        }else{
+        // if(AprilTagDetected()){
+        //     double Xoffset = 0;//subject to change
+        //     double Yoffset = 0;//subject to change
+        //     double tempx = FieldD3Coords()[0];
+        //     double tempy = FieldD3Coords()[1];
+        //     double tempRot = FieldD3Coords()[2];
+        //     odometry = new SwerveDriveOdometry(
+        //         kinematics,
+        //         navx.getGyroRotation2d(),
+        //         getSwerveModulePositions(),
+        //         new Pose2d(tempx+Xoffset, tempy+Yoffset, new Rotation2d(Math.PI))
+        //     );
+        // }else{
         odometry = new SwerveDriveOdometry(
             kinematics,
             navx.getGyroRotation2d(),
             getSwerveModulePositions(),
-            new Pose2d(0, 0, new Rotation2d(Math.PI))
+            new Pose2d(16.48, 8.1, new Rotation2d(navx.getHeading()+Math.PI))
         );
         }
-    }
+    // }
 
     public void setMovement(double horizontalOffset, double angle){
         double voltage = PID.calculate(horizontalOffset, 0);
@@ -212,13 +212,15 @@ public class SwerveDriveSubsystem extends SubsystemBase {
             new Pose2d(x, y, new Rotation2d())
         );
     }
-
+    //width 26 ft 7 inches length 54 ft 1 inch
+    // 8.1 meters by 16.48 meters
     public SwerveModulePosition[] getSwerveModulePositions() {
         return new SwerveModulePosition[] {
-            new SwerveModulePosition(wheelRadius * Math.sqrt(2), Rotation2d.fromDegrees(135)),
-            new SwerveModulePosition(wheelRadius * Math.sqrt(2), Rotation2d.fromDegrees(45)),
-            new SwerveModulePosition(wheelRadius * Math.sqrt(2), Rotation2d.fromDegrees(-135)),
-            new SwerveModulePosition(wheelRadius * Math.sqrt(2), Rotation2d.fromDegrees(-45))
+            new SwerveModulePosition(-moduleFrontLeft.getDriveDistance(), new Rotation2d(-Math.toRadians(moduleFrontLeft.getRotationInDegrees()))),
+            new SwerveModulePosition(-moduleBackLeft.getDriveDistance(), new Rotation2d(-Math.toRadians(moduleBackLeft.getRotationInDegrees()))),
+            new SwerveModulePosition(-moduleFrontRight.getDriveDistance(), new Rotation2d(-Math.toRadians(moduleFrontRight.getRotationInDegrees()))),
+            
+            new SwerveModulePosition(-moduleBackRight.getDriveDistance(), new Rotation2d(-Math.toRadians(moduleBackRight.getRotationInDegrees())))
         };
     }
 
@@ -234,27 +236,34 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         moduleBackRight.periodic();
 
           // Get the rotation of the robot from the gyro.
-        var gyroAngle = navx.getGyroRotation2d();
+        
 
-        SmartDashboard.putNumber("Gyro angle", navx.getHeading());
+        // SmartDashboard.putNumber("Gyro angle", navx.getHeading());
 
         // Update the pose
-        if(AprilTagDetected()){
-            double Xoffset = 0;//subject to change
-            double Yoffset = 0;//subject to change
-            double tempx = FieldD3Coords()[0];
-            double tempy = FieldD3Coords()[1];
-            double tempRot = FieldD3Coords()[2];
-            odometry = new SwerveDriveOdometry(
-                kinematics,
-                navx.getGyroRotation2d(),
-                getSwerveModulePositions(),
-                new Pose2d(tempx+Xoffset, tempy+Yoffset, new Rotation2d(Math.PI))
-            );
-        }else{
-        odometry.update(gyroAngle, getSwerveModulePositions());
-        }
+        // if(AprilTagDetected()){
+        //     double Xoffset = 0;//subject to change
+        //     double Yoffset = 0;//subject to change
+        //     double tempx = FieldD3Coords()[0];
+        //     double tempy = FieldD3Coords()[1];
+        //     double tempRot = FieldD3Coords()[2];
+        //     odometry = new SwerveDriveOdometry(
+        //         kinematics,
+        //         navx.getGyroRotation2d(),
+        //         getSwerveModulePositions(),
+        //         new Pose2d(tempx+Xoffset, tempy+Yoffset, new Rotation2d(Math.PI))
+        //     );
+        // }else{
+        
+        // }
+
+    }
+    public void fieldSetPos(){
         m_field.setRobotPose(getFieldPos());
+    }
+    public void uppdateOdom(){
+        var gyroAngle = navx.getGyroRotation2d();
+        odometry.update(gyroAngle, getSwerveModulePositions());
     }
 
     public SwerveDriveKinematics getKinematics() {
@@ -280,30 +289,33 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         return table.getEntry("tx").getDouble(0);
 
     }
-    // public double getAprilXOffset(){
+    public double getAprilXOffset(){
+        var table =NetworkTableInstance.getDefault().getTable("limelight-slhs");
+        table.getEntry("pipeline").setNumber(0);
+        return table.getEntry("tx").getDouble(0);
+    }
+    public double getAprilID(){
+        if(AprilTagDetected()){
+            var table =NetworkTableInstance.getDefault().getTable("limelight-slhs");
+            table.getEntry("pipeline").setNumber(0);
+            return table.getEntry("tid").getDouble(-1);
+        }
+        return -1;
+    }
+
+    // public double[] FieldD3Coords(){
+    //     if(AprilTagDetected()){
     //     var table =NetworkTableInstance.getDefault().getTable("limelight-slhs");
     //     table.getEntry("pipeline").setNumber(0);
-    //     return table.getEntry("tx").getDouble(0);
+        
+    //     double vals[] = {table.getEntry("botpose").getDoubleArray(new double[21])[0],table.getEntry("botpose").getDoubleArray(new double[21])[1],table.getEntry("tid").getDouble(-1)};
+    //     return vals;
+    //     }
+    //     return null;
+
+    //     // return table.getEntry("botpose").getDoubleArray(new double[21]);
     // }
-
-    public double[] FieldD3Coords(){
-        var table =NetworkTableInstance.getDefault().getTable("limelight-slhs");
-        table.getEntry("pipeline").setNumber(0);
-        
-        double vals[] = {table.getEntry("botpose").getDoubleArray(new double[21])[0],table.getEntry("botpose").getDoubleArray(new double[21])[1],table.getEntry("botpose").getDoubleArray(new double[21])[5]};
-        return vals;
-
-        // return table.getEntry("botpose").getDoubleArray(new double[21]);
-    }
-    public double[] TagD3Coords(){
-        var table =NetworkTableInstance.getDefault().getTable("limelight-slhs");
-        table.getEntry("pipeline").setNumber(0);
-        
-        double vals[] = {table.getEntry("camerapose_targetspace").getDoubleArray(new double[21])[0],table.getEntry("botpose").getDoubleArray(new double[21])[1],table.getEntry("botpose").getDoubleArray(new double[21])[5]};
-        return vals;
-
-        // return table.getEntry("botpose").getDoubleArray(new double[21]);
-    }
+    
 
     public boolean AprilTagDetected(){
         var table =NetworkTableInstance.getDefault().getTable("limelight-slhs");

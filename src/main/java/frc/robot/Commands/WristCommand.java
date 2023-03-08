@@ -58,7 +58,7 @@ public class WristCommand extends CommandBase{
         Moving();
     }
     if(Math.abs(oi.getAxis(1, Constants.Axes.LEFT_STICK_Y))>0.1){
-        pos = pos+(oi.getAxis(1, Constants.Axes.LEFT_STICK_Y)*0.5);
+        pos = pos+(oi.getAxis(1, Constants.Axes.LEFT_STICK_Y)*0.1);
     }
     // pos = 0;
     wrist.setMotorPos(pos);

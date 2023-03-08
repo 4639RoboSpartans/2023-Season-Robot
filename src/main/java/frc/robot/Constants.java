@@ -50,7 +50,7 @@ public final class Constants {
 		//Platform intake
 		public static final double PIWrist = -4;
 		public static final double PITelescope = 0;
-		public static final double PIArmPivot = -30.03;
+		public static final double PIArmPivot = -25;
 		public static final double PIElevator = 0;
 
 		//Movement:
@@ -58,7 +58,7 @@ public final class Constants {
 		public static final double MWrist = -1;
 		public static final double MTelescope = 0;
 		public static final double MArmPivot = 0;
-		public static final double MElevator = 0;
+		public static final double MElevator = 10;
 
 
 		//Scoring:
@@ -70,12 +70,12 @@ public final class Constants {
 		//middle row cone
 		public static final double MCOWrist = -3;
 		public static final double MCOTelescope = 0;
-		public static final double MCOArmPivot = -27.73;
+		public static final double MCOArmPivot = -33.73;
 		public static final double MCOElevator = 10;
 		//middle row cube is same as cone middle cube
 		//top row cone
 		public static final double TCOWrist = -3;
-		public static final double TCOTelescope = -10;
+		public static final double TCOTelescope = -20;
 		public static final double TCOArmPivot = -42.84;
 		public static final double TCOElevator = 50;
 		//top row cube is 
@@ -119,7 +119,7 @@ public final class Constants {
 		public static final double SWERVE_KP = 0.1;
 		public static final double SWERVE_KI = 0.1;
 
-		public static final double MOVEMENT_SPEED = 0.6; // 0 - 1
+		public static final double MOVEMENT_SPEED = 0.8; // 0 - 1
 		public static final double MAX_VELOCITY = 4;
 		public static final double MAX_ACCELERATION = 3;
 
