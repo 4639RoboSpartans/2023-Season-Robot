@@ -31,8 +31,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer robotContainer;
   
-  private final I2C.Port i2cPort = I2C.Port.kOnboard;
-  private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
+  
   // public DigitalInput IR = new DigitalInput(5);
   ///private AprilTagReader aprilTagReader;
 
@@ -47,6 +46,7 @@ public class Robot extends TimedRobot {
   //  private AddressableLEDBuffer m_ledBuffer2;
   @Override
   public void robotInit() {
+    // m_colorSensor.configureProximitySensor(10 , 10);
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
      m_led1 = new AddressableLED(1);
@@ -67,14 +67,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    double IR = m_colorSensor.getIR();
-    double prox = m_colorSensor.getProximity();
-    SmartDashboard.putNumber("IR", IR);
-    SmartDashboard.putNumber("Prox", prox);
 
+    SmartDashboard.putNumber("DIstance", robotContainer.clawObstructionSensor.getRaw());
     SmartDashboard.putNumber("WristEncoderValue", robotContainer.wristSubsystem.getEncoderPos());
     SmartDashboard.putNumber("ArmEncoderValue", robotContainer.armPivotSubsystem.getEncoderPos());
-    // SmartDashboard.putNumber("TelescopeEncoderValue", robotContainer.telescopeSubsystem.getEncoderPos());
+    SmartDashboard.putNumber("TelescopeEncoderValue", robotContainer.telescopeSubsystem.getEncoderPos());
     // SmartDashboard.putNumber("ElevatorEncoderValue", robotContainer.elevatorSubsystem.getEncoderPos());
     // SmartDashboard.putNumber("WristCPR", robotContainer.wristSubsystem.getCPR());
     SmartDashboard.putNumber("ArmVoltage", robotContainer.armPivotSubsystem.getVoltage());

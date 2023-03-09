@@ -43,15 +43,15 @@ public final class Constants {
 	public static final class SetPoints{
 		//Intake:
 		//Floor intake
-		public static final double FIWrist = -0.85;
+		public static final double FIWrist = -1;
 		public static final double FITelescope = 0;
 		public static final double FIArmPivot = -85;
 		public static final double FIElevator = 30;
 		//Platform intake
-		public static final double PIWrist = -4;
-		public static final double PITelescope = 0;
-		public static final double PIArmPivot = -25;
-		public static final double PIElevator = 0;
+		public static final double PIWrist = -3;//-4
+		public static final double PITelescope = 0;//0
+		public static final double PIArmPivot = -40;//-25
+		public static final double PIElevator = 45;//0
 
 		//Movement:
 		//Movement pos
@@ -74,10 +74,10 @@ public final class Constants {
 		public static final double MCOElevator = 10;
 		//middle row cube is same as cone middle cube
 		//top row cone
-		public static final double TCOWrist = -3;
-		public static final double TCOTelescope = -20;
-		public static final double TCOArmPivot = -42.84;
-		public static final double TCOElevator = 50;
+		public static final double TCOWrist = -2.2;
+		public static final double TCOTelescope = 30;
+		public static final double TCOArmPivot = -40;
+		public static final double TCOElevator = 55;
 		//top row cube is 
 	}
 	public static class LEDInfo{
@@ -119,7 +119,7 @@ public final class Constants {
 		public static final double SWERVE_KP = 0.1;
 		public static final double SWERVE_KI = 0.1;
 
-		public static final double MOVEMENT_SPEED = 0.8; // 0 - 1
+		public static final double MOVEMENT_SPEED = 0.75; // 0 - 1
 		public static final double MAX_VELOCITY = 4;
 		public static final double MAX_ACCELERATION = 3;
 

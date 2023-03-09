@@ -51,6 +51,7 @@ private TrapezoidProfile.State m_setpoint = new TrapezoidProfile.State();
         pos = 0;
 
         encoder = armPivotMotorR.getEncoder();
+        // encoder.setInverted(true);
         
         encoder.setPosition(0);
         armPivotMotorL.burnFlash();

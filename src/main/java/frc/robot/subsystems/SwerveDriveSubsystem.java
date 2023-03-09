@@ -79,7 +79,8 @@ public class SwerveDriveSubsystem extends SubsystemBase {
             kinematics,
             navx.getGyroRotation2d(),
             getSwerveModulePositions(),
-            new Pose2d(16.48, 8.1, new Rotation2d(navx.getHeading()+Math.PI))
+            new Pose2d(0, 0, new Rotation2d(navx.getHeading()+Math.PI))
+            // new Pose2d(16.48, 8.1, new Rotation2d(navx.getHeading()+Math.PI))
         );
         }
     // }
@@ -262,21 +263,21 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         m_field.setRobotPose(getFieldPos());
     }
     public void uppdateOdom(){
-        if(AprilTagDetected()){
-            var gyroAngle = navx.getGyroRotation2d();
-           double x = FieldD3Coords()[0];
-           x+=8.24;
-            double y = FieldD3Coords()[0];
-            y+=4.05;
-            odometry.resetPosition(
-            navx.getGyroRotation2d(),
-            getSwerveModulePositions(),
-            new Pose2d(x, y, gyroAngle)
-        );
-        }else{
+        // if(AprilTagDetected()){
+        //     var gyroAngle = navx.getGyroRotation2d();
+        //    double x = FieldD3Coords()[0];
+        //    x+=8.24;
+        //     double y = FieldD3Coords()[0];
+        //     y+=4.05;
+        //     odometry.resetPosition(
+        //     navx.getGyroRotation2d(),
+        //     getSwerveModulePositions(),
+        //     new Pose2d(x, y, gyroAngle)
+        // );
+        // }else{
         var gyroAngle = navx.getGyroRotation2d();
         odometry.update(gyroAngle, getSwerveModulePositions());
-        }
+        // }
     }
 
     public SwerveDriveKinematics getKinematics() {
@@ -316,18 +317,18 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         return -1;
     }
 
-    public double[] FieldD3Coords(){
-        if(AprilTagDetected()){
-        var table =NetworkTableInstance.getDefault().getTable("limelight-slhs");
-        table.getEntry("pipeline").setNumber(0);
+    // public double[] FieldD3Coords(){
+    //     if(AprilTagDetected()){
+    //     var table =NetworkTableInstance.getDefault().getTable("limelight-slhs");
+    //     table.getEntry("pipeline").setNumber(0);
         
-        double vals[] = {table.getEntry("botpose").getDoubleArray(new double[21])[0],table.getEntry("botpose").getDoubleArray(new double[21])[1],table.getEntry("tid").getDouble(-1)};
-        return vals;
-        }
-        return null;
+    //     double vals[] = {table.getEntry("botpose").getDoubleArray(new double[21])[0],table.getEntry("botpose").getDoubleArray(new double[21])[1],table.getEntry("tid").getDouble(-1)};
+    //     return vals;
+    //     }
+    //     return null;
 
-        // return table.getEntry("botpose").getDoubleArray(new double[21]);
-    }
+    //     // return table.getEntry("botpose").getDoubleArray(new double[21]);
+    // }
     
 
     public boolean AprilTagDetected(){

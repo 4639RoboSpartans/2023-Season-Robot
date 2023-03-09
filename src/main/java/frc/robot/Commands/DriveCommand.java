@@ -104,15 +104,12 @@ public class DriveCommand extends CommandBase {
         }
         //taking off platform april tag LEFT
         else if (oi.getPovButton(0, 270).getAsBoolean()){
-            double ID = swerveDriveSubsystem.getAprilID();
+            // double ID = swerveDriveSubsystem.getAprilID();
             double xOffset = 0;
             double aprilHor=swerveDriveSubsystem.getAprilXOffset();
 
-            if(ID ==4){
-
-            }else{
-                
-            }
+                xOffset = 0;
+                aprilHor+=xOffset;
             if(aprilHor<0)
             swerveDriveSubsystem.setMovement(aprilHor, 90);
             else
@@ -120,6 +117,17 @@ public class DriveCommand extends CommandBase {
                 //same as above but change location x to new offset
         }
         else if (oi.getPovButton(0, 90).getAsBoolean()){
+             // double ID = swerveDriveSubsystem.getAprilID();
+             double xOffset = 0;
+             double aprilHor=swerveDriveSubsystem.getAprilXOffset();
+ 
+                 xOffset = 0;
+                 aprilHor+=xOffset;
+             if(aprilHor<0)
+             swerveDriveSubsystem.setMovement(aprilHor, 90);
+             else
+             swerveDriveSubsystem.setMovement(-aprilHor, 270);
+                 //same as above but change location x to new offset
                 //same as above but change location x to new offset
         }
         //taking off platform april tag RIGHT
