@@ -40,9 +40,9 @@ public class SwerveModule {
         driver.setNeutralMode(NeutralMode.Brake);
         driver.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
         rotator.setNeutralMode(NeutralMode.Brake);
-        // StatorCurrentLimit = new StatorCurrentLimitConfiguration(true, 24, 23, 0.01);
-        // driver.configStatorCurrentLimit(StatorCurrentLimit);
-        // rotator.configStatorCurrentLimit(StatorCurrentLimit);
+        StatorCurrentLimit = new StatorCurrentLimitConfiguration(true, 24, 23, 0.01);
+        driver.configStatorCurrentLimit(StatorCurrentLimit);
+        rotator.configStatorCurrentLimit(StatorCurrentLimit);
 
         rotationEncoder = new CANCoder(swerveModuleData.encoderID());
         rotationEncoder.configFactoryDefault();
