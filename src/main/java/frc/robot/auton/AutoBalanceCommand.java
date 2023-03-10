@@ -32,10 +32,10 @@ public class AutoBalanceCommand extends CommandBase{
     public void execute(){
 
         if(!navx.isZero()){
-            double xSpeed = Math.max(Math.min(navx.getPitch()/23, 1), -1);
-            double ySpeed = Math.max(Math.min(navx.getRoll()/23, 1), -1);
+            double xSpeed = Math.max(Math.min(navx.getRoll()/27, 1), -1);
+            double ySpeed = Math.max(Math.min(navx.getPitch()/27, 1), -1);
             
-            SwerveMovement movement = new SwerveMovement(new vec2(-xSpeed, -ySpeed), 0);
+            SwerveMovement movement = new SwerveMovement(new vec2(xSpeed, -ySpeed), 0);
 
             swerve.setMovement(movement);
         }   

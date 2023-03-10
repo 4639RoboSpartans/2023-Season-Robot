@@ -6,18 +6,22 @@ import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.math.math;
 import frc.robot.swerve.SwerveMovement;
+import frc.robot.swerve.SwerveUtil;
 
 public class SwerveDriveSubsystem extends SubsystemBase {
     public Field2d m_field;
@@ -28,7 +32,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         moduleBackLeft,
         moduleBackRight;
    
-    private final SwerveDriveKinematics kinematics;
+    public final SwerveDriveKinematics kinematics;
     private SwerveDriveOdometry odometry;
     private final NavX navx;
     private final double wheelRadius;
@@ -177,17 +181,22 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         setModules(states[0], states[1], states[2], states[3]);
     }
    
-
     public void setModules(
             SwerveModuleState stateFrontLeft,
             SwerveModuleState stateFrontRight,
             SwerveModuleState stateBackLeft,
             SwerveModuleState stateBackRight
     ){
+   
         moduleFrontLeft .setState(stateFrontLeft);
         moduleFrontRight.setState(stateFrontRight);
         moduleBackLeft  .setState(stateBackLeft);
         moduleBackRight .setState(stateBackRight);
+
+        SmartDashboard.putString("FL state", stateFrontLeft.toString());
+        SmartDashboard.putString("FR state", stateFrontRight.toString());
+        SmartDashboard.putString("BL state", stateBackLeft.toString());
+        SmartDashboard.putString("BR state", stateBackRight.toString());
     }
     
     public void setModules(SwerveModuleState state){
@@ -231,6 +240,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+
         moduleFrontLeft.periodic();
         moduleFrontRight.periodic();
         moduleBackLeft.periodic();
@@ -275,8 +285,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         //     new Pose2d(x, y, gyroAngle)
         // );
         // }else{
-        var gyroAngle = navx.getGyroRotation2d();
-        odometry.update(gyroAngle, getSwerveModulePositions());
+        odometry.update(getRotation(), getSwerveModulePositions());
         // }
     }
 

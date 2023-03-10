@@ -131,12 +131,10 @@ public final class Constants {
         	public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
 			public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-            new Translation2d( centerToWheel,  centerToWheel),//front left
-            new Translation2d(  centerToWheel, - centerToWheel), //front right
-            new Translation2d(- centerToWheel,  centerToWheel), //back left
-            new Translation2d(-centerToWheel,  -centerToWheel) //back right
-            //originally
-            /* back left -front left- back right- front right */
+            new Translation2d( centerToWheel,  centerToWheel),
+            new Translation2d(  centerToWheel, - centerToWheel),
+            new Translation2d(- centerToWheel,  centerToWheel),
+            new Translation2d(-centerToWheel,  -centerToWheel)
         );
 		}
 		public static final double ROTATOR_MOTOR_KP = 0.05;

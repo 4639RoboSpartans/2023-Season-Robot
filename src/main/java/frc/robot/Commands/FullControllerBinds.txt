@@ -5,7 +5,7 @@ X Button - Align with reflective tape on node
 Y Button - Align with april tag on node
 UP D-pad - Set lights to purple for cube
 DOWN D-pad - Set lights to yellow for cone
-A Button - 
+A Button - Auto Balance
 B Button - Reset arm encoder
 LEFT D-pad - Align with left platform
 RIGHT D-pad - Align with right platform

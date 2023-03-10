@@ -137,17 +137,13 @@ public class Robot extends TimedRobot {
     ElevatorSubsystem.motors.forEach(motor -> motor.setNeutralMode(NeutralMode.Coast));
   }
 
-  @Override
-  public void disabledPeriodic() {}
-
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    
-    // autonCommand = robotContainer.getAutonomousCommand();
-    // if (autonCommand != null) {
-    //   autonCommand.schedule();
-    // }
+    autonCommand = robotContainer.getAutonomousCommand();
+    if (autonCommand != null) {
+      autonCommand.schedule();
+    }
   }
 
   /** This function is called periodically during autonomous. */

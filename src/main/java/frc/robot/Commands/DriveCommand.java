@@ -22,7 +22,7 @@ public class DriveCommand extends CommandBase {
     private double RotRest;
 
     public DriveCommand(SwerveDriveSubsystem swerveDriveSubsystem, OI oi, NavX navX) {
-        XYRest = 0.75;
+        XYRest = 0.8;
         RotRest = 0.3;
         this.oi = oi;
         this.swerveDriveSubsystem = swerveDriveSubsystem;
