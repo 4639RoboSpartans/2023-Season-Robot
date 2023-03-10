@@ -51,7 +51,7 @@ public final class Constants {
 		public static final double PIWrist = -3;//-4
 		public static final double PITelescope = 0;//0
 		public static final double PIArmPivot = -40;//-25
-		public static final double PIElevator = 45;//0
+		public static final double PIElevator = 42;//0
 
 		//Movement:
 		//Movement pos

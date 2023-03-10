@@ -37,12 +37,12 @@ public class SwerveModule {
         driver.configFactoryDefault();
         rotator.configFactoryDefault();
 
-        driver.setNeutralMode(NeutralMode.Brake);
+        driver.setNeutralMode(NeutralMode.Coast);
         driver.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-        rotator.setNeutralMode(NeutralMode.Brake);
+        rotator.setNeutralMode(NeutralMode.Coast);
         StatorCurrentLimit = new StatorCurrentLimitConfiguration(true, 24, 23, 0.01);
         driver.configStatorCurrentLimit(StatorCurrentLimit);
-        rotator.configStatorCurrentLimit(StatorCurrentLimit);
+        // rotator.configStatorCurrentLimit(StatorCurrentLimit);
 
         rotationEncoder = new CANCoder(swerveModuleData.encoderID());
         rotationEncoder.configFactoryDefault();
@@ -56,6 +56,15 @@ public class SwerveModule {
         );
         rotationPID.setTolerance(0.1);
         rotationPID.enableContinuousInput(-180, 180);
+    }
+
+    public void ClimbingMode(){
+        StatorCurrentLimit = new StatorCurrentLimitConfiguration(true, 33, 32, 0.01);
+        driver.configStatorCurrentLimit(StatorCurrentLimit);
+
+        driver.setNeutralMode(NeutralMode.Brake);
+        rotator.setNeutralMode(NeutralMode.Brake);
+
     }
 
     public void periodic() {

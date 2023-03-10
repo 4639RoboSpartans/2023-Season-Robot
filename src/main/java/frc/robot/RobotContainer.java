@@ -135,7 +135,7 @@ public class RobotContainer {
         // oi.getPovButton(0, 90).whileTrue(new RunCommand(() -> elevatorSubsystem.setSpeed(elevatorSubsystem.getEncoderPos() + .03), elevatorSubsystem));
         // oi.getPovButton(0, 270).whileTrue(new RunCommand(() -> elevatorSubsystem.setSpeed(elevatorSubsystem.getEncoderPos() - .03), elevatorSubsystem));
 
-        oi.getButton(0, Constants.Buttons.A_BUTTON).whileTrue(new AutoBalanceCommand(swerveDriveSubsystem, navx));
+        // oi.getButton(0, Constants.Buttons.A_BUTTON).whileTrue(new AutoBalanceCommand(swerveDriveSubsystem, navx));
 
         // oi.getButton(1, Constants.Buttons.B_BUTTON).whileTrue(new ArmCommand(armPivotSubsystem, oi));
         oi.getButton(1, Constants.Buttons.A_BUTTON).onTrue(new OpenClawCommand(clawSubsystem));

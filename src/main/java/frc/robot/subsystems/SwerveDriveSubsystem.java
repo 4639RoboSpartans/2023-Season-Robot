@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import java.util.ArrayList;
 
+import javax.lang.model.element.ModuleElement;
+
 import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -128,6 +130,12 @@ public class SwerveDriveSubsystem extends SubsystemBase {
             new SwerveModuleState(speedBackLeft, Rotation2d.fromDegrees(angleBackLeft)),
             new SwerveModuleState(speedBackRight, Rotation2d.fromDegrees(angleBackRight))
         );
+    }
+    public void ClimbingMode(){
+        moduleFrontLeft.ClimbingMode();
+        moduleFrontRight.ClimbingMode();
+        moduleBackLeft.ClimbingMode();
+        moduleBackRight.ClimbingMode();
     }
 
     public Pose2d getFieldPos(){
@@ -317,6 +325,12 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         table.getEntry("pipeline").setNumber(0);
         return table.getEntry("tx").getDouble(0);
     }
+
+    public void setDriveCam(){
+        var table =NetworkTableInstance.getDefault().getTable("limelight-slhs");
+        table.getEntry("pipeline").setNumber(2);
+    }
+
     public double getAprilID(){
         if(AprilTagDetected()){
             var table =NetworkTableInstance.getDefault().getTable("limelight-slhs");
