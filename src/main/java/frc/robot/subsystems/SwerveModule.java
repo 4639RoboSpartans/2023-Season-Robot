@@ -40,7 +40,7 @@ public class SwerveModule {
         driver.setNeutralMode(NeutralMode.Brake);
         driver.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
         rotator.setNeutralMode(NeutralMode.Brake);
-        StatorCurrentLimit = new StatorCurrentLimitConfiguration(true, 25, 24, 0.01);
+        StatorCurrentLimit = new StatorCurrentLimitConfiguration(true, 23, 22, 0.01);
         driver.configStatorCurrentLimit(StatorCurrentLimit);
         rotator.configStatorCurrentLimit(StatorCurrentLimit);
 
