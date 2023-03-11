@@ -18,9 +18,11 @@ import frc.robot.subsystems.NavX;
 public class AutoBalanceCommand extends CommandBase{
     private final SwerveDriveSubsystem swerve;
     private final NavX navx;
+    private double limit;
     public AutoBalanceCommand(SwerveDriveSubsystem swerve, NavX navx){
         this.swerve = swerve;
         this.navx = navx;
+        limit = 0.7;
         addRequirements(swerve);
         Timer.getFPGATimestamp();
         
@@ -32,15 +34,15 @@ public class AutoBalanceCommand extends CommandBase{
     public void execute(){
 
         if(!navx.isZero()){
-            double xSpeed = Math.max(Math.min(navx.getRoll()/27, 1), -1);
-            double ySpeed = Math.max(Math.min(navx.getPitch()/27, 1), -1);
+            double xSpeed = Math.max(Math.min(navx.getRoll()/27, 1), -1)*limit;
+            double ySpeed = Math.max(Math.min(navx.getPitch()/27, 1), -1)*limit;
             
             SwerveMovement movement = new SwerveMovement(new vec2(xSpeed, -ySpeed), 0);
 
             swerve.setMovement(movement);
         }   
         else{
-            swerve.setModules(new SwerveModuleState());
+            swerve.setModulesStates(new SwerveModuleState());
             Timer.getFPGATimestamp();
 
         }

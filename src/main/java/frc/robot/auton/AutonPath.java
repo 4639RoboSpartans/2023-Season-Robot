@@ -42,7 +42,7 @@ public class AutonPath {
             swerve.getKinematics(),
             positionPIDConstants,
             rotationPIDConstants,
-            swerve::setModules,
+            swerve::setModulesStatess,
             eventMap,
             true,
             swerve

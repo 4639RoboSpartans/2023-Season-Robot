@@ -29,8 +29,13 @@ public class SwerveModule {
 
     private double speed = 0;
 
+    private final double DriveConversionFactor;
+
     private StatorCurrentLimitConfiguration StatorCurrentLimit;
+    private StatorCurrentLimitConfiguration StatorCurrentLimitR;
     public SwerveModule(SwerveModuleConfig swerveModuleData){
+        DriveConversionFactor = (1/2048)*(1/6.55)*(0.1016)*Math.PI;
+
         driver = new WPI_TalonFX(swerveModuleData.driveMotorID());
         rotator = new WPI_TalonFX(swerveModuleData.rotaterMotorID());
 
@@ -41,8 +46,10 @@ public class SwerveModule {
         driver.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
         rotator.setNeutralMode(NeutralMode.Coast);
         StatorCurrentLimit = new StatorCurrentLimitConfiguration(true, 24, 23, 0.01);
+        StatorCurrentLimitR = new StatorCurrentLimitConfiguration(true, 26, 25, 0.01);
         driver.configStatorCurrentLimit(StatorCurrentLimit);
-        // rotator.configStatorCurrentLimit(StatorCurrentLimit);
+        rotator.configStatorCurrentLimit(StatorCurrentLimitR);
+        
 
         rotationEncoder = new CANCoder(swerveModuleData.encoderID());
         rotationEncoder.configFactoryDefault();
@@ -56,6 +63,7 @@ public class SwerveModule {
         );
         rotationPID.setTolerance(0.1);
         rotationPID.enableContinuousInput(-180, 180);
+
     }
 
     public void ClimbingMode(){
@@ -93,11 +101,11 @@ public class SwerveModule {
         rotationPID.setSetpoint(degrees);
     }
 
-    public double getVelocity(){
-        return driver.getSelectedSensorVelocity();
+    public double getDriveVelocity(){
+        return driver.getSelectedSensorVelocity()*DriveConversionFactor;
     }
     public double getDriveDistance(){
-        return ((driver.getSelectedSensorPosition()/2048)*0.1016*Math.PI)/6.55;
+        return driver.getSelectedSensorPosition()*DriveConversionFactor;
     }
 
     // public double getDriveDistance(){
@@ -113,9 +121,14 @@ public class SwerveModule {
     public double getTurningVelocity(){
         return rotationEncoder.getVelocity();
     }
+    public double getTurningPosition(){
+        double rawRotation = rotationEncoder.getAbsolutePosition() - rotationOffset;
+        // Constrain angle to be between -180 and 180
+        return rawRotation;
+    }
 
     public SwerveModuleState getState() {
-        double moduleSpeed = getVelocity();
+        double moduleSpeed = getDriveVelocity();
         double rotationDegrees = getRotationInDegrees();
         Rotation2d rotation = Rotation2d.fromDegrees(rotationDegrees);
         return new SwerveModuleState(moduleSpeed, rotation);

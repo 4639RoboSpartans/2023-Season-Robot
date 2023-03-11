@@ -12,10 +12,12 @@ import java.util.List;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.PathPoint;
 import com.pathplanner.lib.commands.PPRamseteCommand;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
 import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
+import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.RamseteController;
@@ -29,6 +31,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Compressor;
@@ -135,7 +138,7 @@ public class RobotContainer {
         // oi.getPovButton(0, 90).whileTrue(new RunCommand(() -> elevatorSubsystem.setSpeed(elevatorSubsystem.getEncoderPos() + .03), elevatorSubsystem));
         // oi.getPovButton(0, 270).whileTrue(new RunCommand(() -> elevatorSubsystem.setSpeed(elevatorSubsystem.getEncoderPos() - .03), elevatorSubsystem));
 
-        // oi.getButton(0, Constants.Buttons.A_BUTTON).whileTrue(new AutoBalanceCommand(swerveDriveSubsystem, navx));
+        oi.getButton(0, Constants.Buttons.A_BUTTON).whileTrue(new AutoBalanceCommand(swerveDriveSubsystem, navx));
 
         // oi.getButton(1, Constants.Buttons.B_BUTTON).whileTrue(new ArmCommand(armPivotSubsystem, oi));
         oi.getButton(1, Constants.Buttons.A_BUTTON).onTrue(new OpenClawCommand(clawSubsystem));
@@ -157,114 +160,41 @@ public class RobotContainer {
      *
      * @return the command to run in autonomous
      */
-    String trajectoryJSON = "pathplanner/generatedJSON/TestPath.wpilib.json";
-Trajectory trajectory = new Trajectory();
+//     String trajectoryJSON = "pathplanner/generatedJSON/TestTestPath.wpilib.json";
+// Trajectory trajectory = new Trajectory();
+
     public Command getAutonomousCommand() {
-        // try {
-    //         Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-    //         trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-    //      } catch (IOException ex) {
-    //         DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
-    //      }
+                PathPlannerTrajectory traj1 = PathPlanner.generatePath(
+    new PathConstraints(1, 1), 
+    new PathPoint(new Translation2d(0, 0), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)), // position, heading(direction of travel), holonomic rotation
+    new PathPoint(new Translation2d(-1,0), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0))
+    // new PathPoint(new Translation2d(1,0.5), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0))
+    );
+
+         PIDController xController = new PIDController(0.001, 0, 0);
+         PIDController yController = new PIDController(0.001, 0, 0);
+        //  PIDController thetaController = new PIDController(0.001, 0, 0);
+         ProfiledPIDController thetaController = new ProfiledPIDController(
+                1, 0.7, 0, new TrapezoidProfile.Constraints(1, 1));
+         thetaController.enableContinuousInput(-180 ,180);
+// 
+         SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
+                traj1,
+                swerveDriveSubsystem::getPose,
+                swerveDriveSubsystem.getKinematics(),
+                xController,
+                yController,
+                thetaController,
+                swerveDriveSubsystem::setModulesStatess,
+                swerveDriveSubsystem
+                );
 
 
-    //     //patj code
-    //      double kRamseteB = 2;
-    //      double kRamseteZeta = 0.7;
-
-    //      PPSwerveControllerCommand servecontroller= new PPSwerveControllerCommand(
-    //         trajectory, 
-    //         swerveDriveSubsystem::getPose, // Pose supplie
-    //         swerveDriveSubsystem.getKinematics(), // SwerveDriveKinematics
-    //         new PIDController(0, 0, 0), // X controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
-    //         new PIDController(0, 0, 0), // Y controller (usually the same values as X controller)
-    //         new PIDController(0, 0, 0), // Rotation controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
-    //         swerveDriveSubsystem::setModules, // Module states consumer
-    //         true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
-    //         swerveDriveSubsystem // Requires this drive subsystem
-    //     );
-
-    // // Reset odometry to the starting pose of the trajectory.
-    // m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
-
-    // // Run path following command, then stop at the end.
-    // return ramseteCommand.andThen(() -> m_robotDrive.tankDriveVolts(0, 0));
-
-        //cheese code
-
-        double time = 2.5;
-
-        return new SequentialCommandGroup(new CommandBase() {
-
-            private double startTime;
-            { 
-                addRequirements(swerveDriveSubsystem);
-            }
-
-            @Override
-            public void initialize() {
-                startTime = Timer.getFPGATimestamp();
-            }
-
-            @Override
-            public void execute() {
-                double t = (Timer.getFPGATimestamp() - startTime) / time;
-                double m = 1.0 - (t - 0.5) * (t - 0.5) * 4;
-                swerveDriveSubsystem.setMovement(new SwerveMovement(new vec2(m, 0.0), 0.0));
-            }
-
-            @Override
-            public void end(boolean interrupted) {
-                swerveDriveSubsystem.stop();
-            }
-
-            @Override
-            public boolean isFinished() {
-                return Timer.getFPGATimestamp() - startTime >= time;
-            }
-        }).andThen(new AutoBalanceCommand(swerveDriveSubsystem, navx));
-
-
-        //end
-
-
-        // try {
-        //     Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-        //     trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-        // System.out.println("Traj generated");
-        //  } catch (IOException ex) {
-        //     DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
-        //  }
-
-
-        //  var autoVoltageConstraint =
-        //  new DifferentialDriveVoltageConstraint(
-        //      new SimpleMotorFeedforward(
-        //          DriveConstants.ksVolts,
-        //          DriveConstants.kvVoltSecondsPerMeter,
-        //          DriveConstants.kaVoltSecondsSquaredPerMeter),
-        //      DriveConstants.kDriveKinematics,
-        //      10);
-
-        //  return null;
-        // // return new 
-        // PathPlannerTrajectory testPath = PathPlanner.loadPath("pathplanner/generatedJSON/TestPath.wpilib.json",new PathConstraints(2, 2));
-        // return new SequentialCommandGroup(
-        //     new InstantCommand(()->{
-        //         swerveDriveSubsystem.resetPose(testPath.getInitialHolonomicPose());
-        //     }),
-        //     new PPSwerveControllerCommand(testPath, swerveDriveSubsystem::getPose, 
-        //     swerveDriveSubsystem.getKinematics(), 
-        //     new PIDController(0.01, 0 ,  0), 
-        //     new PIDController(0.01, 0 ,  0), 
-        //     new PIDController(0.01, 0 ,  0),
-        //     swerveDriveSubsystem::setModules,
-        //     true,
-        //     swerveDriveSubsystem)
-        // );
-
-
-        //
+                return swerveControllerCommand;
+                // return new AutonCubeExtend(wristSubsystem,clawSubsystem, elevatorSubsystem, armPivotSubsystem, telescopeSubsystem).withTimeout(3);
+                // .andThen(new OpenClawCommand(clawSubsystem)).withTimeout(0.1);
+                // andThen(new AutonCubeRetract(wristSubsystem, clawSubsystem, elevatorSubsystem, armPivotSubsystem, telescopeSubsystem)).withTimeout(3);
+                // andThen(swerveControllerCommand);
 
     }
 }

@@ -75,7 +75,7 @@ public final class Constants {
 		//middle row cube is same as cone middle cube
 		//top row cone
 		public static final double TCOWrist = -2.2;
-		public static final double TCOTelescope = 30;
+		public static final double TCOTelescope = -30;
 		public static final double TCOArmPivot = -40;
 		public static final double TCOElevator = 55;
 		//top row cube is 

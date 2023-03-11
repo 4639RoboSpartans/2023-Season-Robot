@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import java.util.ArrayList;
+import java.util.NavigableSet;
 
 import javax.lang.model.element.ModuleElement;
 
@@ -17,6 +18,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -81,13 +83,15 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         //         new Pose2d(tempx+Xoffset, tempy+Yoffset, new Rotation2d(Math.PI))
         //     );
         // }else{
+           
         odometry = new SwerveDriveOdometry(
             kinematics,
             navx.getGyroRotation2d(),
             getSwerveModulePositions(),
-            new Pose2d(0, 0, new Rotation2d(navx.getHeading()+Math.PI))
+            new Pose2d(0, 0, new Rotation2d(0))
             // new Pose2d(16.48, 8.1, new Rotation2d(navx.getHeading()+Math.PI))
         );
+        
         }
     // }
 
@@ -124,7 +128,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("angle 3", angleBackLeft);
         SmartDashboard.putNumber("angle 4", angleBackRight);
 
-        setModules(
+        setModulesStates(
             new SwerveModuleState(speedFrontLeft, Rotation2d.fromDegrees(angleFrontLeft)),
             new SwerveModuleState(speedFrontRight, Rotation2d.fromDegrees(angleFrontRight)),
             new SwerveModuleState(speedBackLeft, Rotation2d.fromDegrees(angleBackLeft)),
@@ -136,6 +140,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         moduleFrontRight.ClimbingMode();
         moduleBackLeft.ClimbingMode();
         moduleBackRight.ClimbingMode();
+    }
+    public double getHeading(){
+        return navx.getHeading();
     }
 
     public Pose2d getFieldPos(){
@@ -177,7 +184,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("angle 3", angleBackLeft);
         SmartDashboard.putNumber("angle 4", angleBackRight);
 
-        setModules(
+        setModulesStates(
             new SwerveModuleState(speedFrontLeft, Rotation2d.fromDegrees(angleFrontLeft)),
             new SwerveModuleState(speedFrontRight, Rotation2d.fromDegrees(angleFrontRight)),
             new SwerveModuleState(speedBackLeft, Rotation2d.fromDegrees(angleBackLeft)),
@@ -185,11 +192,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         );
     }
 
-    public void setModules(SwerveModuleState[] states){
-        setModules(states[0], states[1], states[2], states[3]);
+    public void setModulesStatess(SwerveModuleState[] states){
+        setModulesStates(states[0], states[1], states[2], states[3]);
     }
    
-    public void setModules(
+    public void setModulesStates(
             SwerveModuleState stateFrontLeft,
             SwerveModuleState stateFrontRight,
             SwerveModuleState stateBackLeft,
@@ -207,13 +214,15 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         SmartDashboard.putString("BR state", stateBackRight.toString());
     }
     
-    public void setModules(SwerveModuleState state){
-        setModules(state, state, state, state);
+    public void setModulesStates(SwerveModuleState state){
+        setModulesStates(state, state, state, state);
     }
 
     public void stop(){
-        setModules(new SwerveModuleState());
+        setModulesStates(new SwerveModuleState());
     }
+
+
 
     public void resetPose() {
         odometry.resetPosition(
@@ -221,6 +230,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
             getSwerveModulePositions(),
             new Pose2d(0, 0, new Rotation2d())
         );
+    }
+
+    public void resetOdometry(Pose2d pos){
+        odometry.resetPosition(getRotation(), getSwerveModulePositions(), pos);
     }
 
     public void setPose(double x, double y){
@@ -244,6 +257,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     public Rotation2d getRotation() {
         return navx.getGyroRotation2d();
+    }
+
+    public Rotation2d getRotation2d(){
+        return Rotation2d.fromDegrees(navx.getHeading());
     }
 
     @Override
@@ -297,6 +314,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         // }
     }
 
+      
+
+
     public SwerveDriveKinematics getKinematics() {
         return kinematics;
     }
@@ -309,9 +329,11 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         odometry.resetPosition(
           navx.getGyroRotation2d(),
           getSwerveModulePositions(),
-          getPose()
+          pose2d
         );
     }
+
+
 
 
     public double getRetroXoffset(){

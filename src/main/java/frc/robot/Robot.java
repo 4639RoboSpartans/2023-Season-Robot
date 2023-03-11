@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -31,6 +32,9 @@ public class Robot extends TimedRobot {
 
   private RobotContainer robotContainer;
   
+  private static final String Atn="1";
+  private String m_autonSelected;
+  private final SendableChooser<String> m_chooser = new SendableChooser<>();
   
   // public DigitalInput IR = new DigitalInput(5);
   ///private AprilTagReader aprilTagReader;
@@ -55,6 +59,10 @@ public class Robot extends TimedRobot {
     m_led1.setData(m_ledBuffer1);
     m_led1.start();
     starterLED = 0;
+
+    m_chooser.setDefaultOption("DefaultAuto", Atn);
+    //m_chooser.addOption();
+    SmartDashboard.putData("Auto chooser", m_chooser);
   }
 
   /**
@@ -81,6 +89,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("ArmPivotRawEncoder", robotContainer.armPivotSubsystem.getRawEncoderPos());
 
     SmartDashboard.putBoolean("ArmClosing", Constants.objectIn);
+
+    SmartDashboard.putNumber("RobotHeading", robotContainer.swerveDriveSubsystem.getHeading());
 
   //   if(robotContainer.swerveDriveSubsystem.AprilTagDetected()){
   //   SmartDashboard.putNumber("3dposX", robotContainer.swerveDriveSubsystem.FieldD3Coords()[0]);
@@ -142,6 +152,12 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     autonCommand = robotContainer.getAutonomousCommand();
+    // m_autonSelected = m_chooser.getSelected();
+    // switch (m_autonSelected){
+    //   case Atn:
+        
+    //   break;
+    // }
     if (autonCommand != null) {
       autonCommand.schedule();
     }
@@ -156,6 +172,7 @@ public class Robot extends TimedRobot {
     Constants.LEDInfo.LEDStatus = 4;
     ElevatorSubsystem.motors.forEach(motor -> motor.setNeutralMode(NeutralMode.Brake));
     robotContainer.wristSubsystem.resetEncoder();
+    // robotContainer.swerveDriveSubsystem
     // m_robotContainer.m_shroud.resetEncoder();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to

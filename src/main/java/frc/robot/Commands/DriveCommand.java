@@ -54,9 +54,9 @@ public class DriveCommand extends CommandBase {
         //it should align vertically
 
         //placing on reflective nodes
-        if(oi.getButton(0, Buttons.A_BUTTON).getAsBoolean()){
-            swerveDriveSubsystem.ClimbingMode();
-        }
+        // if(oi.getButton(0, Buttons.A_BUTTON).getAsBoolean()){
+        //     swerveDriveSubsystem.ClimbingMode();
+        // }
         if(oi.getButton(0, Buttons.X_BUTTON).getAsBoolean()){
             double tx=swerveDriveSubsystem.getRetroXoffset();
             double rotation = swerveDriveSubsystem.getRotation().getDegrees();
@@ -165,7 +165,7 @@ public class DriveCommand extends CommandBase {
         double rawY =oi.getAxis(0, Constants.Axes.LEFT_STICK_Y);
         double rawRot = -oi.getAxis(0, Constants.Axes.RIGHT_STICK_X);
         // SmartDashboard.putNumber("RawRot", rawRot);
-        return new SwerveMovement(rawY*XYRest , -rawX *XYRest, rawRot*RotRest);
+        return new SwerveMovement(-rawY*XYRest , rawX *XYRest, rawRot*RotRest);
     }
 
     // Called once the command ends or is interrupted.
