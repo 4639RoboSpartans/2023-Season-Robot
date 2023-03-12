@@ -12,7 +12,7 @@ public class ClawSubsystem extends SubsystemBase {
 
     public ClawSubsystem() {
        m_solenoid = new Solenoid(Constants.IDs.PNEUMATIC_HUB, PneumaticsModuleType.REVPH, 0);
-        m_solenoid.set(true);
+        m_solenoid.set(false);
     }
 
     public void open() {

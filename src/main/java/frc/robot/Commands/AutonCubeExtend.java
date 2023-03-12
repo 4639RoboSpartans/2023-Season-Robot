@@ -36,8 +36,8 @@ public class AutonCubeExtend extends CommandBase{
         m_wrist.setMotorPos(Constants.SetPoints.TCOWrist);
         m_ElevatorSubsystem.setMotorPos(Constants.SetPoints.TCOElevator);
         m_arm.setMotorPos(Constants.SetPoints.TCOArmPivot, true);
-        m_telescope.setMotorPos(Constants.SetPoints.TCOTelescope+5);
-        if(m_telescope.getEncoderPos()<-20){
+        m_telescope.setMotorPos(Constants.SetPoints.TCOTelescope);
+        if(m_telescope.getEncoderPos()>25){
             m_claw.open();
         }
     }

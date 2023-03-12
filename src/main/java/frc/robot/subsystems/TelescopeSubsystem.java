@@ -33,8 +33,8 @@ public class TelescopeSubsystem  extends SubsystemBase{
         
         motor.configForwardSoftLimitEnable(true);
         motor.configReverseSoftLimitEnable(true);
-        softLimit = -16770;
-        motor.configForwardSoftLimitThreshold(160000, 0);
+        softLimit = -1000770;
+        motor.configForwardSoftLimitThreshold(1000000, 0);
         motor.configReverseSoftLimitThreshold(softLimit, 0);
 
         kp =0.38;

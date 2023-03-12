@@ -76,6 +76,7 @@ public class ArmCommand extends CommandBase {
     }
     if(Math.abs(oi.getAxis(1, Constants.Axes.RIGHT_STICK_Y))>0.1){
         pos = pos+(oi.getAxis(1, Constants.Axes.RIGHT_STICK_Y)*0.65);
+        // pivot.setSpeed(oi.getAxis(1, Constants.Axes.RIGHT_STICK_Y)*0.1);
     }
     if(oi.getButton(0, Constants.Buttons.B_BUTTON).getAsBoolean()){
         pos = 10;

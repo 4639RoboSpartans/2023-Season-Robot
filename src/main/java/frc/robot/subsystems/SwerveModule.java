@@ -44,8 +44,8 @@ public class SwerveModule {
 
         driver.setNeutralMode(NeutralMode.Coast);
         driver.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-        rotator.setNeutralMode(NeutralMode.Coast);
-        StatorCurrentLimit = new StatorCurrentLimitConfiguration(true, 24, 23, 0.01);
+        rotator.setNeutralMode(NeutralMode.Coast); //24 23  and 26 25
+        StatorCurrentLimit = new StatorCurrentLimitConfiguration(true, 26, 25, 0.01);
         StatorCurrentLimitR = new StatorCurrentLimitConfiguration(true, 26, 25, 0.01);
         driver.configStatorCurrentLimit(StatorCurrentLimit);
         rotator.configStatorCurrentLimit(StatorCurrentLimitR);
@@ -70,9 +70,11 @@ public class SwerveModule {
         StatorCurrentLimit = new StatorCurrentLimitConfiguration(true, 33, 32, 0.01);
         driver.configStatorCurrentLimit(StatorCurrentLimit);
 
-        driver.setNeutralMode(NeutralMode.Brake);
-        rotator.setNeutralMode(NeutralMode.Brake);
 
+    }
+    public void DriveMode(){
+        StatorCurrentLimit = new StatorCurrentLimitConfiguration(true, 24, 23, 0.01);
+        driver.configStatorCurrentLimit(StatorCurrentLimit);
     }
 
     public void periodic() {

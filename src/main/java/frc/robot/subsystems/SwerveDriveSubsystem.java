@@ -56,7 +56,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         moduleBackLeft   = new SwerveModule(Constants.IDs.MODULE_BACK_LEFT);
         moduleBackRight  = new SwerveModule(Constants.IDs.MODULE_BACK_RIGHT);
 
-        kp =0.1;
+        kp =0.12;
         ki =0.1;
         kd = 0;
         PID = new PIDController(kp, ki, kd);
@@ -140,6 +140,12 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         moduleFrontRight.ClimbingMode();
         moduleBackLeft.ClimbingMode();
         moduleBackRight.ClimbingMode();
+    }
+    public void drivingMode(){
+        moduleFrontLeft.DriveMode();
+        moduleFrontRight.DriveMode();
+        moduleBackLeft.DriveMode();
+        moduleBackRight.DriveMode();
     }
     public double getHeading(){
         return navx.getHeading();

@@ -165,9 +165,9 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
                 PathPlannerTrajectory traj1 = PathPlanner.generatePath(
-    new PathConstraints(1, 1), 
+    new PathConstraints(0.5, 0.5), 
     new PathPoint(new Translation2d(0, 0), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)), // position, heading(direction of travel), holonomic rotation
-    new PathPoint(new Translation2d(-1,0), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0))
+    new PathPoint(new Translation2d(-1.4,0), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(10))
     // new PathPoint(new Translation2d(1,0.5), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0))
     );
 
@@ -177,7 +177,7 @@ public class RobotContainer {
          ProfiledPIDController thetaController = new ProfiledPIDController(
                 1, 0.7, 0, new TrapezoidProfile.Constraints(1, 1));
          thetaController.enableContinuousInput(-180 ,180);
-// 
+// \
          SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
                 traj1,
                 swerveDriveSubsystem::getPose,
@@ -190,8 +190,10 @@ public class RobotContainer {
                 );
 
 
-                return swerveControllerCommand;
-                // return new AutonCubeExtend(wristSubsystem,clawSubsystem, elevatorSubsystem, armPivotSubsystem, telescopeSubsystem).withTimeout(3);
+                // return swerPveControllerCommand;
+                return new AutonCubeExtend(wristSubsystem,clawSubsystem, elevatorSubsystem, armPivotSubsystem, telescopeSubsystem).withTimeout(3).andThen(swerveControllerCommand);
+                // return null;
+                // return null;
                 // .andThen(new OpenClawCommand(clawSubsystem)).withTimeout(0.1);
                 // andThen(new AutonCubeRetract(wristSubsystem, clawSubsystem, elevatorSubsystem, armPivotSubsystem, telescopeSubsystem)).withTimeout(3);
                 // andThen(swerveControllerCommand);

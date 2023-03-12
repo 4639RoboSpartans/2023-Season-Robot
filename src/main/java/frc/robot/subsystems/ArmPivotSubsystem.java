@@ -3,21 +3,28 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.sensors.CANCoder;
+import com.fasterxml.jackson.databind.AnnotationIntrospector.ReferenceProperty.Type;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxRelativeEncoder;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 
 import frc.robot.Constants;
+import edu.wpi.first.hal.simulation.EncoderDataJNI;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmPivotSubsystem extends SubsystemBase {
-    private final CANSparkMax armPivotMotorL;
-    private final CANSparkMax armPivotMotorR;
-    private final RelativeEncoder encoder;
+    private final CANSparkMax armPivotMotorL = new CANSparkMax(Constants.IDs.ARM_PIVOT_L, MotorType.kBrushless);
+    public final CANSparkMax armPivotMotorR= new CANSparkMax(Constants.IDs.ARM_PIVOT_R, MotorType.kBrushless);
+    
+    private RelativeEncoder encoder = armPivotMotorR.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor,42);
+    // spark
     private final double encoderRatio;
 
     private final PIDController DownEmptyPID;
@@ -35,27 +42,42 @@ public class ArmPivotSubsystem extends SubsystemBase {
 private TrapezoidProfile.State m_goal = new TrapezoidProfile.State();
 private TrapezoidProfile.State m_setpoint = new TrapezoidProfile.State();
     public ArmPivotSubsystem(){
+        // armPivotMotorL.
         // pid = new PIDController(0, 0, 0);
-        armPivotMotorL = new CANSparkMax(Constants.IDs.ARM_PIVOT_L, MotorType.kBrushless);
-        armPivotMotorR = new CANSparkMax(Constants.IDs.ARM_PIVOT_R, MotorType.kBrushless);
+        
         armPivotMotorL.clearFaults();
         armPivotMotorR.clearFaults();
-        armPivotMotorR.follow(armPivotMotorL, true);
+        armPivotMotorL.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 5);
+        armPivotMotorL.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20);
+        armPivotMotorL.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 5);
+        // armPivotMotorL.restoreFactoryDefaults();
+        // armPivotMotorR.restoreFactoryDefaults();
+       
+        // armPivotMotorR.follow(armPivotMotorL, true);
         
         armPivotMotorL.setSmartCurrentLimit(36);
+        armPivotMotorR.setSmartCurrentLimit(36);
         
         armPivotMotorL.enableSoftLimit(SoftLimitDirection.kForward , true);
         armPivotMotorL.enableSoftLimit(SoftLimitDirection.kReverse, true);
         armPivotMotorL.setSoftLimit(SoftLimitDirection.kForward, 20);
         armPivotMotorL.setSoftLimit(SoftLimitDirection.kReverse, -36);
-        pos = 0;
 
-        encoder = armPivotMotorR.getEncoder();
+        armPivotMotorR.enableSoftLimit(SoftLimitDirection.kForward , true);
+        armPivotMotorR.enableSoftLimit(SoftLimitDirection.kReverse, true);
+        armPivotMotorR.setSoftLimit(SoftLimitDirection.kForward, 20);
+        armPivotMotorR.setSoftLimit(SoftLimitDirection.kReverse, -36);
+        pos = 0;
+        armPivotMotorL.burnFlash();
+        armPivotMotorR.burnFlash();
+        // SparkMaxRelativeEncoder encoder = ;
+       
+        // encoder = armPivotMotorR.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor, 42);
+        // armPivotMotorR.getEnc
         // encoder.setInverted(true);
         
         encoder.setPosition(0);
-        armPivotMotorL.burnFlash();
-        armPivotMotorR.burnFlash();
+       
         encoderRatio = 10000;
         kp =0.017;
         ki = 0.002;
@@ -102,7 +124,8 @@ private TrapezoidProfile.State m_setpoint = new TrapezoidProfile.State();
         var profile = new TrapezoidProfile(mF_constraints, m_goal, m_setpoint);
         m_setpoint = profile.calculate(2.5);
 
-        setVoltage(DownFilledPID.calculate(getEncoderPos(), m_setpoint.position));
+        double voltage = DownFilledPID.calculate(getEncoderPos(), m_setpoint.position);
+        setVoltage(voltage);
         }
         else{
             pos=  setpoint;
@@ -111,7 +134,9 @@ private TrapezoidProfile.State m_setpoint = new TrapezoidProfile.State();
             var profile = new TrapezoidProfile(m_constraints, m_goal, m_setpoint);
             m_setpoint = profile.calculate(2.5);
     
-            setVoltage(DownEmptyPID.calculate(getEncoderPos(), m_setpoint.position));
+            double voltage = DownEmptyPID.calculate(getEncoderPos(), m_setpoint.position);
+
+            setVoltage(voltage);
         }
         // }else{
         //     setVoltage(UpEmptyPID.calculate(getEncoderPos(), setpoint));
@@ -120,15 +145,16 @@ private TrapezoidProfile.State m_setpoint = new TrapezoidProfile.State();
     }
 
     public double getEncoderPos(){
-        return (encoder.getPosition()/encoder.getCountsPerRevolution())*encoderRatio;
+        // return 0;
+        return -(encoder.getPosition()/encoder.getCountsPerRevolution())*encoderRatio;
     }
 
     public void resetEncoder(){
         encoder.setPosition(0);
     }
-    public double getRawEncoderPos(){
-        return encoder.getPosition();
-    }
+    // public double getRawEncoderPos(){
+    //     return encoder.getPosition();
+    // }
     public void stop(){
         armPivotMotorL.stopMotor();
         armPivotMotorR.stopMotor();
@@ -137,6 +163,8 @@ private TrapezoidProfile.State m_setpoint = new TrapezoidProfile.State();
     public void setSpeed(double speed){
         armPivotMotorL.set(speed);
         armPivotMotorR.set(-speed);
+
+        // SmartDashboard.putNumber(getName(), speed)
     }
 
     public void setVoltage(double volt){

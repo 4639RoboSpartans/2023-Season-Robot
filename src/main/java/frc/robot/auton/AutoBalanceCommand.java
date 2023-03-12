@@ -22,22 +22,26 @@ public class AutoBalanceCommand extends CommandBase{
     public AutoBalanceCommand(SwerveDriveSubsystem swerve, NavX navx){
         this.swerve = swerve;
         this.navx = navx;
-        limit = 0.7;
+        limit = 10;
         addRequirements(swerve);
         Timer.getFPGATimestamp();
         
 
     }
     public void initialize(){
-
+        // swerve.ClimbingMode();
     }
     public void execute(){
 
         if(!navx.isZero()){
-            double xSpeed = Math.max(Math.min(navx.getRoll()/27, 1), -1)*limit;
-            double ySpeed = Math.max(Math.min(navx.getPitch()/27, 1), -1)*limit;
-            
-            SwerveMovement movement = new SwerveMovement(new vec2(xSpeed, -ySpeed), 0);
+
+            double pitchAngle = navx.getPitch()*(Math.PI/180);
+            // if(navx)
+            // double xSpeed = Math.max(Math.min(navx.getPitch()/27, 1), -1)*limit;
+            double ySpeed = Math.sin(pitchAngle)*-1*limit;
+            // double ySpeed = Math.max(Math.min(navx.getPitch()/27, 1), -1)*limit;
+            SmartDashboard.putNumber("Speedupd", ySpeed);
+            SwerveMovement movement = new SwerveMovement(ySpeed, 0, 0);
 
             swerve.setMovement(movement);
         }   
@@ -50,7 +54,7 @@ public class AutoBalanceCommand extends CommandBase{
 
      }
     public void end(){
-
+        swerve.drivingMode();
     }
 
     public boolean isFinished(){

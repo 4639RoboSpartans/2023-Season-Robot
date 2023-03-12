@@ -105,11 +105,9 @@ public class DriveCommand extends CommandBase {
             else
             swerveDriveSubsystem.setMovement(-aprilHor, 270);
             // swerveDriveSubsystem.setMovement(aprilHor, 90);
-        }else{
-            swerveDriveSubsystem.setDriveCam();
         }
         //taking off platform april tag LEFT
-        if (oi.getPovButton(0, 270).getAsBoolean()){
+       else  if (oi.getPovButton(0, 270).getAsBoolean()){
             // double ID = swerveDriveSubsystem.getAprilID();
             double xOffset = 0;
             double aprilHor=swerveDriveSubsystem.getAprilXOffset();

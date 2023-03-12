@@ -56,7 +56,7 @@ public final class Constants {
 		//Movement:
 		//Movement pos
 		public static final double MWrist = -1;
-		public static final double MTelescope = 0;
+		public static final double MTelescope = 5;
 		public static final double MArmPivot = 0;
 		public static final double MElevator = 10;
 
@@ -75,7 +75,7 @@ public final class Constants {
 		//middle row cube is same as cone middle cube
 		//top row cone
 		public static final double TCOWrist = -2.2;
-		public static final double TCOTelescope = -30;
+		public static final double TCOTelescope = 40;
 		public static final double TCOArmPivot = -40;
 		public static final double TCOElevator = 55;
 		//top row cube is 

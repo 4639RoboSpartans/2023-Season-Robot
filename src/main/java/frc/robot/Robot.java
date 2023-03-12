@@ -75,18 +75,18 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-
-    SmartDashboard.putNumber("DIstance", robotContainer.clawObstructionSensor.getRaw());
+    SmartDashboard.putNumber("SparkMaxVoltage", robotContainer.armPivotSubsystem.armPivotMotorR.getBusVoltage());
+    // SmartDashboard.putNumber("DIstance", robotContainer.clawObstructionSensor.getRaw());
     SmartDashboard.putNumber("WristEncoderValue", robotContainer.wristSubsystem.getEncoderPos());
     SmartDashboard.putNumber("ArmEncoderValue", robotContainer.armPivotSubsystem.getEncoderPos());
     SmartDashboard.putNumber("TelescopeEncoderValue", robotContainer.telescopeSubsystem.getEncoderPos());
     // SmartDashboard.putNumber("ElevatorEncoderValue", robotContainer.elevatorSubsystem.getEncoderPos());
     // SmartDashboard.putNumber("WristCPR", robotContainer.wristSubsystem.getCPR());
-    SmartDashboard.putNumber("ArmVoltage", robotContainer.armPivotSubsystem.getVoltage());
+    // SmartDashboard.putNumber("ArmVoltage", robotContainer.armPivotSubsystem.getVoltage());
     // SmartDashboard.putNumber("WristRawEncoder", robotContainer.wristSubsystem.getRawEncoderPos());
-    // SmartDashboard.putNumber("TelescopeRawEncoder", robotContainer.telescopeSubsystem.getRawEncoderPos());
+    SmartDashboard.putNumber("TelescopeRawEncoder", robotContainer.telescopeSubsystem.getRawEncoderPos());
     // SmartDashboard.putNumber("ElevatorRawEncoder", robotContainer.elevatorSubsystem.getRawEncoderPos());
-    SmartDashboard.putNumber("ArmPivotRawEncoder", robotContainer.armPivotSubsystem.getRawEncoderPos());
+    // SmartDashboard.putNumber("ArmPivotRawEncoder", robotContainer.armPivotSubsystem.getRawEncoderPos());
 
     SmartDashboard.putBoolean("ArmClosing", Constants.objectIn);
 
@@ -105,8 +105,8 @@ public class Robot extends TimedRobot {
     // table.getEntry("pipeline").setNumber(1);
     // SmartDashboard.putNumber("XOFfset", robotContainer.swerveDriveSubsystem.getAprilXOffset());
 
-    SmartDashboard.putNumber("DistanceSensorRaw", robotContainer.clawObstructionSensor.getRaw());
-    SmartDashboard.putBoolean("DistanceSensorObstruction", robotContainer.clawObstructionSensor.isObstructed());
+    // SmartDashboard.putNumber("DistanceSensorRaw", robotContainer.clawObstructionSensor.getRaw());
+    // SmartDashboard.putBoolean("DistanceSensorObstruction", robotContainer.clawObstructionSensor.isObstructed());
     if(Constants.LEDInfo.LEDStatus!=0){
     for (var i = 0; i < m_ledBuffer1.getLength(); i++) {
       if(Constants.LEDInfo.LEDStatus==1){
@@ -170,8 +170,10 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     Constants.LEDInfo.LEDStatus = 4;
+    robotContainer.swerveDriveSubsystem.drivingMode();
     ElevatorSubsystem.motors.forEach(motor -> motor.setNeutralMode(NeutralMode.Brake));
     robotContainer.wristSubsystem.resetEncoder();
+    // robotContainer.swerveDriveSubsystem.d
     // robotContainer.swerveDriveSubsystem
     // m_robotContainer.m_shroud.resetEncoder();
     // This makes sure that the autonomous stops running when
